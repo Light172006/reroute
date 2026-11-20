@@ -1,0 +1,99 @@
+# Reroute Backend Integration Notes
+
+This document provides instructions and notes for the backend engineer integrating the `reroute_agents` package into the FastAPI backend.
+
+---
+
+## 1. Package Installation and Import
+
+Per `docs/03_ARCHITECTURE.md`, the backend expects the agent system to be importable as `app.agents` or as an installed package.
+
+### Option A (Recommended for Monorepo): Editable Install
+From the repository root:
+```bash
+pip install -e ./agents
+```
+Then import directly in FastAPI routers or services:
+```python
+from reroute_agents.gateway import run_plan, run_replan, resume_replan, run_chat
+from reroute_agents.state import TripSpec, InjectedSignals, AgentEvent
+
+# Mount all official agent endpoints directly:
+from reroute_agents.api import create_agent_router
+
+agent_router = create_agent_router(repos=backend_repositories_bundle)
+app.include_router(agent_router, prefix="/api/v1")
+```
+
+### Option B: Direct Package Link
+Alternatively, symlink or copy `agents/reroute_agents/` into `reroute-backend/app/agents/`. The package is fully self-contained.
+
+---
+
+## 2. Persistence Boundary and Repositories
+
+The agent layer does not issue direct SQL queries or open raw database connections. Instead, it defines Protocol interfaces in `reroute_agents.repositories.interfaces`:
+- `TripRepository`: Fetch trip preferences, dates, metadata.
+- `ItineraryRepository`: Fetch and persist itinerary versions and items.
+- `ProposalRepository`: Store and query replan proposals.
+- `DisruptionRepository`: Record and deduplicate disruptions.
+- `PlaceCatalogRepository`: Query curated seed places and cache.
+- `ExpenseRepository`: Query logged expenses and summaries.
+- `CacheRepository`: Read/write external API responses (`api_cache`).
+- `RunEventRepository`: Log agent run events for observability and SSE replay.
+
+### Production Adapter:
+The backend services layer should implement these protocols using SQLAlchemy sessions. In `gateway.py`, functions accept an optional `repositories` bundle. If a raw `AsyncSession` is passed (per `docs/05_API_AND_AGENT_CONTRACT.md`), an adapter wraps the session into the repository protocols.
+
+### Checkpointer:
+The LangGraph checkpointer is injected. For production, instantiate:
+```python
+from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
+
+checkpointer = AsyncPostgresSaver(async_connection_pool)
+```
+For testing and CLI workflows, `langgraph.checkpoint.memory.MemorySaver` is used.
+
+---
+
+## 3. Contract Preservations and Regional Extensions
+
+To strictly preserve `docs/05_API_AND_AGENT_CONTRACT.md` and `docs/04_schema.sql` without breaking changes to top-level fields or enums:
+
+### 3.1 Violation Codes
+The contract defines `Violation.code` as:
+`Literal["closed", "overlap", "travel_too_long", "over_budget", "day_too_long", "locked_changed"]`
+
+Regional extensions are mapped into these exact codes:
+- **Altitude / Acclimatization:** Mapped to code `"day_too_long"`. The `detail` field contains the altitude gain assessment (e.g. `"Altitude gain of 1500m on Day 1 exceeds safe threshold; acclimatization recommended. (Informational guidance, not medical advice)"`).
+- **Seasonal Access:** Mapped to code `"closed"`. The `detail` field explains the seasonal closure (e.g. `"Pass closed in winter (December - March)"`).
+- **Permit Deadlines:** Mapped to code `"closed"` or flagged in item notes. The `detail` explains permit requirements (e.g. `"Requires Inner Line Permit (ILP); office closed on Sunday"`).
+
+### 3.2 Disruption Types
+The database schema enum `disruption_type` is:
+`'weather', 'closure', 'hours_conflict', 'delay', 'budget_overrun', 'user_request'`
+
+All Himalayan/NE disruptions map strictly into these types:
+- Rain, snowfall, low visibility, high wind -> `'weather'`
+- Road/pass closure, permit office closure, attraction closure -> `'closure'`
+- Opening hour shifts or check-in mismatches -> `'hours_conflict'`
+- Mountain road traffic, landslides, slow transfers -> `'delay'`
+- Expense overspend -> `'budget_overrun'`
+
+### 3.3 Replan Decisions
+In `docs/05_API_AND_AGENT_CONTRACT.md` Section 3, `resume_replan`'s type hint had `decision: Literal["approve", "reject"]`, while Section 1 of the same doc specified `approve`, `reject`, and `alternatives`.
+`reroute_agents.gateway.resume_replan` fully supports all three decisions:
+```python
+decision: Literal["approve", "reject", "alternatives"]
+```
+When `alternatives` is passed, the proposal is marked `superseded`, and the agent produces an alternative proposal referencing `alternatives_of`.
+
+---
+
+## 4. Suggested Database Enhancements (Future / Non-Breaking)
+
+The current schema stores extra place attributes inside `places.raw` (JSONB). For performance indexing in future iterations, the backend engineer may consider promoting:
+1. `places.altitude_m` (INTEGER NULL): for fast altitude filtering queries.
+2. `places.permit_required` (BOOLEAN DEFAULT FALSE): for quick filtering of permit zones.
+3. `places.seasonal_access` (JSONB NULL): e.g., `{"open_months": [4, 5, 6, 7, 8, 9, 10]}`.
+Until then, `reroute_agents` reads these fields from `places.raw` transparently.

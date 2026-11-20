@@ -1,0 +1,190 @@
+"""Planner node: Generates structured day-by-day itinerary draft via LLM."""
+
+from __future__ import annotations
+
+import logging
+from datetime import time
+from decimal import Decimal
+from pathlib import Path
+from typing import Any
+from uuid import uuid4
+
+from reroute_agents.events import draft_event, step_event
+from reroute_agents.llm import FakeLLM, ResilientLLMChain, get_llm
+from reroute_agents.state import DraftItem, ItineraryDraft, PlanState
+
+logger = logging.getLogger(__name__)
+
+
+def _load_planner_prompt() -> str:
+    path = Path(__file__).resolve().parent.parent / "prompts" / "planner_v1.md"
+    if path.exists():
+        return path.read_text(encoding="utf-8")
+    return "You are an itinerary planner. Generate a valid day-by-day ItineraryDraft."
+
+
+def _build_deterministic_draft_from_candidates(state: PlanState) -> ItineraryDraft:
+    """Fallback generator to construct a structurally valid draft if LLM is unavailable."""
+    spec = state["spec"]
+    candidates = state["candidates"]
+    num_days = max((spec.end_date - spec.start_date).days + 1, 1)
+
+    items: list[DraftItem] = []
+    cand_idx = 0
+    stops_per_day = 3 if spec.pace == "balanced" else (2 if spec.pace == "relaxed" else 4)
+
+    # Standard schedule slots
+    time_slots = [
+        (time(9, 0), time(11, 0)),
+        (time(11, 30), time(13, 0)),
+        (time(14, 0), time(16, 0)),
+        (time(16, 30), time(18, 0)),
+    ]
+
+    for day in range(1, num_days + 1):
+        for pos in range(min(stops_per_day, len(time_slots))):
+            cand = candidates[cand_idx % len(candidates)] if candidates else None
+            cand_idx += 1
+
+            start_t, end_t = time_slots[pos]
+            item = DraftItem(
+                stable_key=uuid4(),
+                day_index=day,
+                position=pos,
+                place_id=cand.id if cand else uuid4(),
+                title=cand.name if cand else f"Scenic Stop {pos + 1}",
+                category=cand.category if cand else "sightseeing",
+                setting=cand.setting if cand else "outdoor",
+                start_time=start_t,
+                end_time=end_t,
+                est_cost=cand.avg_cost if cand else Decimal(100),
+                lat=cand.lat if cand else 27.04,
+                lng=cand.lng if cand else 88.26,
+                is_locked=False,
+                travel_mode="taxi" if pos > 0 else None,
+                travel_minutes=20 if pos > 0 else 0,
+            )
+            items.append(item)
+
+    return ItineraryDraft(
+        items=items,
+        summary=f"Curated {num_days}-day {spec.pace} itinerary across {spec.destination}.",
+    )
+
+
+def create_planner_node(llm_override: Any | None = None) -> Any:
+    """Factory creating planner node with optional injected LLM."""
+    system_prompt = _load_planner_prompt()
+
+    async def planner_node(state: PlanState) -> dict[str, Any]:
+        spec = state["spec"]
+        candidates = state["candidates"]
+        violations = state.get("violations", [])
+        iteration = state.get("iteration", 0) + 1
+        events = []
+
+        num_days = max((spec.end_date - spec.start_date).days + 1, 1)
+        step_msg = f"Building day-by-day itinerary (iteration {iteration})"
+        if violations:
+            step_msg = (
+                f"Refining itinerary to resolve {len(violations)} issues (iteration {iteration})"
+            )
+
+        events.append(step_event(node="planner", message=step_msg, status="running"))
+
+        # Construct prompt content
+        candidate_summaries = [
+            {
+                "id": str(c.id),
+                "name": c.name,
+                "category": c.category,
+                "setting": c.setting,
+                "avg_cost": float(c.avg_cost),
+                "avg_duration_min": c.avg_duration_min,
+                "opening_hours": c.opening_hours,
+                "hours_confidence": c.hours_confidence,
+                "altitude_m": c.raw.get("altitude_m"),
+                "permit_required": c.raw.get("permit_required", False),
+            }
+            for c in candidates
+        ]
+
+        violations_prompt = ""
+        if violations:
+            v_lines = [f"- Code {v.code} on Day {v.day_index}: {v.detail}" for v in violations]
+            violations_prompt = (
+                "\n\nPREVIOUS VALIDATION VIOLATIONS TO FIX:\n"
+                + "\n".join(v_lines)
+                + "\nYou must modify the schedule to fix all of the above violations."
+            )
+
+        user_content = (
+            f"Destination: {spec.destination}\n"
+            f"Trip duration: {num_days} days (from {spec.start_date} to {spec.end_date})\n"
+            f"Pace: {spec.pace}\n"
+            f"Budget Total: {spec.budget_total} {spec.currency}\n"
+            f"Budget Per Day Cap: {spec.budget_per_day_cap}\n"
+            f"Vibe tags: {', '.join(spec.vibe_tags)}\n"
+            f"User notes: {spec.notes or 'None'}\n\n"
+            f"Available Candidates:\n{candidate_summaries}\n"
+            f"{violations_prompt}"
+        )
+
+        draft: ItineraryDraft
+        llm = llm_override or get_llm("strong")
+
+        if isinstance(llm, FakeLLM):
+            runner = llm.with_structured_output(ItineraryDraft)
+            try:
+                draft = await runner.ainvoke(
+                    [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_content},
+                    ]
+                )
+            except Exception:
+                draft = _build_deterministic_draft_from_candidates(state)
+        elif isinstance(llm, ResilientLLMChain):
+            try:
+                draft = await llm.ainvoke_structured(
+                    schema=ItineraryDraft,
+                    prompt=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_content},
+                    ],
+                    events=events,
+                    node_name="planner",
+                )
+            except Exception as e:
+                logger.warning("LLM generation failed, falling back to deterministic: %s", e)
+                draft = _build_deterministic_draft_from_candidates(state)
+        else:
+            try:
+                runner = llm.with_structured_output(ItineraryDraft)
+                draft = await runner.ainvoke(
+                    [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_content},
+                    ]
+                )
+            except Exception:
+                draft = _build_deterministic_draft_from_candidates(state)
+
+        # Emit draft event for timeline
+        ready_days = sorted(list({it.day_index for it in draft.items}))
+        events.append(draft_event(days_ready=ready_days, node="planner"))
+        events.append(
+            step_event(
+                node="planner",
+                message=f"Draft completed with {len(draft.items)} stops across {len(ready_days)} days",
+                status="done",
+            )
+        )
+
+        return {
+            "draft": draft,
+            "iteration": iteration,
+            "events": events,
+        }
+
+    return planner_node

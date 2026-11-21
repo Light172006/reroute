@@ -24,7 +24,7 @@ def test_seed_places_count_and_uniqueness(filename: str) -> None:
     path = DATA_DIR / filename
     assert path.exists(), f"Missing seed file {filename}"
 
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         places: list[dict[str, Any]] = json.load(f)
 
     assert 15 <= len(places) <= 30, f"{filename} has {len(places)} places, expected 15-30"
@@ -39,7 +39,7 @@ def test_seed_places_count_and_uniqueness(filename: str) -> None:
 @pytest.mark.parametrize("filename", CITIES)
 def test_seed_places_bounding_box_and_schema(filename: str) -> None:
     path = DATA_DIR / filename
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         places: list[dict[str, Any]] = json.load(f)
 
     bbox = BOUNDING_BOXES[filename]
@@ -82,7 +82,7 @@ def test_routes_plausibility_and_symmetry() -> None:
     path = DATA_DIR / "routes.json"
     assert path.exists()
 
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         data = json.load(f)
 
     assert data.get("mountain_multiplier") >= 1.0

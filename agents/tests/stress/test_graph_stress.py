@@ -5,8 +5,7 @@ from __future__ import annotations
 import asyncio
 from datetime import date, time
 from decimal import Decimal
-from typing import Any
-from uuid import UUID, uuid4
+from uuid import uuid4
 
 import pytest
 from langgraph.checkpoint.memory import MemorySaver
@@ -256,7 +255,7 @@ async def test_replanner_scope_invariant_preserves_locked_and_unaffected_items(b
     )
     signals = Signals(injected=injected_weather)
 
-    for i in range(10):
+    for _ in range(10):
         run_id = uuid4()
         checkpointer = MemorySaver()
         fake_llm = FakeLLM()

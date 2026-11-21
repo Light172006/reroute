@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import math
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from langchain_core.tools import tool
 from pydantic import BaseModel, Field
@@ -42,7 +42,7 @@ def _load_seed_routes() -> list[dict[str, Any]]:
         try:
             with open(routes_file, encoding="utf-8") as f:
                 data = json.load(f)
-                return data.get("routes", [])
+                return cast(list[dict[str, Any]], data.get("routes", []))
         except Exception:
             pass
     return []

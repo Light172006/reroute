@@ -14,7 +14,8 @@ import asyncio
 import json
 import statistics
 import time
-from datetime import date, timedelta, time as dtime
+from datetime import date, timedelta
+from datetime import time as dtime
 from decimal import Decimal
 from typing import Any
 from unittest.mock import patch
@@ -173,7 +174,7 @@ async def benchmark_replan_14_day(repetitions: int = 5) -> dict[str, Any]:
             ):
                 replan_events.append(evt)
 
-            async for evt in resume_replan(
+            async for _ in resume_replan(
                 run_id=run_id,
                 decision="approve",
                 repos=repos,

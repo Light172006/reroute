@@ -4,13 +4,6 @@ from __future__ import annotations
 
 import pytest
 
-import sys
-from pathlib import Path
-
-agents_root = str(Path(__file__).resolve().parents[2])
-if agents_root not in sys.path:
-    sys.path.insert(0, agents_root)
-
 from evaluation.stress.perf_benchmark import (
     benchmark_plan_duration,
     benchmark_replan_14_day,

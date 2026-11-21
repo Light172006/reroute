@@ -5,14 +5,13 @@ from __future__ import annotations
 import asyncio
 from datetime import date, time
 from decimal import Decimal
-from typing import Any
 from unittest.mock import patch
 from uuid import uuid4
 
 import pytest
 
 from reroute_agents.destinations.registry import load_seed_catalog_into_repository
-from reroute_agents.gateway import resume_replan, run_chat, run_plan, run_replan
+from reroute_agents.gateway import resume_replan, run_plan, run_replan
 from reroute_agents.llm import FakeLLM
 from reroute_agents.repositories.in_memory import create_in_memory_repositories
 from reroute_agents.state import (

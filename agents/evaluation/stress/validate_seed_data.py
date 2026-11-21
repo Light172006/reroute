@@ -31,7 +31,7 @@ def validate_places_file(filename: str) -> dict[str, Any]:
     if not path.exists():
         return {"error": f"File not found: {filename}"}
 
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         places: list[dict[str, Any]] = json.load(f)
 
     bbox = BOUNDING_BOXES.get(filename, {})
@@ -98,7 +98,7 @@ def validate_routes() -> dict[str, Any]:
     if not path.exists():
         return {"error": "routes.json not found"}
 
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         data = json.load(f)
 
     routes = data.get("routes", [])

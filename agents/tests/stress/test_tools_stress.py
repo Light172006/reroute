@@ -10,7 +10,11 @@ from uuid import uuid4
 import httpx
 import pytest
 
-from reroute_agents.repositories.in_memory import InMemoryCacheRepository, InMemoryExpenseRepository, InMemoryPlaceCatalogRepository
+from reroute_agents.repositories.in_memory import (
+    InMemoryCacheRepository,
+    InMemoryExpenseRepository,
+    InMemoryPlaceCatalogRepository,
+)
 from reroute_agents.state import InjectedSignals
 from reroute_agents.tools.base import safe_tool
 from reroute_agents.tools.currency import create_currency_tool
@@ -156,7 +160,6 @@ async def test_currency_tool_conversion_and_fallback() -> None:
         assert mock_res["rate"] == 85.0
 
     # 3. Cache write and hit
-    today_cache_key = "fx:EUR:INR:" + cache.__class__.__name__
     await cache.set("fx:EUR:INR:mock_date", "frankfurter:cache", {"rate": 90.0, "amount": 100, "converted_amount": 9000.0})
 
     # 4. Upstream network failure outside mock mode gracefully degrades to fallback
@@ -227,6 +230,7 @@ async def test_routing_tool_known_pair_mountain_multiplier_and_unknown() -> None
 async def test_places_tool_search_and_details() -> None:
     """Test search_places and get_place_details."""
     from decimal import Decimal
+
     from reroute_agents.state import PlaceCandidate
 
     catalog = InMemoryPlaceCatalogRepository()

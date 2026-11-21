@@ -1,0 +1,941 @@
+{
+  "regions": {
+    "darjeeling": {
+      "plan_events": [
+        {
+          "type": "step",
+          "node": "intake",
+          "status": "done",
+          "message": "Preparing plan for Darjeeling (2 days, balanced pace, budget: 15000 INR)",
+          "payload_keys": []
+        },
+        {
+          "type": "tool_call",
+          "node": "researcher",
+          "status": "running",
+          "message": "Calling tool search_places",
+          "payload_keys": [
+            "args",
+            "tool"
+          ]
+        },
+        {
+          "type": "tool_result",
+          "node": "researcher",
+          "status": "done",
+          "message": "Found 9 candidate places in Darjeeling",
+          "payload_keys": [
+            "cached",
+            "ok",
+            "summary",
+            "tool"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "researcher",
+          "status": "done",
+          "message": "Researched 9 attractions, food spots, and viewpoints matching vibe 'culture, nature'",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "planner",
+          "status": "running",
+          "message": "Building day-by-day itinerary (iteration 1)",
+          "payload_keys": []
+        },
+        {
+          "type": "draft",
+          "node": "planner",
+          "status": "done",
+          "message": "Draft itinerary ready for days: [1, 2]",
+          "payload_keys": [
+            "days_ready"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "planner",
+          "status": "done",
+          "message": "Draft completed with 2 stops across 2 days",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "validator",
+          "status": "done",
+          "message": "All constraint checks passed (hours, gaps, pace, altitude, and seasonal access)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "budget_check",
+          "status": "done",
+          "message": "Budget check passed: total 300 INR within 15000 INR",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "finalize",
+          "status": "done",
+          "message": "Itinerary finalized (v1) with 2 stops",
+          "payload_keys": []
+        },
+        {
+          "type": "done",
+          "node": "finalize",
+          "status": "done",
+          "message": "Execution finished with status: completed",
+          "payload_keys": [
+            "status",
+            "version_id"
+          ]
+        }
+      ],
+      "plan_items": [
+        {
+          "day": 1,
+          "title": "Darjeeling Morning Stop",
+          "cost": 100.0
+        },
+        {
+          "day": 2,
+          "title": "Darjeeling Outdoor Trek",
+          "cost": 200.0
+        }
+      ],
+      "replan_events": [
+        {
+          "type": "step",
+          "node": "collect_signals",
+          "status": "running",
+          "message": "Checking live weather, mountain road conditions, and expense totals",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "collect_signals",
+          "status": "done",
+          "message": "Signals collected successfully",
+          "payload_keys": []
+        },
+        {
+          "type": "disruption",
+          "node": "impact_analyzer",
+          "status": "done",
+          "message": "Disruption detected: Precipitation likely on Day 2 (95%, 14:00-16:00)",
+          "payload_keys": [
+            "affected_stable_keys",
+            "data",
+            "day_index",
+            "fingerprint",
+            "id",
+            "severity",
+            "source",
+            "summary",
+            "trip_id",
+            "type",
+            "window_end",
+            "window_start"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "impact_analyzer",
+          "status": "done",
+          "message": "Detected 1 disruption(s) affecting 1 stop(s)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "replanner",
+          "status": "running",
+          "message": "Evaluating substitutions for 1 affected stop(s)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "replanner",
+          "status": "done",
+          "message": "Prepared substitution proposal modifying 1 stop(s)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "validator",
+          "status": "done",
+          "message": "All constraint checks passed (hours, gaps, pace, altitude, and seasonal access)",
+          "payload_keys": []
+        },
+        {
+          "type": "proposal",
+          "node": "build_proposal",
+          "status": "done",
+          "message": "Replan proposal ready for review",
+          "payload_keys": [
+            "proposal_id"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "build_proposal",
+          "status": "done",
+          "message": "Proposal created (1 changes). Awaiting traveler decision.",
+          "payload_keys": []
+        }
+      ],
+      "resume_events": [
+        {
+          "type": "step",
+          "node": "build_proposal",
+          "status": "done",
+          "message": "Proposal resumed with traveler decision: approve",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "apply_changes",
+          "status": "done",
+          "message": "Changes approved. Itinerary successfully updated to v2.",
+          "payload_keys": []
+        },
+        {
+          "type": "done",
+          "node": "apply_changes",
+          "status": "done",
+          "message": "Execution finished with status: completed",
+          "payload_keys": [
+            "proposal_id",
+            "status",
+            "version_id"
+          ]
+        }
+      ],
+      "chat_events": [
+        {
+          "type": "token",
+          "node": "chat",
+          "status": "running",
+          "message": null,
+          "payload_keys": [
+            "text"
+          ]
+        },
+        {
+          "type": "done",
+          "node": "chat",
+          "status": "done",
+          "message": "Execution finished with status: completed",
+          "payload_keys": [
+            "status"
+          ]
+        }
+      ]
+    },
+    "north_sikkim": {
+      "plan_events": [
+        {
+          "type": "step",
+          "node": "intake",
+          "status": "done",
+          "message": "Preparing plan for North Sikkim (2 days, balanced pace, budget: 15000 INR)",
+          "payload_keys": []
+        },
+        {
+          "type": "tool_call",
+          "node": "researcher",
+          "status": "running",
+          "message": "Calling tool search_places",
+          "payload_keys": [
+            "args",
+            "tool"
+          ]
+        },
+        {
+          "type": "tool_result",
+          "node": "researcher",
+          "status": "done",
+          "message": "Found 15 candidate places in North Sikkim",
+          "payload_keys": [
+            "cached",
+            "ok",
+            "summary",
+            "tool"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "researcher",
+          "status": "done",
+          "message": "Researched 15 attractions, food spots, and viewpoints matching vibe 'culture, nature'",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "planner",
+          "status": "running",
+          "message": "Building day-by-day itinerary (iteration 1)",
+          "payload_keys": []
+        },
+        {
+          "type": "draft",
+          "node": "planner",
+          "status": "done",
+          "message": "Draft itinerary ready for days: [1, 2]",
+          "payload_keys": [
+            "days_ready"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "planner",
+          "status": "done",
+          "message": "Draft completed with 2 stops across 2 days",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "validator",
+          "status": "done",
+          "message": "All constraint checks passed (hours, gaps, pace, altitude, and seasonal access)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "budget_check",
+          "status": "done",
+          "message": "Budget check passed: total 300 INR within 15000 INR",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "finalize",
+          "status": "done",
+          "message": "Itinerary finalized (v1) with 2 stops",
+          "payload_keys": []
+        },
+        {
+          "type": "done",
+          "node": "finalize",
+          "status": "done",
+          "message": "Execution finished with status: completed",
+          "payload_keys": [
+            "status",
+            "version_id"
+          ]
+        }
+      ],
+      "plan_items": [
+        {
+          "day": 1,
+          "title": "North_Sikkim Morning Stop",
+          "cost": 100.0
+        },
+        {
+          "day": 2,
+          "title": "North_Sikkim Outdoor Trek",
+          "cost": 200.0
+        }
+      ],
+      "replan_events": [
+        {
+          "type": "step",
+          "node": "collect_signals",
+          "status": "running",
+          "message": "Checking live weather, mountain road conditions, and expense totals",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "collect_signals",
+          "status": "done",
+          "message": "Signals collected successfully",
+          "payload_keys": []
+        },
+        {
+          "type": "disruption",
+          "node": "impact_analyzer",
+          "status": "done",
+          "message": "Disruption detected: Precipitation likely on Day 2 (95%, 14:00-16:00)",
+          "payload_keys": [
+            "affected_stable_keys",
+            "data",
+            "day_index",
+            "fingerprint",
+            "id",
+            "severity",
+            "source",
+            "summary",
+            "trip_id",
+            "type",
+            "window_end",
+            "window_start"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "impact_analyzer",
+          "status": "done",
+          "message": "Detected 1 disruption(s) affecting 1 stop(s)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "replanner",
+          "status": "running",
+          "message": "Evaluating substitutions for 1 affected stop(s)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "replanner",
+          "status": "done",
+          "message": "Prepared substitution proposal modifying 1 stop(s)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "validator",
+          "status": "done",
+          "message": "All constraint checks passed (hours, gaps, pace, altitude, and seasonal access)",
+          "payload_keys": []
+        },
+        {
+          "type": "proposal",
+          "node": "build_proposal",
+          "status": "done",
+          "message": "Replan proposal ready for review",
+          "payload_keys": [
+            "proposal_id"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "build_proposal",
+          "status": "done",
+          "message": "Proposal created (1 changes). Awaiting traveler decision.",
+          "payload_keys": []
+        }
+      ],
+      "resume_events": [
+        {
+          "type": "step",
+          "node": "build_proposal",
+          "status": "done",
+          "message": "Proposal resumed with traveler decision: approve",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "apply_changes",
+          "status": "done",
+          "message": "Changes approved. Itinerary successfully updated to v2.",
+          "payload_keys": []
+        },
+        {
+          "type": "done",
+          "node": "apply_changes",
+          "status": "done",
+          "message": "Execution finished with status: completed",
+          "payload_keys": [
+            "proposal_id",
+            "status",
+            "version_id"
+          ]
+        }
+      ],
+      "chat_events": [
+        {
+          "type": "token",
+          "node": "chat",
+          "status": "running",
+          "message": null,
+          "payload_keys": [
+            "text"
+          ]
+        },
+        {
+          "type": "done",
+          "node": "chat",
+          "status": "done",
+          "message": "Execution finished with status: completed",
+          "payload_keys": [
+            "status"
+          ]
+        }
+      ]
+    },
+    "arunachal": {
+      "plan_events": [
+        {
+          "type": "step",
+          "node": "intake",
+          "status": "done",
+          "message": "Preparing plan for Arunachal (2 days, balanced pace, budget: 15000 INR)",
+          "payload_keys": []
+        },
+        {
+          "type": "tool_call",
+          "node": "researcher",
+          "status": "running",
+          "message": "Calling tool search_places",
+          "payload_keys": [
+            "args",
+            "tool"
+          ]
+        },
+        {
+          "type": "tool_result",
+          "node": "researcher",
+          "status": "done",
+          "message": "Found 15 candidate places in Arunachal",
+          "payload_keys": [
+            "cached",
+            "ok",
+            "summary",
+            "tool"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "researcher",
+          "status": "done",
+          "message": "Researched 15 attractions, food spots, and viewpoints matching vibe 'culture, nature'",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "planner",
+          "status": "running",
+          "message": "Building day-by-day itinerary (iteration 1)",
+          "payload_keys": []
+        },
+        {
+          "type": "draft",
+          "node": "planner",
+          "status": "done",
+          "message": "Draft itinerary ready for days: [1, 2]",
+          "payload_keys": [
+            "days_ready"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "planner",
+          "status": "done",
+          "message": "Draft completed with 2 stops across 2 days",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "validator",
+          "status": "done",
+          "message": "All constraint checks passed (hours, gaps, pace, altitude, and seasonal access)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "budget_check",
+          "status": "done",
+          "message": "Budget check passed: total 300 INR within 15000 INR",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "finalize",
+          "status": "done",
+          "message": "Itinerary finalized (v1) with 2 stops",
+          "payload_keys": []
+        },
+        {
+          "type": "done",
+          "node": "finalize",
+          "status": "done",
+          "message": "Execution finished with status: completed",
+          "payload_keys": [
+            "status",
+            "version_id"
+          ]
+        }
+      ],
+      "plan_items": [
+        {
+          "day": 1,
+          "title": "Arunachal Morning Stop",
+          "cost": 100.0
+        },
+        {
+          "day": 2,
+          "title": "Arunachal Outdoor Trek",
+          "cost": 200.0
+        }
+      ],
+      "replan_events": [
+        {
+          "type": "step",
+          "node": "collect_signals",
+          "status": "running",
+          "message": "Checking live weather, mountain road conditions, and expense totals",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "collect_signals",
+          "status": "done",
+          "message": "Signals collected successfully",
+          "payload_keys": []
+        },
+        {
+          "type": "disruption",
+          "node": "impact_analyzer",
+          "status": "done",
+          "message": "Disruption detected: Precipitation likely on Day 2 (95%, 14:00-16:00)",
+          "payload_keys": [
+            "affected_stable_keys",
+            "data",
+            "day_index",
+            "fingerprint",
+            "id",
+            "severity",
+            "source",
+            "summary",
+            "trip_id",
+            "type",
+            "window_end",
+            "window_start"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "impact_analyzer",
+          "status": "done",
+          "message": "Detected 1 disruption(s) affecting 1 stop(s)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "replanner",
+          "status": "running",
+          "message": "Evaluating substitutions for 1 affected stop(s)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "replanner",
+          "status": "done",
+          "message": "Prepared substitution proposal modifying 1 stop(s)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "validator",
+          "status": "done",
+          "message": "All constraint checks passed (hours, gaps, pace, altitude, and seasonal access)",
+          "payload_keys": []
+        },
+        {
+          "type": "proposal",
+          "node": "build_proposal",
+          "status": "done",
+          "message": "Replan proposal ready for review",
+          "payload_keys": [
+            "proposal_id"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "build_proposal",
+          "status": "done",
+          "message": "Proposal created (1 changes). Awaiting traveler decision.",
+          "payload_keys": []
+        }
+      ],
+      "resume_events": [
+        {
+          "type": "step",
+          "node": "build_proposal",
+          "status": "done",
+          "message": "Proposal resumed with traveler decision: approve",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "apply_changes",
+          "status": "done",
+          "message": "Changes approved. Itinerary successfully updated to v2.",
+          "payload_keys": []
+        },
+        {
+          "type": "done",
+          "node": "apply_changes",
+          "status": "done",
+          "message": "Execution finished with status: completed",
+          "payload_keys": [
+            "proposal_id",
+            "status",
+            "version_id"
+          ]
+        }
+      ],
+      "chat_events": [
+        {
+          "type": "token",
+          "node": "chat",
+          "status": "running",
+          "message": null,
+          "payload_keys": [
+            "text"
+          ]
+        },
+        {
+          "type": "done",
+          "node": "chat",
+          "status": "done",
+          "message": "Execution finished with status: completed",
+          "payload_keys": [
+            "status"
+          ]
+        }
+      ]
+    },
+    "ladakh": {
+      "plan_events": [
+        {
+          "type": "step",
+          "node": "intake",
+          "status": "done",
+          "message": "Preparing plan for Ladakh (2 days, balanced pace, budget: 15000 INR)",
+          "payload_keys": []
+        },
+        {
+          "type": "tool_call",
+          "node": "researcher",
+          "status": "running",
+          "message": "Calling tool search_places",
+          "payload_keys": [
+            "args",
+            "tool"
+          ]
+        },
+        {
+          "type": "tool_result",
+          "node": "researcher",
+          "status": "done",
+          "message": "Found 16 candidate places in Ladakh",
+          "payload_keys": [
+            "cached",
+            "ok",
+            "summary",
+            "tool"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "researcher",
+          "status": "done",
+          "message": "Researched 16 attractions, food spots, and viewpoints matching vibe 'culture, nature'",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "planner",
+          "status": "running",
+          "message": "Building day-by-day itinerary (iteration 1)",
+          "payload_keys": []
+        },
+        {
+          "type": "draft",
+          "node": "planner",
+          "status": "done",
+          "message": "Draft itinerary ready for days: [1, 2]",
+          "payload_keys": [
+            "days_ready"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "planner",
+          "status": "done",
+          "message": "Draft completed with 2 stops across 2 days",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "validator",
+          "status": "done",
+          "message": "All constraint checks passed (hours, gaps, pace, altitude, and seasonal access)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "budget_check",
+          "status": "done",
+          "message": "Budget check passed: total 300 INR within 15000 INR",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "finalize",
+          "status": "done",
+          "message": "Itinerary finalized (v1) with 2 stops",
+          "payload_keys": []
+        },
+        {
+          "type": "done",
+          "node": "finalize",
+          "status": "done",
+          "message": "Execution finished with status: completed",
+          "payload_keys": [
+            "status",
+            "version_id"
+          ]
+        }
+      ],
+      "plan_items": [
+        {
+          "day": 1,
+          "title": "Ladakh Morning Stop",
+          "cost": 100.0
+        },
+        {
+          "day": 2,
+          "title": "Ladakh Outdoor Trek",
+          "cost": 200.0
+        }
+      ],
+      "replan_events": [
+        {
+          "type": "step",
+          "node": "collect_signals",
+          "status": "running",
+          "message": "Checking live weather, mountain road conditions, and expense totals",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "collect_signals",
+          "status": "done",
+          "message": "Signals collected successfully",
+          "payload_keys": []
+        },
+        {
+          "type": "disruption",
+          "node": "impact_analyzer",
+          "status": "done",
+          "message": "Disruption detected: Precipitation likely on Day 2 (95%, 14:00-16:00)",
+          "payload_keys": [
+            "affected_stable_keys",
+            "data",
+            "day_index",
+            "fingerprint",
+            "id",
+            "severity",
+            "source",
+            "summary",
+            "trip_id",
+            "type",
+            "window_end",
+            "window_start"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "impact_analyzer",
+          "status": "done",
+          "message": "Detected 1 disruption(s) affecting 1 stop(s)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "replanner",
+          "status": "running",
+          "message": "Evaluating substitutions for 1 affected stop(s)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "replanner",
+          "status": "done",
+          "message": "Prepared substitution proposal modifying 1 stop(s)",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "validator",
+          "status": "done",
+          "message": "All constraint checks passed (hours, gaps, pace, altitude, and seasonal access)",
+          "payload_keys": []
+        },
+        {
+          "type": "proposal",
+          "node": "build_proposal",
+          "status": "done",
+          "message": "Replan proposal ready for review",
+          "payload_keys": [
+            "proposal_id"
+          ]
+        },
+        {
+          "type": "step",
+          "node": "build_proposal",
+          "status": "done",
+          "message": "Proposal created (1 changes). Awaiting traveler decision.",
+          "payload_keys": []
+        }
+      ],
+      "resume_events": [
+        {
+          "type": "step",
+          "node": "build_proposal",
+          "status": "done",
+          "message": "Proposal resumed with traveler decision: approve",
+          "payload_keys": []
+        },
+        {
+          "type": "step",
+          "node": "apply_changes",
+          "status": "done",
+          "message": "Changes approved. Itinerary successfully updated to v2.",
+          "payload_keys": []
+        },
+        {
+          "type": "done",
+          "node": "apply_changes",
+          "status": "done",
+          "message": "Execution finished with status: completed",
+          "payload_keys": [
+            "proposal_id",
+            "status",
+            "version_id"
+          ]
+        }
+      ],
+      "chat_events": [
+        {
+          "type": "token",
+          "node": "chat",
+          "status": "running",
+          "message": null,
+          "payload_keys": [
+            "text"
+          ]
+        },
+        {
+          "type": "done",
+          "node": "chat",
+          "status": "done",
+          "message": "Execution finished with status: completed",
+          "payload_keys": [
+            "status"
+          ]
+        }
+      ]
+    }
+  },
+  "eval_metrics": {
+    "success_rate": null,
+    "constraint_rate": null,
+    "purity_rate": null
+  }
+}

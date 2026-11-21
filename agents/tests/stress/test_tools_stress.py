@@ -334,3 +334,21 @@ def test_disruption_injector_weather_and_closure_boundaries() -> None:
     sig_e = DisruptionInjector.inject(inj_empty)
     assert sig_e.weather_forecast is not None
     assert "3" in sig_e.weather_forecast
+
+
+def test_pyproject_dependencies_strictly_pinned() -> None:
+    """Verify that all production dependencies in pyproject.toml are pinned to exact versions (AG-004)."""
+    import tomllib
+    from pathlib import Path
+
+    pyproject_path = Path(__file__).resolve().parent.parent.parent / "pyproject.toml"
+    assert pyproject_path.exists()
+
+    with open(pyproject_path, "rb") as f:
+        data = tomllib.load(f)
+
+    deps = data.get("project", {}).get("dependencies", [])
+    assert len(deps) > 0, "No dependencies declared in pyproject.toml"
+
+    unpinned = [dep for dep in deps if "==" not in dep]
+    assert len(unpinned) == 0, f"Unpinned dependencies found in pyproject.toml: {unpinned}"

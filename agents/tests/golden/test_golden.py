@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import asyncio
-from datetime import date, time as dtime
-from decimal import Decimal
 import json
+from datetime import date
+from datetime import time as dtime
+from decimal import Decimal
 from pathlib import Path
 from typing import Any
 from unittest.mock import patch
@@ -202,7 +203,7 @@ async def test_characterization_golden_snapshot() -> None:
         act = golden_actual["regions"][region]
 
         assert len(act["plan_events"]) == len(exp["plan_events"])
-        for e_act, e_exp in zip(act["plan_events"], exp["plan_events"]):
+        for e_act, e_exp in zip(act["plan_events"], exp["plan_events"], strict=True):
             assert e_act["type"] == e_exp["type"]
             assert e_act["node"] == e_exp["node"]
             assert e_act["status"] == e_exp["status"]

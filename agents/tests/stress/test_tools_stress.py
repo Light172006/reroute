@@ -55,35 +55,36 @@ async def test_safe_tool_decorator_catches_exceptions_and_returns_normalized_err
     assert res["tool"] == "failing_func"
 
 
-class WorkingCacheRepository(InMemoryCacheRepository):
-    """Subclass fixture fixing the offset-naive bug in InMemoryCacheRepository for test purposes."""
-
-    async def set(
-        self, key: str, provider: str, data: dict[str, Any], ttl_seconds: int = 3600
-    ) -> None:
-        from datetime import UTC, datetime, timedelta
-        async with self._lock:
-            expires_at = datetime.now(UTC) + timedelta(seconds=ttl_seconds)
-            self.cache[key] = {
-                "provider": provider,
-                "data": data,
-                "expires_at": expires_at,
-            }
-
-
 @pytest.mark.asyncio
-async def test_in_memory_cache_repository_naive_vs_aware_datetime_bug() -> None:
-    """Document existing bug in InMemoryCacheRepository: fromtimestamp yields naive datetime."""
+async def test_in_memory_cache_repository_expiry_and_timezone() -> None:
+    """Verify InMemoryCacheRepository returns unexpired entry, handles expired entry, entry at expiry, and repeated gets."""
     cache = InMemoryCacheRepository()
+
+    # 1. Fresh unexpired entry
     await cache.set("k1", "provider", {"val": 1}, ttl_seconds=60)
-    with pytest.raises(TypeError, match="can't compare offset-naive and offset-aware datetimes"):
-        await cache.get("k1")
+    res1 = await cache.get("k1")
+    assert res1 == {"val": 1}
+
+    # Second get after first
+    res2 = await cache.get("k1")
+    assert res2 == {"val": 1}
+
+    # 2. Expired entry (ttl_seconds=-1)
+    await cache.set("k_expired", "provider", {"val": 2}, ttl_seconds=-1)
+    res_exp = await cache.get("k_expired")
+    assert res_exp is None
+
+    # 3. Entry exactly at expiry (simulated zero ttl)
+    await cache.set("k_zero", "provider", {"val": 3}, ttl_seconds=0)
+    await asyncio.sleep(0.01)
+    res_zero = await cache.get("k_zero")
+    assert res_zero is None
 
 
 @pytest.mark.asyncio
 async def test_weather_tool_mock_mode_and_caching() -> None:
     """Test get_weather_forecast with mock mode and cache hit."""
-    cache = WorkingCacheRepository()
+    cache = InMemoryCacheRepository()
     weather_tool = create_weather_tool(cache_repo=cache)
 
     # 1. Mock mode returns ok=True and hourly forecast

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import math
 from pathlib import Path
 from typing import Any, cast
@@ -11,6 +12,8 @@ from langchain_core.tools import tool
 from pydantic import BaseModel, Field
 
 from reroute_agents.tools.base import is_mock_tools, safe_tool
+
+logger = logging.getLogger(__name__)
 
 
 class EstimateRouteInput(BaseModel):
@@ -43,8 +46,12 @@ def _load_seed_routes() -> list[dict[str, Any]]:
             with open(routes_file, encoding="utf-8") as f:
                 data = json.load(f)
                 return cast(list[dict[str, Any]], data.get("routes", []))
-        except Exception:
-            pass
+        except (json.JSONDecodeError, OSError) as err:
+            logger.warning(
+                "Failed to load seed routes from %s: %s; falling back to mountain default",
+                routes_file,
+                err,
+            )
     return []
 
 

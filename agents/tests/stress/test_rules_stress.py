@@ -791,3 +791,30 @@ def test_garbage_inputs_no_crash() -> None:
     )
     v_huge = validate_itinerary([it_huge], spec)
     assert isinstance(v_huge, list)
+
+
+def test_validator_malformed_opening_hours_window_handled_gracefully() -> None:
+    """Verify that malformed opening hours windows log warnings and do not falsely flag closed (AG-005)."""
+    p_id = uuid4()
+    meta = {
+        p_id: {
+            "opening_hours": {
+                "mon": [["invalid_hour", "17:00"], ["10:00", "not_an_int"], ["corrupt"]],
+            }
+        }
+    }
+    spec = create_spec(budget=15000.0)
+    spec.start_date = date(2026, 5, 4)  # Monday
+    item = DraftItem(
+        day_index=1,
+        position=0,
+        place_id=p_id,
+        title="Test Place With Corrupt Hours",
+        category="cultural",
+        setting="indoor",
+        start_time=time(11, 0),
+        end_time=time(13, 0),
+    )
+    violations = validate_itinerary([item], spec, places_metadata=meta)
+    closed_violations = [v for v in violations if v.code == "closed"]
+    assert len(closed_violations) == 0

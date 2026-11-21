@@ -352,3 +352,26 @@ def test_pyproject_dependencies_strictly_pinned() -> None:
 
     unpinned = [dep for dep in deps if "==" not in dep]
     assert len(unpinned) == 0, f"Unpinned dependencies found in pyproject.toml: {unpinned}"
+
+
+def test_routing_seed_routes_corrupt_json_and_missing_file(tmp_path: Any, monkeypatch: Any) -> None:
+    """Verify that corrupt JSON or missing routes file is logged and falls back safely (AG-005)."""
+    from unittest.mock import patch
+
+    from reroute_agents.tools.routing import _load_seed_routes
+
+    # 1. Corrupt JSON file
+    corrupt_file = tmp_path / "corrupt_routes.json"
+    corrupt_file.write_text("{ this is corrupt json !!! }", encoding="utf-8")
+
+    with patch("reroute_agents.tools.routing.Path") as mock_path:
+        mock_path.return_value.resolve.return_value.parent.parent.parent.__truediv__.return_value.__truediv__.return_value.__truediv__.return_value = corrupt_file
+        routes_corrupt = _load_seed_routes()
+        assert routes_corrupt == []
+
+    # 2. Missing routes file
+    missing_file = tmp_path / "does_not_exist.json"
+    with patch("reroute_agents.tools.routing.Path") as mock_path:
+        mock_path.return_value.resolve.return_value.parent.parent.parent.__truediv__.return_value.__truediv__.return_value.__truediv__.return_value = missing_file
+        routes_missing = _load_seed_routes()
+        assert routes_missing == []

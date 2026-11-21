@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import warnings
 from datetime import date, time
 from decimal import Decimal
 from uuid import uuid4
@@ -504,3 +505,80 @@ async def test_concurrency_30_simultaneous_trips_independent_execution(base_trip
 
     tasks = [asyncio.create_task(run_single_plan(i)) for i in range(20)]
     await asyncio.gather(*tasks)
+
+
+@pytest.mark.asyncio
+async def test_checkpoint_msgpack_no_unregistered_type_warnings(base_trip_spec: TripSpec) -> None:
+    """Verify that checkpointing custom models emits no msgpack unregistered type warnings (AG-003)."""
+    from reroute_agents.checkpointer import create_default_checkpointer
+    from reroute_agents.gateway import resume_replan, run_plan, run_replan
+    from reroute_agents.state import AgentEvent, DisruptionEvent
+
+    chk = create_default_checkpointer()
+    repos = create_in_memory_repositories()
+    await load_seed_catalog_into_repository(repos.places, "darjeeling")
+    await repos.trips.save_trip(base_trip_spec)
+
+    # 1. Direct serde round-trip verification with zero warnings
+    test_models = [
+        base_trip_spec,
+        Signals(),
+        DisruptionEvent(type="closure", severity="high", summary="Road blocked", source="injected"),
+        DraftItem(
+            day_index=1,
+            position=0,
+            title="Stop",
+            category="sightseeing",
+            setting="indoor",
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+        ),
+        ItineraryDraft(items=[]),
+        AgentEvent(seq=1, run_id=uuid4(), type="step", data={"message": "ok"}),
+    ]
+
+    with warnings.catch_warnings(record=True) as recorded:
+        warnings.simplefilter("always")
+        for m in test_models:
+            serialized = chk.serde.dumps_typed(m)
+            deserialized = chk.serde.loads_typed(serialized)
+            assert type(deserialized) is type(m)
+
+    unregistered_warnings = [
+        str(w.message) for w in recorded if "unregistered type" in str(w.message).lower()
+    ]
+    assert len(unregistered_warnings) == 0, f"Unregistered warnings found: {unregistered_warnings}"
+
+    # 2. Full workflow execution through gateway with zero warnings
+    with warnings.catch_warnings(record=True) as recorded_wf:
+        warnings.simplefilter("always")
+        events = []
+        async for evt in run_plan(uuid4(), base_trip_spec.trip_id, repos=repos, checkpointer=chk):
+            events.append(evt)
+
+        assert any(e.type == "done" for e in events)
+
+        # Trigger replan to hit interrupt()
+        injected = InjectedSignals(
+            type="closure",
+            day_index=1,
+            params={"place_name": "Tiger Hill", "reason": "Landslide", "severity": "high"},
+        )
+        replan_run_id = uuid4()
+        replan_events = []
+        async for evt in run_replan(
+            replan_run_id, base_trip_spec.trip_id, injected=injected, repos=repos, checkpointer=chk
+        ):
+            replan_events.append(evt)
+
+        # Resume replan to finish
+        resume_events = []
+        async for evt in resume_replan(
+            replan_run_id, "approve", repos=repos, checkpointer=chk
+        ):
+            resume_events.append(evt)
+
+    wf_unregistered = [
+        str(w.message) for w in recorded_wf if "unregistered type" in str(w.message).lower()
+    ]
+    assert len(wf_unregistered) == 0, f"Workflow emitted unregistered warnings: {wf_unregistered}"

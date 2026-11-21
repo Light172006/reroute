@@ -11,6 +11,7 @@ from langchain_core.tools import tool
 from langgraph.graph import END, START, StateGraph
 from pydantic import BaseModel, Field
 
+from reroute_agents.checkpointer import configure_checkpointer
 from reroute_agents.events import done_event, token_event
 from reroute_agents.llm import FakeLLM, get_llm
 from reroute_agents.repositories.interfaces import RepositoriesBundle
@@ -172,4 +173,5 @@ def build_chat_graph(
     builder.add_edge(START, "chat_agent")
     builder.add_edge("chat_agent", END)
 
-    return builder.compile(checkpointer=checkpointer)
+    chk = configure_checkpointer(checkpointer) if checkpointer is not None else None
+    return builder.compile(checkpointer=chk)

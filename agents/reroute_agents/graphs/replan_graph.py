@@ -6,6 +6,7 @@ from typing import Any, Literal
 
 from langgraph.graph import END, START, StateGraph
 
+from reroute_agents.checkpointer import configure_checkpointer
 from reroute_agents.config import settings
 from reroute_agents.nodes.apply_changes import create_apply_changes_node
 from reroute_agents.nodes.build_proposal import create_build_proposal_node
@@ -100,4 +101,5 @@ def build_replan_graph(
         },
     )
 
-    return builder.compile(checkpointer=checkpointer)
+    chk = configure_checkpointer(checkpointer) if checkpointer is not None else None
+    return builder.compile(checkpointer=chk)

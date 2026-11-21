@@ -6,6 +6,7 @@ from typing import Any, Literal
 
 from langgraph.graph import END, START, StateGraph
 
+from reroute_agents.checkpointer import configure_checkpointer
 from reroute_agents.config import settings
 from reroute_agents.nodes.budget_check import budget_check_node
 from reroute_agents.nodes.finalize import create_finalize_node
@@ -90,4 +91,5 @@ def build_plan_graph(
 
     builder.add_edge("finalize", END)
 
-    return builder.compile(checkpointer=checkpointer)
+    chk = configure_checkpointer(checkpointer) if checkpointer is not None else None
+    return builder.compile(checkpointer=chk)

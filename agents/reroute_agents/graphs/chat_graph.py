@@ -149,15 +149,19 @@ def build_chat_graph(
                     "iteration": iteration + 1,
                 }
 
-            reply_text = (
-                f"I can certainly help you with your trip to {trip_id}. "
-                "Let me know if you would like to adjust any stops."
-            )
-            if "change" in last_user_msg.lower() or "relax" in last_user_msg.lower():
+            canned_text = llm.canned_responses.get("text")
+            if canned_text:
+                reply_text = canned_text
+            else:
                 reply_text = (
-                    "I have drafted a proposal to adjust your schedule. "
-                    "Please review and approve the changes in the proposal banner."
+                    f"I can certainly help you with your trip to {trip_id}. "
+                    "Let me know if you would like to adjust any stops."
                 )
+                if "change" in last_user_msg.lower() or "relax" in last_user_msg.lower():
+                    reply_text = (
+                        "I have drafted a proposal to adjust your schedule. "
+                        "Please review and approve the changes in the proposal banner."
+                    )
             ai_msg = AIMessage(content=reply_text)
             return {
                 "messages": messages + [ai_msg],

@@ -6,6 +6,7 @@ from typing import Any
 from uuid import uuid4
 
 import pytest
+from langchain_core.messages import AIMessage
 from langgraph.checkpoint.memory import MemorySaver
 
 from reroute_agents.destinations.registry import load_seed_catalog_into_repository
@@ -17,6 +18,7 @@ from reroute_agents.state import DraftItem, TripSpec
 
 @pytest.mark.asyncio
 async def test_chat_graph_conversational_response() -> None:
+    """Verify chat agent returns a conversational response and streams token/done events."""
     repos = create_in_memory_repositories()
     await load_seed_catalog_into_repository(repos.places, "darjeeling")
 
@@ -42,6 +44,8 @@ async def test_chat_graph_conversational_response() -> None:
     final_state = await graph.ainvoke(initial_state, config=config)
 
     assert len(final_state["messages"]) >= 2
+    last_msg = final_state["messages"][-1]
+    assert "I am monitoring your Darjeeling trip" in str(last_msg.content)
     # Verify token event emission
     event_types = [e.type for e in final_state["events"]]
     assert "token" in event_types
@@ -50,6 +54,7 @@ async def test_chat_graph_conversational_response() -> None:
 
 @pytest.mark.asyncio
 async def test_chat_graph_out_of_scope_redirection() -> None:
+    """Verify chat agent redirects out-of-scope non-travel inquiries back to trip itinerary."""
     repos = create_in_memory_repositories()
     trip_id = uuid4()
     run_id = uuid4()
@@ -227,7 +232,9 @@ async def test_chat_graph_modify_item_creates_proposal_only_preserving_hitl() ->
 
     # 2. A pending proposal was saved
     assert final_state.get("proposal") is not None
-    saved_proposal = await repos.proposals.get_proposal(final_state["proposal"].id)
+    prop = final_state["proposal"]
+    assert prop is not None
+    saved_proposal = await repos.proposals.get_proposal(prop.id)
     assert saved_proposal is not None
     assert saved_proposal.status == "pending"
 
@@ -256,9 +263,7 @@ async def test_chat_graph_bounded_tool_loop_caps_at_max_iterations() -> None:
         def bind_tools(self, tools: Any) -> Any:
             return self
 
-        async def ainvoke(self, messages: Any, config: Any = None) -> Any:
-            from langchain_core.messages import AIMessage
-
+        async def ainvoke(self, messages: Any, config: Any = None) -> AIMessage:
             return AIMessage(content="", tool_calls=infinite_tool_calls)
 
     looping_llm = LoopingLLM()

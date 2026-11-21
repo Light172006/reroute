@@ -86,6 +86,7 @@ class Settings:
     # Graph loop caps
     max_plan_iterations: int = 3
     max_replan_iterations: int = 2
+    max_chat_iterations: int = 5
 
 
 settings = Settings()

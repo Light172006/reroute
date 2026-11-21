@@ -8,9 +8,9 @@ from collections.abc import AsyncIterator
 from typing import Any, Literal
 from uuid import UUID
 
-from langgraph.checkpoint.memory import MemorySaver
 from langgraph.types import Command
 
+from reroute_agents.checkpointer import configure_checkpointer, create_default_checkpointer
 from reroute_agents.destinations.registry import load_seed_catalog_into_repository
 from reroute_agents.events import done_event, error_event, proposal_event, step_event
 from reroute_agents.graphs.chat_graph import build_chat_graph
@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 # Shared default in-memory bundle for standalone CLI/API execution when no DB adapter is provided
 _default_repos = create_in_memory_repositories()
-_default_checkpointer = MemorySaver()
+_default_checkpointer = create_default_checkpointer()
 _seed_loaded = False
 
 
@@ -54,7 +54,7 @@ async def run_plan(
 ) -> AsyncIterator[AgentEvent]:
     """Execute plan_graph and yield typed AgentEvents for SSE streaming."""
     bundle = await get_or_create_repositories(repos)
-    chk = checkpointer or _default_checkpointer
+    chk = configure_checkpointer(checkpointer or _default_checkpointer)
     graph = build_plan_graph(bundle, llm_override=llm_override, checkpointer=chk)
 
     yielded_done = False
@@ -144,7 +144,7 @@ async def run_replan(
 ) -> AsyncIterator[AgentEvent]:
     """Execute replan_graph and pause at proposal interrupt() for user decision."""
     bundle = await get_or_create_repositories(repos)
-    chk = checkpointer or _default_checkpointer
+    chk = configure_checkpointer(checkpointer or _default_checkpointer)
     graph = build_replan_graph(bundle, llm_override=llm_override, checkpointer=chk)
 
     yielded_done = False
@@ -251,7 +251,7 @@ async def resume_replan(
 ) -> AsyncIterator[AgentEvent]:
     """Resume a paused replan graph after traveler decision."""
     bundle = await get_or_create_repositories(repos)
-    chk = checkpointer or _default_checkpointer
+    chk = configure_checkpointer(checkpointer or _default_checkpointer)
     graph = build_replan_graph(bundle, llm_override=llm_override, checkpointer=chk)
 
     config = {"configurable": {"thread_id": str(run_id)}}
@@ -293,7 +293,7 @@ async def run_chat(
 ) -> AsyncIterator[AgentEvent]:
     """Execute conversational chat agent and yield token/step events."""
     bundle = await get_or_create_repositories(repos)
-    chk = checkpointer or _default_checkpointer
+    chk = configure_checkpointer(checkpointer or _default_checkpointer)
     graph = build_chat_graph(bundle, llm_override=llm_override, checkpointer=chk)
 
     try:

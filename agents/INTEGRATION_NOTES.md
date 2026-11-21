@@ -97,3 +97,12 @@ The current schema stores extra place attributes inside `places.raw` (JSONB). Fo
 2. `places.permit_required` (BOOLEAN DEFAULT FALSE): for quick filtering of permit zones.
 3. `places.seasonal_access` (JSONB NULL): e.g., `{"open_months": [4, 5, 6, 7, 8, 9, 10]}`.
 Until then, `reroute_agents` reads these fields from `places.raw` transparently.
+
+---
+
+## 5. Dependency Pinning and Package Management (AG-004)
+
+Exact pinned versions are maintained in `agents/pyproject.toml` and locked transitively in `agents/requirements.lock` for standalone development, deterministic testing, and CI:
+1. `langgraph-checkpoint-postgres` is declared under the `[postgres]` extra (`pip install -e "./agents[postgres]"`).
+2. The core agent package avoids imposing postgres drivers when running in offline/in-memory mode or in CLI developer tools.
+3. Backend requirements may broaden version ranges if needed for backend framework alignment, but all deterministic agent behaviors and tests have been verified against the exact pins in `agents/requirements.lock`.

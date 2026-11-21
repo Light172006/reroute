@@ -21,6 +21,7 @@ def check_altitude_acclimatization(
 
     Flag itineraries where:
     - Day 1 begins directly at extreme high altitude without acclimatization rest.
+    - Day 1 (arrival day) intra-day elevation gain exceeds safe threshold (e.g. 1000m).
     - Consecutive day elevation jump exceeds the conservative acclimatization threshold.
     """
     violations: list[Violation] = []
@@ -31,21 +32,57 @@ def check_altitude_acclimatization(
         if not day_items:
             continue
 
-        day_altitudes: list[int] = []
+        day_item_altitudes: list[tuple[DraftItem, int]] = []
         for item in day_items:
             alt: int | None = None
             if item.place_id and item.place_id in places_metadata:
                 raw = places_metadata[item.place_id].get("raw", {})
                 alt = raw.get("altitude_m") or places_metadata[item.place_id].get("altitude_m")
             if alt is not None:
-                day_altitudes.append(alt)
+                day_item_altitudes.append((item, alt))
 
-        if not day_altitudes:
+        if not day_item_altitudes:
             continue
 
-        day_max_alt = max(day_altitudes)
+        day_max_alt = max(alt for _, alt in day_item_altitudes)
 
-        # Day 1 Arrival Day high altitude rule:
+        # Day 1 Arrival Day intra-day altitude gain rule:
+        # Gaining > threshold_gain_m on arrival day without acclimatization buffer
+        if day_index == 1:
+            min_alt_so_far: int | None = None
+            max_intra_gain = 0
+            gain_peak_item: DraftItem | None = None
+            gain_start_alt = 0
+            gain_peak_alt = 0
+
+            for it, alt in day_item_altitudes:
+                if min_alt_so_far is None:
+                    min_alt_so_far = alt
+                else:
+                    gain = alt - min_alt_so_far
+                    if gain > max_intra_gain:
+                        max_intra_gain = gain
+                        gain_peak_item = it
+                        gain_start_alt = min_alt_so_far
+                        gain_peak_alt = alt
+                    if alt < min_alt_so_far:
+                        min_alt_so_far = alt
+
+            if max_intra_gain > threshold_gain_m and gain_peak_item is not None:
+                violations.append(
+                    Violation(
+                        code="day_too_long",
+                        day_index=1,
+                        item_stable_key=gain_peak_item.stable_key,
+                        detail=(
+                            f"Intra-day altitude gain of {max_intra_gain}m on Day 1 "
+                            f"({gain_start_alt}m to {gain_peak_alt}m) exceeds safe threshold of {threshold_gain_m}m. "
+                            f"Acclimatization buffer recommended. {MEDICAL_DISCLAIMER}"
+                        ),
+                    )
+                )
+
+        # Day 1 Arrival Day extreme altitude rest rule:
         # If Day 1 has high-exertion or extreme altitude (> 3000m) without rest
         if day_index == 1 and day_max_alt >= high_risk_threshold_m:
             # Check if Day 1 contains strenuous sightseeing or far travel
@@ -73,11 +110,8 @@ def check_altitude_acclimatization(
                 high_item = next(
                     (
                         it
-                        for it in day_items
-                        if places_metadata.get(it.place_id or UUID(int=0), {})
-                        .get("raw", {})
-                        .get("altitude_m", 0)
-                        == day_max_alt
+                        for it, alt in day_item_altitudes
+                        if alt == day_max_alt
                     ),
                     day_items[0],
                 )

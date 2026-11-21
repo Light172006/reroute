@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from datetime import time, timedelta
 from decimal import Decimal
 from typing import Any
@@ -12,6 +13,8 @@ from reroute_agents.rules.altitude import check_altitude_acclimatization
 from reroute_agents.rules.permits import check_permits
 from reroute_agents.rules.seasonal import check_seasonal_access
 from reroute_agents.state import DraftItem, TripSpec, Violation
+
+logger = logging.getLogger(__name__)
 
 WEEKDAY_KEYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 
@@ -99,6 +102,7 @@ def validate_itinerary(
                             item_start_m = _time_to_minutes(item.start_time)
                             item_end_m = _time_to_minutes(item.end_time)
                             inside = False
+                            valid_windows_parsed = 0
                             for win in day_windows:
                                 if len(win) == 2:
                                     try:
@@ -106,12 +110,18 @@ def validate_itinerary(
                                         wh2, wm2 = map(int, win[1].split(":"))
                                         w_start_m = wh1 * 60 + wm1
                                         w_end_m = wh2 * 60 + wm2
+                                        valid_windows_parsed += 1
                                         if w_start_m <= item_start_m and item_end_m <= w_end_m:
                                             inside = True
                                             break
-                                    except Exception:
-                                        pass
-                            if not inside:
+                                    except (ValueError, KeyError, TypeError, IndexError) as err:
+                                        logger.warning(
+                                            "Failed to parse opening hours window %s for item '%s': %s",
+                                            win,
+                                            item.title,
+                                            err,
+                                        )
+                            if valid_windows_parsed > 0 and not inside:
                                 violations.append(
                                     Violation(
                                         code="closed",

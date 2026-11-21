@@ -12,17 +12,52 @@
     "currency": "INR",
     "avg_duration_min": 90,
     "opening_hours": {
-      "mon": [["10:00", "20:00"]],
+      "mon": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
       "tue": [],
-      "wed": [["10:00", "20:00"]],
-      "thu": [["10:00", "20:00"]],
-      "fri": [["10:00", "20:00"]],
-      "sat": [["10:00", "20:00"]],
-      "sun": [["10:00", "20:00"]]
+      "wed": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ]
     },
-    "hours_confidence": "verified",
+    "hours_confidence": "estimated",
     "rating": 4.7,
-    "tags": ["gateway", "shopping", "promenade", "food"],
+    "tags": [
+      "gateway",
+      "shopping",
+      "promenade",
+      "food"
+    ],
     "description": "Litter-free, pedestrianized mall and vibrant town center of Gangtok, gateway to North Sikkim. Closed Tuesdays.",
     "raw": {
       "altitude_m": 1650,
@@ -30,7 +65,9 @@
       "permit_notes": null,
       "seasonal_access": null,
       "network": "good",
-      "verify": false
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -46,17 +83,57 @@
     "currency": "INR",
     "avg_duration_min": 90,
     "opening_hours": {
-      "mon": [["08:00", "17:00"]],
-      "tue": [["08:00", "17:00"]],
-      "wed": [["08:00", "17:00"]],
-      "thu": [["08:00", "17:00"]],
-      "fri": [["08:00", "17:00"]],
-      "sat": [["08:00", "17:00"]],
-      "sun": [["08:00", "17:00"]]
+      "mon": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ]
     },
-    "hours_confidence": "verified",
+    "hours_confidence": "estimated",
     "rating": 4.6,
-    "tags": ["culture", "monastery", "tibetan", "buddhist"],
+    "tags": [
+      "culture",
+      "monastery",
+      "tibetan",
+      "buddhist"
+    ],
     "description": "Famed seat of the Kagyu lineage of Tibetan Buddhism, housing golden stupas and sacred murals.",
     "raw": {
       "altitude_m": 1500,
@@ -64,7 +141,9 @@
       "permit_notes": null,
       "seasonal_access": null,
       "network": "good",
-      "verify": false
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -80,17 +159,52 @@
     "currency": "INR",
     "avg_duration_min": 60,
     "opening_hours": {
-      "mon": [["10:00", "16:00"]],
-      "tue": [["10:00", "16:00"]],
-      "wed": [["10:00", "16:00"]],
-      "thu": [["10:00", "16:00"]],
-      "fri": [["10:00", "16:00"]],
-      "sat": [["10:00", "16:00"]],
+      "mon": [
+        [
+          "10:00",
+          "16:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "16:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "16:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "16:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "16:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "16:00"
+        ]
+      ],
       "sun": []
     },
-    "hours_confidence": "verified",
+    "hours_confidence": "estimated",
     "rating": 4.4,
-    "tags": ["museum", "culture", "tibetology", "history"],
+    "tags": [
+      "museum",
+      "culture",
+      "tibetology",
+      "history"
+    ],
     "description": "Renowned research centre and museum on Tibetan culture, manuscripts, and thangka paintings. Closed Sundays.",
     "raw": {
       "altitude_m": 1600,
@@ -98,7 +212,9 @@
       "permit_notes": null,
       "seasonal_access": null,
       "network": "good",
-      "verify": false
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -114,27 +230,75 @@
     "currency": "INR",
     "avg_duration_min": 60,
     "opening_hours": {
-      "mon": [["07:00", "18:00"]],
-      "tue": [["07:00", "18:00"]],
-      "wed": [["07:00", "18:00"]],
-      "thu": [["07:00", "18:00"]],
-      "fri": [["07:00", "18:00"]],
-      "sat": [["07:00", "18:00"]],
-      "sun": [["07:00", "18:00"]]
+      "mon": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ]
     },
-    "hours_confidence": "verified",
+    "hours_confidence": "estimated",
     "rating": 4.5,
-    "tags": ["monastery", "culture", "buddhist", "lachen"],
+    "tags": [
+      "monastery",
+      "culture",
+      "buddhist",
+      "lachen"
+    ],
     "description": "Historical Nyingma Buddhist monastery standing above the alpine village of Lachen.",
     "raw": {
       "altitude_m": 2750,
       "permit_required": true,
       "permit_notes": "Protected Area Permit (PAP) mandatory for North Sikkim. Must apply via registered tour operator in Gangtok.",
       "seasonal_access": {
-        "closed_windows": [{"from_month": 7, "to_month": 8, "reason": "Severe monsoon landslides on NH310A"}]
+        "closed_windows": [
+          {
+            "from_month": 7,
+            "to_month": 8,
+            "reason": "Severe monsoon landslides on NH310A"
+          }
+        ]
       },
       "network": "poor",
-      "verify": false
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -150,31 +314,88 @@
     "currency": "INR",
     "avg_duration_min": 60,
     "opening_hours": {
-      "mon": [["07:00", "12:00"]],
-      "tue": [["07:00", "12:00"]],
-      "wed": [["07:00", "12:00"]],
-      "thu": [["07:00", "12:00"]],
-      "fri": [["07:00", "12:00"]],
-      "sat": [["07:00", "12:00"]],
-      "sun": [["07:00", "12:00"]]
+      "mon": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ]
     },
-    "hours_confidence": "verified",
+    "hours_confidence": "estimated",
     "rating": 4.9,
-    "tags": ["lake", "extreme_altitude", "sacred", "high_himalayas"],
+    "tags": [
+      "lake",
+      "extreme_altitude",
+      "sacred",
+      "high_himalayas"
+    ],
     "description": "Sacred high-altitude glacial lake at 5,154m with views of Kangchengyao. Entry restricted past 12:00 PM due to extreme winds.",
     "raw": {
       "altitude_m": 5154,
       "permit_required": true,
       "permit_notes": "Special Protected Area Permit (PAP) strictly required. Only Indian nationals allowed near border; foreigners restricted at Thangu.",
       "seasonal_access": {
-        "open_months": [4, 5, 6, 9, 10, 11],
+        "open_months": [
+          4,
+          5,
+          6,
+          9,
+          10,
+          11
+        ],
         "closed_windows": [
-          {"from_month": 12, "to_month": 3, "reason": "Heavy snowpack and frozen roads"},
-          {"from_month": 7, "to_month": 8, "reason": "Monsoon landslides"}
+          {
+            "from_month": 12,
+            "to_month": 3,
+            "reason": "Heavy snowpack and frozen roads"
+          },
+          {
+            "from_month": 7,
+            "to_month": 8,
+            "reason": "Monsoon landslides"
+          }
         ]
       },
       "network": "none",
-      "verify": false
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -190,19 +411,33 @@
     "currency": "INR",
     "avg_duration_min": 60,
     "opening_hours": null,
-    "hours_confidence": "unknown",
+    "hours_confidence": "estimated",
     "rating": 4.6,
-    "tags": ["valley", "alpine", "meadow", "rhododendron"],
+    "tags": [
+      "valley",
+      "alpine",
+      "meadow",
+      "rhododendron"
+    ],
     "description": "High alpine valley with meandering rivers, frozen lakes in winter, and alpine rhododendrons in spring.",
     "raw": {
       "altitude_m": 4023,
       "permit_required": true,
       "permit_notes": "North Sikkim PAP permit required.",
       "seasonal_access": {
-        "open_months": [4, 5, 6, 9, 10, 11]
+        "open_months": [
+          4,
+          5,
+          6,
+          9,
+          10,
+          11
+        ]
       },
       "network": "none",
-      "verify": true
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -218,17 +453,57 @@
     "currency": "INR",
     "avg_duration_min": 45,
     "opening_hours": {
-      "mon": [["07:00", "18:00"]],
-      "tue": [["07:00", "18:00"]],
-      "wed": [["07:00", "18:00"]],
-      "thu": [["07:00", "18:00"]],
-      "fri": [["07:00", "18:00"]],
-      "sat": [["07:00", "18:00"]],
-      "sun": [["07:00", "18:00"]]
+      "mon": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ]
     },
-    "hours_confidence": "verified",
+    "hours_confidence": "estimated",
     "rating": 4.4,
-    "tags": ["monastery", "culture", "buddhist", "lachung"],
+    "tags": [
+      "monastery",
+      "culture",
+      "buddhist",
+      "lachung"
+    ],
     "description": "Charming 19th-century Buddhist monastery amidst apple orchards in Lachung valley.",
     "raw": {
       "altitude_m": 2700,
@@ -236,7 +511,9 @@
       "permit_notes": "North Sikkim PAP permit required.",
       "seasonal_access": null,
       "network": "poor",
-      "verify": false
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -252,28 +529,85 @@
     "currency": "INR",
     "avg_duration_min": 120,
     "opening_hours": {
-      "mon": [["07:00", "15:00"]],
-      "tue": [["07:00", "15:00"]],
-      "wed": [["07:00", "15:00"]],
-      "thu": [["07:00", "15:00"]],
-      "fri": [["07:00", "15:00"]],
-      "sat": [["07:00", "15:00"]],
-      "sun": [["07:00", "15:00"]]
+      "mon": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ]
     },
-    "hours_confidence": "verified",
+    "hours_confidence": "estimated",
     "rating": 4.8,
-    "tags": ["nature", "valley", "rhododendron", "hot_springs"],
+    "tags": [
+      "nature",
+      "valley",
+      "rhododendron",
+      "hot_springs"
+    ],
     "description": "Grazing pasture bounded by Himalayan peaks, home to the Shingba Rhododendron Sanctuary and sulphur hot springs.",
     "raw": {
       "altitude_m": 3564,
       "permit_required": true,
       "permit_notes": "North Sikkim PAP required; vehicles must clear forest checkpoint by 10:00 AM.",
       "seasonal_access": {
-        "open_months": [3, 4, 5, 6, 9, 10, 11, 12],
-        "closed_windows": [{"from_month": 1, "to_month": 2, "reason": "Snow drifts block road from Lachung"}]
+        "open_months": [
+          3,
+          4,
+          5,
+          6,
+          9,
+          10,
+          11,
+          12
+        ],
+        "closed_windows": [
+          {
+            "from_month": 1,
+            "to_month": 2,
+            "reason": "Snow drifts block road from Lachung"
+          }
+        ]
       },
       "network": "poor",
-      "verify": false
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -289,28 +623,82 @@
     "currency": "INR",
     "avg_duration_min": 90,
     "opening_hours": {
-      "mon": [["07:00", "13:00"]],
-      "tue": [["07:00", "13:00"]],
-      "wed": [["07:00", "13:00"]],
-      "thu": [["07:00", "13:00"]],
-      "fri": [["07:00", "13:00"]],
-      "sat": [["07:00", "13:00"]],
-      "sun": [["07:00", "13:00"]]
+      "mon": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ]
     },
-    "hours_confidence": "verified",
+    "hours_confidence": "estimated",
     "rating": 4.7,
-    "tags": ["snow", "high_altitude", "adventure", "border"],
+    "tags": [
+      "snow",
+      "high_altitude",
+      "adventure",
+      "border"
+    ],
     "description": "The edge of civilian access near the Indo-China border where three rivers meet surrounded by snow peaks.",
     "raw": {
       "altitude_m": 4663,
       "permit_required": true,
       "permit_notes": "Requires additional permit addon from Lachung police check post.",
       "seasonal_access": {
-        "open_months": [4, 5, 6, 10, 11],
-        "closed_windows": [{"from_month": 12, "to_month": 3, "reason": "Sub-zero temperatures and road snowbound"}]
+        "open_months": [
+          4,
+          5,
+          6,
+          10,
+          11
+        ],
+        "closed_windows": [
+          {
+            "from_month": 12,
+            "to_month": 3,
+            "reason": "Sub-zero temperatures and road snowbound"
+          }
+        ]
       },
       "network": "none",
-      "verify": false
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -326,17 +714,56 @@
     "currency": "INR",
     "avg_duration_min": 45,
     "opening_hours": {
-      "mon": [["08:00", "17:00"]],
-      "tue": [["08:00", "17:00"]],
-      "wed": [["08:00", "17:00"]],
-      "thu": [["08:00", "17:00"]],
-      "fri": [["08:00", "17:00"]],
-      "sat": [["08:00", "17:00"]],
-      "sun": [["08:00", "17:00"]]
+      "mon": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ]
     },
-    "hours_confidence": "verified",
+    "hours_confidence": "estimated",
     "rating": 4.2,
-    "tags": ["waterfall", "roadside", "nature"],
+    "tags": [
+      "waterfall",
+      "roadside",
+      "nature"
+    ],
     "description": "Multi-tiered waterfall cascading down green cliffs along the Gangtok-Mangan North Sikkim highway.",
     "raw": {
       "altitude_m": 1250,
@@ -344,7 +771,9 @@
       "permit_notes": null,
       "seasonal_access": null,
       "network": "poor",
-      "verify": false
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -360,17 +789,57 @@
     "currency": "INR",
     "avg_duration_min": 90,
     "opening_hours": {
-      "mon": [["08:00", "18:00"]],
-      "tue": [["08:00", "18:00"]],
-      "wed": [["08:00", "18:00"]],
-      "thu": [["08:00", "18:00"]],
-      "fri": [["08:00", "18:00"]],
-      "sat": [["08:00", "18:00"]],
-      "sun": [["08:00", "18:00"]]
+      "mon": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ]
     },
-    "hours_confidence": "verified",
+    "hours_confidence": "estimated",
     "rating": 4.3,
-    "tags": ["waterfall", "shamanism", "park", "folklore"],
+    "tags": [
+      "waterfall",
+      "shamanism",
+      "park",
+      "folklore"
+    ],
     "description": "Recreation park highlighting traditional Sikkimese shaman folklore (Jhakri culture) with a 100-foot waterfall.",
     "raw": {
       "altitude_m": 1600,
@@ -378,7 +847,9 @@
       "permit_notes": null,
       "seasonal_access": null,
       "network": "good",
-      "verify": false
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -394,17 +865,57 @@
     "currency": "INR",
     "avg_duration_min": 45,
     "opening_hours": {
-      "mon": [["05:00", "18:00"]],
-      "tue": [["05:00", "18:00"]],
-      "wed": [["05:00", "18:00"]],
-      "thu": [["05:00", "18:00"]],
-      "fri": [["05:00", "18:00"]],
-      "sat": [["05:00", "18:00"]],
-      "sun": [["05:00", "18:00"]]
+      "mon": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ]
     },
-    "hours_confidence": "verified",
+    "hours_confidence": "estimated",
     "rating": 4.4,
-    "tags": ["sunrise", "kanchenjunga", "viewpoint", "mountains"],
+    "tags": [
+      "sunrise",
+      "kanchenjunga",
+      "viewpoint",
+      "mountains"
+    ],
     "description": "Popular vantage point on the highway north of Gangtok overlooking Mt Siniolchu and Kanchenjunga.",
     "raw": {
       "altitude_m": 1780,
@@ -412,7 +923,9 @@
       "permit_notes": null,
       "seasonal_access": null,
       "network": "good",
-      "verify": false
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -428,17 +941,57 @@
     "currency": "INR",
     "avg_duration_min": 60,
     "opening_hours": {
-      "mon": [["11:30", "21:30"]],
-      "tue": [["11:30", "21:30"]],
-      "wed": [["11:30", "21:30"]],
-      "thu": [["11:30", "21:30"]],
-      "fri": [["11:30", "21:30"]],
-      "sat": [["11:30", "21:30"]],
-      "sun": [["11:30", "21:30"]]
+      "mon": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "tue": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "wed": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "thu": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "fri": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "sat": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "sun": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ]
     },
-    "hours_confidence": "verified",
+    "hours_confidence": "estimated",
     "rating": 4.5,
-    "tags": ["food", "tibetan", "thukpa", "momos"],
+    "tags": [
+      "food",
+      "tibetan",
+      "thukpa",
+      "momos"
+    ],
     "description": "Celebrated local kitchen in Gangtok serving authentic steamed pork momos, beef shabalay, and gyathuk.",
     "raw": {
       "altitude_m": 1650,
@@ -446,7 +999,9 @@
       "permit_notes": null,
       "seasonal_access": null,
       "network": "good",
-      "verify": false
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -462,17 +1017,57 @@
     "currency": "INR",
     "avg_duration_min": 75,
     "opening_hours": {
-      "mon": [["12:00", "22:00"]],
-      "tue": [["12:00", "22:00"]],
-      "wed": [["12:00", "22:00"]],
-      "thu": [["12:00", "22:00"]],
-      "fri": [["12:00", "22:00"]],
-      "sat": [["12:00", "22:00"]],
-      "sun": [["12:00", "22:00"]]
+      "mon": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ]
     },
-    "hours_confidence": "verified",
+    "hours_confidence": "estimated",
     "rating": 4.6,
-    "tags": ["food", "sikkimese", "organic", "thali"],
+    "tags": [
+      "food",
+      "sikkimese",
+      "organic",
+      "thali"
+    ],
     "description": "Heritage restaurant serving slow-cooked organic Sikkimese thalis, gundruk soup, and smoked pork with kinema.",
     "raw": {
       "altitude_m": 1650,
@@ -480,7 +1075,9 @@
       "permit_notes": null,
       "seasonal_access": null,
       "network": "good",
-      "verify": false
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   },
   {
@@ -496,9 +1093,13 @@
     "currency": "INR",
     "avg_duration_min": 45,
     "opening_hours": null,
-    "hours_confidence": "unknown",
+    "hours_confidence": "estimated",
     "rating": 4.5,
-    "tags": ["viewpoint", "kanchenjunga", "scenic"],
+    "tags": [
+      "viewpoint",
+      "kanchenjunga",
+      "scenic"
+    ],
     "description": "Stunning viewpoint near Mangan offering one of the closest views of Mt Siniolchu and Kanchenjunga peaks.",
     "raw": {
       "altitude_m": 1560,
@@ -506,7 +1107,9 @@
       "permit_notes": null,
       "seasonal_access": null,
       "network": "poor",
-      "verify": true
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
     }
   }
 ]

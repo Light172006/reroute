@@ -78,7 +78,7 @@ class FakeLLM:
         self.fail_exception = fail_exception or RuntimeError("Simulated LLM rate limit or failure")
         self.calls: list[dict[str, Any]] = []
 
-    def with_structured_output(self, schema: type[T]) -> FakeStructuredRunner:
+    def with_structured_output(self, schema: type[T]) -> FakeStructuredRunner[T]:
         def _handler(messages: Any) -> T:
             self.calls.append({"messages": messages, "schema": schema})
             if self.fail_times > 0:

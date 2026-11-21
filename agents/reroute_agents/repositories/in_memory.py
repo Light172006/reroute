@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import asyncio
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
-from typing import Any
+from typing import Any, cast
 from uuid import UUID, uuid4
 
 from reroute_agents.repositories.interfaces import (
@@ -293,13 +293,13 @@ class InMemoryCacheRepository(CacheRepository):
             if entry["expires_at"] < datetime.now(UTC):
                 del self.cache[key]
                 return None
-            return entry["data"]
+            return cast(dict[str, Any], entry["data"])
 
     async def set(
         self, key: str, provider: str, data: dict[str, Any], ttl_seconds: int = 3600
     ) -> None:
         async with self._lock:
-            expires_at = datetime.fromtimestamp(datetime.now(UTC).timestamp() + ttl_seconds)
+            expires_at = datetime.now(UTC) + timedelta(seconds=ttl_seconds)
             self.cache[key] = {
                 "provider": provider,
                 "data": data,

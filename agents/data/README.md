@@ -1,38 +1,44 @@
-# Seed Data Verification and Audit Report
+# Seed Data Verification and Audit Report (AG-007)
 
-This document records the verification status of curated places in `agents/data/seed/` for the v1 vertical slice (Himalayan and North-East India).
-
----
-
-## 1. Verified Destinations Overview
-
-All 4 regional catalogs contain verified places with conservative cost estimates (in INR) and documented altitude coordinates.
-1. **Darjeeling**: 16 places covering central Darjeeling, Ghum, Kalimpong, and Mirik.
-2. **North Sikkim**: 15 places covering Gangtok (gateway), Lachen, Lachung, Yumthang Valley, Zero Point, and Gurudongmar Lake.
-3. **Arunachal Pradesh**: 15 places covering Tawang, Dirang, Bomdila, and Ziro.
-4. **Ladakh**: 16 places covering Leh, Sham Valley, Nubra Valley, and Pangong Tso.
+This document records the verification audit status of curated places and travel routes in `agents/data/seed/` for the v1 vertical slice (Himalayan and North-East India).
 
 ---
 
-## 2. Records Pending Human Verification (`verify: true`)
+## 1. Audit Policy & Integrity Invariant
 
-Before production deployment or official evaluation demonstrations, the following records must be verified with official state tourism departments or local administration:
+Per Hard Rule 0 ("Do not fabricate real-world facts. Seed data must be marked with a confidence level and a verify flag") and audit finding AG-007:
+1. **No False Claims of Verification:** Since places were compiled from travel literature and regional mapping rather than direct on-site verification or certified state tourism APIs, all 62 place records and 21 transit routes are honestly marked with:
+   - `verify: true`: flags that physical verification or local authority confirmation is required prior to commercial operations.
+   - `hours_confidence: "estimated"` / `confidence: "estimated"`: indicates realistic estimated hours and costs based on regional norms rather than certified live feeds.
+   - `source: null`: explicitly documents the absence of an authoritative digital API citation.
+2. **Deterministic Fallbacks:** When `verify: true`, the validator and monitor engines treat data with conservative margins (e.g. assume open if hours are unverified rather than blocking traveler schedules).
 
-| External ID | Name | City / Region | Field Pending Verification | Recommended Source |
+---
+
+## 2. Regional Inventory Requiring Human Verification (`verify: true`)
+
+All 62 place records require field verification with local administration:
+
+| Region | Total Records | Confidence | Verification Status | Official Verification Body |
 |---|---|---|---|---|
-| `seed:darjeeling:mirik_sumendu_lake` | Mirik Lake (Sumendu Lake) | Darjeeling (Mirik) | Operating hours, boating contractor rates, night access | GTA Tourism / West Bengal Tourism |
-| `seed:sikkim:chopta_valley` | Chopta Valley | North Sikkim | Checkpoint timing, military pass requirements beyond Thangu | Sikkim Tourism & Civil Aviation Dept / Mangan DM |
-| `seed:sikkim:singhik_viewpoint` | Singhik Viewpoint | North Sikkim | Maintenance entry charges, cafeteria timings | Mangan District Administration |
-| `seed:arunachal:ziro_hong_village` | Hong Village | Arunachal Pradesh (Ziro) | Apatani tribal council community guidelines and local festival fees | Lower Subansiri District Tourism Office |
-| `seed:arunachal:apple_nursery_dirang` | NRC on Yak & Apple Orchards | Arunachal Pradesh (Dirang) | Public visitor hours, technical tour permissions | ICAR-NRC on Yak official office |
+| **Darjeeling** | 16 | `estimated` | `verify: true` (16/16) | Gorkhaland Territorial Administration (GTA) Tourism / West Bengal Tourism |
+| **North Sikkim** | 15 | `estimated` | `verify: true` (15/15) | Sikkim Tourism & Civil Aviation Department / Mangan District Collectorate |
+| **Arunachal Pradesh** | 15 | `estimated` | `verify: true` (15/15) | Department of Tourism, Govt of Arunachal Pradesh / Tawang & Ziro DC Offices |
+| **Ladakh** | 16 | `estimated` | `verify: true` (16/16) | Department of Tourism, UT Ladakh / Leh & Kargil Tourist Information Centres |
+| **Mountain Routes** | 21 routes | `estimated` | `verify: true` (21/21) | Border Roads Organisation (BRO) / Project Himank / Project Beacon / State PWD |
+
+### Key High-Priority Verification Items:
+1. **Altitude & Acclimatization:** High-altitude passes (Khardung La 5359m, Chang La 5360m, Zero Point 4663m, Gurudongmar Lake 5430m, Sela Pass 4170m) must be verified against current BRO pass elevation markers.
+2. **Seasonal Access Windows:** Monsoon closures (July-August) and winter snowbound windows (December-March) must be checked against annual district disaster management advisories.
+3. **Inner Line & Protected Area Permits:** Checkpoint operational timings (e.g., Mangan, Thangu, Vartak, South Pullu) and permit issuance fees must be confirmed with local sub-divisional magistrates.
 
 ---
 
 ## 3. Permit Policies Summary
 
-All permit references in seed data are marked with the disclaimer:
+All permit references in seed data are marked with the mandatory disclaimer:
 *"Permit requirements change; verify with official government sources before travel."*
 
 - **Arunachal Pradesh**: Inner Line Permit (ILP) required for all domestic visitors; Protected Area Permit (PAP) for foreign nationals.
-- **North Sikkim**: Protected Area Permit (PAP) mandatory for Lachen, Lachung, Yumthang, and Zero Point. Gurudongmar Lake is restricted to Indian citizens.
-- **Ladakh**: Inner Line Permit / Protected Area Permit required for Nubra Valley (via Khardung La) and Pangong Tso (via Chang La).
+- **North Sikkim**: Protected Area Permit (PAP) mandatory for Lachen, Lachung, Yumthang, and Zero Point. Gurudongmar Lake is restricted strictly to Indian citizens.
+- **Ladakh**: Inner Line Permit (ILP) required for non-locals visiting Nubra Valley (via Khardung La) and Pangong Tso (via Chang La).

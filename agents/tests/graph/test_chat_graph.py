@@ -34,10 +34,10 @@ async def test_chat_graph_conversational_response() -> None:
         "trip_id": str(trip_id),
         "run_id": str(run_id),
         "messages": [{"role": "user", "content": "What is scheduled for tomorrow?"}],
-        "current_items": [],
+        "current_items": list(),
         "spec": None,
         "proposal": None,
-        "events": [],
+        "events": list(),
     }
 
     config = {"configurable": {"thread_id": str(run_id)}}
@@ -67,10 +67,10 @@ async def test_chat_graph_out_of_scope_redirection() -> None:
         "messages": [
             {"role": "user", "content": "Can you write python code to solve math equations?"}
         ],
-        "current_items": [],
+        "current_items": list(),
         "spec": None,
         "proposal": None,
-        "events": [],
+        "events": list(),
     }
 
     config = {"configurable": {"thread_id": str(run_id)}}
@@ -135,10 +135,10 @@ async def test_chat_graph_executes_get_itinerary_tool_call() -> None:
         "trip_id": str(trip_id),
         "run_id": str(run_id),
         "messages": [{"role": "user", "content": "Can you check my current itinerary?"}],
-        "current_items": [],
+        "current_items": list(),
         "spec": None,
         "proposal": None,
-        "events": [],
+        "events": list(),
     }
 
     config = {"configurable": {"thread_id": str(run_id)}}
@@ -214,10 +214,10 @@ async def test_chat_graph_modify_item_creates_proposal_only_preserving_hitl() ->
         "trip_id": str(trip_id),
         "run_id": str(run_id),
         "messages": [{"role": "user", "content": "Please delay my tea walk to 9am"}],
-        "current_items": [],
+        "current_items": list(),
         "spec": None,
         "proposal": None,
-        "events": [],
+        "events": list(),
     }
 
     config = {"configurable": {"thread_id": str(run_id)}}
@@ -273,10 +273,10 @@ async def test_chat_graph_bounded_tool_loop_caps_at_max_iterations() -> None:
         "trip_id": str(trip_id),
         "run_id": str(run_id),
         "messages": [{"role": "user", "content": "Loop test"}],
-        "current_items": [],
+        "current_items": list(),
         "spec": None,
         "proposal": None,
-        "events": [],
+        "events": list(),
     }
 
     config = {"configurable": {"thread_id": str(run_id)}}
@@ -317,10 +317,10 @@ async def test_chat_graph_handles_unknown_tool_and_exceptions_gracefully() -> No
         "trip_id": str(trip_id),
         "run_id": str(run_id),
         "messages": [{"role": "user", "content": "Run unknown tool"}],
-        "current_items": [],
+        "current_items": list(),
         "spec": None,
         "proposal": None,
-        "events": [],
+        "events": list(),
     }
 
     config = {"configurable": {"thread_id": str(run_id)}}

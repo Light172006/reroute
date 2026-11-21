@@ -8,7 +8,9 @@
       "distance_km": 7,
       "typical_minutes": 20,
       "road_type": "mountain_paved",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Darjeeling",
@@ -16,7 +18,9 @@
       "distance_km": 11,
       "typical_minutes": 35,
       "road_type": "steep_ascent",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Darjeeling",
@@ -24,7 +28,9 @@
       "distance_km": 50,
       "typical_minutes": 150,
       "road_type": "mountain_valley_paved",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Darjeeling",
@@ -32,7 +38,9 @@
       "distance_km": 49,
       "typical_minutes": 135,
       "road_type": "pine_forest_curved",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Gangtok",
@@ -40,7 +48,9 @@
       "distance_km": 24,
       "typical_minutes": 60,
       "road_type": "mountain_paved",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Gangtok",
@@ -48,7 +58,9 @@
       "distance_km": 125,
       "typical_minutes": 360,
       "road_type": "rough_mountain_highway",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Lachen",
@@ -56,7 +68,9 @@
       "distance_km": 66,
       "typical_minutes": 210,
       "road_type": "high_altitude_gravel_plateau",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Lachen",
@@ -64,7 +78,9 @@
       "distance_km": 47,
       "typical_minutes": 150,
       "road_type": "steep_river_valley",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Lachung",
@@ -72,7 +88,9 @@
       "distance_km": 25,
       "typical_minutes": 90,
       "road_type": "alpine_curves",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Yumthang Valley",
@@ -80,7 +98,9 @@
       "distance_km": 25,
       "typical_minutes": 90,
       "road_type": "high_altitude_unpaved",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Bomdila",
@@ -88,7 +108,9 @@
       "distance_km": 42,
       "typical_minutes": 90,
       "road_type": "mountain_highway",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Dirang",
@@ -96,7 +118,9 @@
       "distance_km": 62,
       "typical_minutes": 150,
       "road_type": "steep_alpine_pass",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Sela Pass",
@@ -104,7 +128,9 @@
       "distance_km": 78,
       "typical_minutes": 180,
       "road_type": "mountain_highway",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Tawang",
@@ -112,7 +138,9 @@
       "distance_km": 38,
       "typical_minutes": 120,
       "road_type": "military_gravel_steep",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Ziro",
@@ -120,7 +148,9 @@
       "distance_km": 8,
       "typical_minutes": 25,
       "road_type": "rural_paved",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Leh",
@@ -128,7 +158,9 @@
       "distance_km": 30,
       "typical_minutes": 40,
       "road_type": "nh1_highway_paved",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Leh",
@@ -136,7 +168,9 @@
       "distance_km": 68,
       "typical_minutes": 100,
       "road_type": "indus_valley_highway",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Leh",
@@ -144,7 +178,9 @@
       "distance_km": 40,
       "typical_minutes": 90,
       "road_type": "steep_switchbacks_partially_paved",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Khardung La",
@@ -152,7 +188,9 @@
       "distance_km": 75,
       "typical_minutes": 150,
       "road_type": "descent_valley_paved",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Diskit",
@@ -160,7 +198,9 @@
       "distance_km": 8,
       "typical_minutes": 15,
       "road_type": "flat_desert_paved",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     },
     {
       "from": "Leh",
@@ -168,7 +208,9 @@
       "distance_km": 140,
       "typical_minutes": 270,
       "road_type": "chang_la_pass_and_plateau",
-      "confidence": "estimated"
+      "confidence": "estimated",
+      "verify": true,
+      "source": null
     }
   ]
 }

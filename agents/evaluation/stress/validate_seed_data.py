@@ -66,15 +66,14 @@ def validate_places_file(filename: str) -> dict[str, Any]:
             if not (bbox["min_lat"] <= lat <= bbox["max_lat"] and bbox["min_lng"] <= lng <= bbox["max_lng"]):
                 out_of_bounds.append({"id": pid, "name": pname, "lat": lat, "lng": lng})
 
-        # Confidence marker check
-        # Top-level hours_confidence or in raw
+        # Confidence marker check (AG-007)
         hours_conf = p.get("hours_confidence")
         raw = p.get("raw", {})
         verify_flag = raw.get("verify")
 
-        if hours_conf is None and "confidence" not in raw:
+        if hours_conf not in ("estimated", "unverified") and raw.get("confidence") not in ("estimated", "unverified"):
             missing_confidence.append(pid)
-        if verify_flag is None:
+        if verify_flag is not True:
             missing_verify.append(pid)
 
         setting = p.get("setting", "unknown")

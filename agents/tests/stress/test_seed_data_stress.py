@@ -68,10 +68,11 @@ def test_seed_places_bounding_box_and_schema(filename: str) -> None:
         assert bbox["min_lat"] <= lat <= bbox["max_lat"], f"Lat {lat} out of bounds in {filename} for {p['name']}"
         assert bbox["min_lng"] <= lng <= bbox["max_lng"], f"Lng {lng} out of bounds in {filename} for {p['name']}"
 
-        # Confidence marker and verify flag
-        assert "hours_confidence" in p
+        # Confidence marker and verify flag (AG-007)
+        assert p.get("hours_confidence") in ("estimated", "unverified")
         raw = p.get("raw", {})
-        assert "verify" in raw, f"Missing raw.verify in {filename} for {p['name']}"
+        assert raw.get("verify") is True, f"Place {p['name']} must have raw.verify=True pending official citation"
+        assert raw.get("confidence") in ("estimated", "unverified")
         assert "altitude_m" in raw, f"Missing raw.altitude_m in {filename} for {p['name']}"
 
     assert has_indoor, f"No indoor places in {filename}"
@@ -98,6 +99,8 @@ def test_routes_plausibility_and_symmetry() -> None:
 
         assert dist > 0
         assert mins > 0
+        assert r.get("verify") is True, f"Route {src} -> {dst} must have verify=True pending official survey"
+        assert r.get("confidence") == "estimated"
         speed_kmh = (dist / mins) * 60.0
         # Mountain speeds should be plausible (15-45 km/h)
         assert 15.0 <= speed_kmh <= 45.0, f"Implausible speed {speed_kmh:.1f} km/h for route {src} -> {dst}"

@@ -464,6 +464,128 @@ def test_regional_altitude_acclimatization_thresholds() -> None:
     assert any("altitude gain" in v.detail.lower() for v in v_climb)
 
 
+def test_regional_altitude_intra_day_boundaries() -> None:
+    """Test boundary conditions for intra-day altitude gains on arrival day."""
+    p_base = uuid4()
+    p_under = uuid4()
+    p_over = uuid4()
+    p_none = uuid4()
+
+    meta = {
+        p_base: {"raw": {"altitude_m": 1500}},
+        p_under: {"raw": {"altitude_m": 2450}},  # 950m gain (<= 1000m threshold)
+        p_over: {"raw": {"altitude_m": 2550}},  # 1050m gain (> 1000m threshold)
+        p_none: {"raw": {"altitude_m": None}},
+    }
+
+    it_base = DraftItem(
+        day_index=1,
+        position=0,
+        place_id=p_base,
+        title="Valley Base",
+        category="cultural",
+        setting="indoor",
+        start_time=time(9, 0),
+        end_time=time(11, 0),
+    )
+    it_under = DraftItem(
+        day_index=1,
+        position=1,
+        place_id=p_under,
+        title="Mid Ridge",
+        category="cultural",
+        setting="indoor",
+        start_time=time(12, 0),
+        end_time=time(14, 0),
+    )
+    it_over = DraftItem(
+        day_index=1,
+        position=1,
+        place_id=p_over,
+        title="High Ridge",
+        category="cultural",
+        setting="indoor",
+        start_time=time(12, 0),
+        end_time=time(14, 0),
+    )
+    it_none = DraftItem(
+        day_index=1,
+        position=1,
+        place_id=p_none,
+        title="Unknown Alt Stop",
+        category="cultural",
+        setting="indoor",
+        start_time=time(12, 0),
+        end_time=time(14, 0),
+    )
+
+    # 1. 950m gain on Day 1 -> No violation
+    v_under = check_altitude_acclimatization({1: [it_base, it_under]}, meta)
+    assert len(v_under) == 0
+
+    # 2. 1050m gain on Day 1 -> Violation with medical disclaimer
+    v_over = check_altitude_acclimatization({1: [it_base, it_over]}, meta)
+    assert len(v_over) == 1
+    assert v_over[0].code == "day_too_long"
+    assert "intra-day altitude gain of 1050m" in v_over[0].detail.lower()
+    assert "guidance, not medical advice" in v_over[0].detail.lower()
+
+    # 3. Stop with altitude None does not crash or falsely trigger
+    v_none = check_altitude_acclimatization({1: [it_base, it_none]}, meta)
+    assert len(v_none) == 0
+
+    # 4. Descent on Day 1 (2550m down to 1500m) -> No intra-day gain violation
+    it_descend_start = DraftItem(
+        day_index=1,
+        position=0,
+        place_id=p_over,
+        title="High Pass Descent Start",
+        category="cultural",
+        setting="indoor",
+        start_time=time(9, 0),
+        end_time=time(11, 0),
+    )
+    it_descend_end = DraftItem(
+        day_index=1,
+        position=1,
+        place_id=p_base,
+        title="Valley Floor",
+        category="cultural",
+        setting="indoor",
+        start_time=time(12, 0),
+        end_time=time(14, 0),
+    )
+    v_descend = check_altitude_acclimatization({1: [it_descend_start, it_descend_end]}, meta)
+    assert not any("intra-day altitude gain" in v.detail.lower() for v in v_descend)
+
+
+@given(st.lists(st.integers(min_value=500, max_value=5500), min_size=2, max_size=6))
+@settings(max_examples=50, suppress_health_check=[HealthCheck.too_slow])
+def test_regional_altitude_monotonic_descent_never_triggers_gain_violation(altitudes: list[int]) -> None:
+    """Property test: Monotonically decreasing altitudes never produce an intra-day gain violation."""
+    sorted_alts = sorted(altitudes, reverse=True)
+    meta = {}
+    items = []
+    for idx, alt in enumerate(sorted_alts):
+        pid = uuid4()
+        meta[pid] = {"raw": {"altitude_m": alt}}
+        items.append(
+            DraftItem(
+                day_index=1,
+                position=idx,
+                place_id=pid,
+                title=f"Stop {idx}",
+                category="cultural",
+                setting="indoor",
+                start_time=time(8 + idx, 0),
+                end_time=time(8 + idx, 45),
+            )
+        )
+    violations = check_altitude_acclimatization({1: items}, meta)
+    gain_violations = [v for v in violations if "intra-day altitude gain" in v.detail.lower()]
+    assert len(gain_violations) == 0
+
+
 def test_regional_seasonal_access_closures() -> None:
     """Test seasonal road and pass closures (monsoon and winter)."""
     p_sela = uuid4()

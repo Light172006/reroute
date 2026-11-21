@@ -1,6 +1,6 @@
 # Reroute Agent System: Evaluation Benchmark Results
 
-**Benchmark Run Timestamp:** 2026-11-20 08:07:07 UTC
+**Benchmark Run Timestamp:** 2026-11-21 17:03:58 UTC
 **Test Set Size:** 20 Scripted Trips (4 Himalayan & North-East Regions) + 10 Disruption Scenarios
 
 ---

@@ -1,0 +1,83 @@
+from fastapi import FastAPI, Depends, APIRouter
+from fastapi.middleware.cors import CORSMiddleware
+from app.core.config import settings
+from app.api.routers import auth as auth_router
+from app.api.routers import trips as trips_router
+from app.api.routers import agent as agent_router
+from app.api.routers import places as places_router
+from app.api.routers import expense as expense_router
+from app.api.dependencies import get_current_user
+from app.api.schemas.auth import UserOut
+
+app = FastAPI(title=settings.PROJECT_NAME, version=settings.VERSION)
+
+# Enable CORS for frontend applications (Next.js runs on port 3000)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3001",
+        "*",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ---------------------------------------------------------------------
+# API v1 Router (matches frontend NEXT_PUBLIC_API_URL = /api/v1)
+# ---------------------------------------------------------------------
+api_v1_router = APIRouter(prefix="/api/v1")
+
+api_v1_router.include_router(auth_router.router, prefix="/auth")
+api_v1_router.include_router(trips_router.router, prefix="/trips")
+api_v1_router.include_router(trips_router.items_router)                     # /api/v1/items/{item_id}
+api_v1_router.include_router(agent_router.router)                           # /api/v1/agent/...
+api_v1_router.include_router(agent_router.trip_agent_router, prefix="/trips") # /api/v1/trips/{trip_id}/...
+api_v1_router.include_router(agent_router.proposal_router)                 # /api/v1/proposals/{proposal_id}
+api_v1_router.include_router(agent_router.demo_router, prefix="/demo")     # /api/v1/demo/...
+api_v1_router.include_router(places_router.router)                          # /api/v1/places/search
+api_v1_router.include_router(expense_router.router)                         # /api/v1/expenses/{expense_id}
+
+
+@api_v1_router.get("/me", response_model=UserOut)
+async def me_v1(current_user=Depends(get_current_user)):
+    return current_user
+
+
+@api_v1_router.get("/health")
+async def health_v1():
+    return {"status": "ok", "project": settings.PROJECT_NAME, "version": settings.VERSION}
+
+
+app.include_router(api_v1_router)
+
+# ---------------------------------------------------------------------
+# Root mount for direct calls and test backwards compatibility
+# ---------------------------------------------------------------------
+app.include_router(auth_router.router, prefix="/auth")
+app.include_router(trips_router.router, prefix="/trips")
+app.include_router(trips_router.items_router)                     # /items/{item_id}
+app.include_router(agent_router.router)                           # /agent/...
+app.include_router(agent_router.trip_agent_router, prefix="/trips") # /trips/{trip_id}/...
+app.include_router(agent_router.proposal_router)                 # /proposals/{proposal_id}
+app.include_router(agent_router.demo_router, prefix="/demo")     # /demo/...
+app.include_router(places_router.router)                          # /places/search
+app.include_router(expense_router.router)                         # /expenses/{expense_id}
+
+
+@app.get("/me", response_model=UserOut)
+async def me_root(current_user=Depends(get_current_user)):
+    return current_user
+
+
+@app.get("/health")
+async def health_root():
+    return {"status": "ok", "project": settings.PROJECT_NAME, "version": settings.VERSION}
+
+
+@app.get("/")
+async def root():
+    return {"status": "ok", "project": settings.PROJECT_NAME, "version": settings.VERSION, "docs": "/docs"}

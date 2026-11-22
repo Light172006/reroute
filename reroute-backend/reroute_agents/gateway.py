@@ -39,7 +39,14 @@ async def get_or_create_repositories(
     global _seed_loaded
     bundle = repos or _default_repos
     if not _seed_loaded:
-        await load_seed_catalog_into_repository(bundle.places)
+        from reroute_agents.repositories.in_memory import InMemoryPlaceCatalogRepository
+        if isinstance(bundle.places, InMemoryPlaceCatalogRepository):
+            await load_seed_catalog_into_repository(bundle.places)
+        else:
+            # For persistent repositories (e.g. SQLAlchemy), only seed if empty
+            existing = await bundle.places.search_places("Darjeeling", limit=1)
+            if not existing:
+                await load_seed_catalog_into_repository(bundle.places)
         _seed_loaded = True
     return bundle
 

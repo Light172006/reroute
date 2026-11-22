@@ -548,9 +548,12 @@ class SQLAlchemyPlaceCatalogRepository(PlaceCatalogRepository):
         from app.db.models import Place
 
         result = await self.db.execute(
-            select(Place).where(Place.id == place.id)
+            select(Place).where(
+                (Place.id == place.id)
+                | ((Place.source == "seed") & (Place.external_id == place.external_id))
+            )
         )
-        db_place = result.scalar_one_or_none()
+        db_place = result.scalars().first()
 
         if not db_place:
             db_place = Place(id=place.id)

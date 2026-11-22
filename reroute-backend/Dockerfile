@@ -9,15 +9,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy dependency files
-COPY pyproject.toml ./
+# Copy dependency files first for Docker layer caching
+COPY requirements.txt ./
 
 # Install python dependencies
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir .
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy application source code
 COPY . .
+
+# Install package in editable mode without re-downloading dependencies
+RUN pip install --no-cache-dir --no-deps -e .
 
 EXPOSE 8000
 

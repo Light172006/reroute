@@ -7,8 +7,9 @@ fastapi>=0.115.0
 uvicorn>=0.32.0
 
 # --- Database ---
-sqlalchemy>=2.0.36
+sqlalchemy[asyncio]>=2.0.36
 asyncpg>=0.30.0
+greenlet>=3.0.0
 alembic>=1.13.3
 
 # --- Agents / LLM ---
@@ -16,6 +17,7 @@ langchain>=0.3.7
 langgraph>=0.2.39
 pydantic>=2.9.2
 pydantic-settings>=2.0.0
+python-dotenv>=1.0.0
 
 # --- Authentication ---
 python-jose[cryptography]>=3.3.0

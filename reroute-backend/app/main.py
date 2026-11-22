@@ -11,7 +11,7 @@ from app.api.schemas.auth import UserOut
 
 app = FastAPI(title=settings.PROJECT_NAME, version=settings.VERSION)
 
-# Enable CORS for frontend applications (Next.js runs on port 3000)
+# Enable CORS for frontend applications (Next.js runs on port 3000 and Vercel domains)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -19,8 +19,8 @@ app.add_middleware(
         "http://127.0.0.1:3000",
         "http://localhost:3001",
         "http://127.0.0.1:3001",
-        "*",
     ],
+    allow_origin_regex=r"https?://.*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

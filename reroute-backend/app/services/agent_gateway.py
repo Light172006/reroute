@@ -16,7 +16,10 @@ from datetime import datetime, timezone
 from typing import AsyncIterator, Any, Optional
 
 from langgraph.checkpoint.memory import MemorySaver
-from langgraph.checkpoint.postgres import PostgresSaver
+try:
+    from langgraph.checkpoint.postgres import PostgresSaver
+except (ImportError, ModuleNotFoundError):
+    PostgresSaver = None
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 

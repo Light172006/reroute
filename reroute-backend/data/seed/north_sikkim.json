@@ -1,0 +1,1115 @@
+[
+  {
+    "external_id": "seed:sikkim:mg_marg",
+    "name": "MG Marg Gangtok",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.3294,
+    "lng": 88.6125,
+    "category": "shopping",
+    "setting": "outdoor",
+    "avg_cost": 250,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "tue": [],
+      "wed": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.7,
+    "tags": [
+      "gateway",
+      "shopping",
+      "promenade",
+      "food"
+    ],
+    "description": "Litter-free, pedestrianized mall and vibrant town center of Gangtok, gateway to North Sikkim. Closed Tuesdays.",
+    "raw": {
+      "altitude_m": 1650,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:rumtek_monastery",
+    "name": "Rumtek Dharma Chakra Centre",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.3008,
+    "lng": 88.5417,
+    "category": "culture",
+    "setting": "mixed",
+    "avg_cost": 50,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.6,
+    "tags": [
+      "culture",
+      "monastery",
+      "tibetan",
+      "buddhist"
+    ],
+    "description": "Famed seat of the Kagyu lineage of Tibetan Buddhism, housing golden stupas and sacred murals.",
+    "raw": {
+      "altitude_m": 1500,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:namgyal_institute",
+    "name": "Namgyal Institute of Tibetology",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.3167,
+    "lng": 88.6042,
+    "category": "culture",
+    "setting": "indoor",
+    "avg_cost": 50,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "16:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "16:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "16:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "16:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "16:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "16:00"
+        ]
+      ],
+      "sun": []
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.4,
+    "tags": [
+      "museum",
+      "culture",
+      "tibetology",
+      "history"
+    ],
+    "description": "Renowned research centre and museum on Tibetan culture, manuscripts, and thangka paintings. Closed Sundays.",
+    "raw": {
+      "altitude_m": 1600,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:lachen_monastery",
+    "name": "Lachen Monastery (Ngodub Choling)",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.7167,
+    "lng": 88.5583,
+    "category": "culture",
+    "setting": "indoor",
+    "avg_cost": 20,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.5,
+    "tags": [
+      "monastery",
+      "culture",
+      "buddhist",
+      "lachen"
+    ],
+    "description": "Historical Nyingma Buddhist monastery standing above the alpine village of Lachen.",
+    "raw": {
+      "altitude_m": 2750,
+      "permit_required": true,
+      "permit_notes": "Protected Area Permit (PAP) mandatory for North Sikkim. Must apply via registered tour operator in Gangtok.",
+      "seasonal_access": {
+        "closed_windows": [
+          {
+            "from_month": 7,
+            "to_month": 8,
+            "reason": "Severe monsoon landslides on NH310A"
+          }
+        ]
+      },
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:gurudongmar_lake",
+    "name": "Gurudongmar Lake",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 28.0258,
+    "lng": 88.7083,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 800,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "12:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.9,
+    "tags": [
+      "lake",
+      "extreme_altitude",
+      "sacred",
+      "high_himalayas"
+    ],
+    "description": "Sacred high-altitude glacial lake at 5,154m with views of Kangchengyao. Entry restricted past 12:00 PM due to extreme winds.",
+    "raw": {
+      "altitude_m": 5154,
+      "permit_required": true,
+      "permit_notes": "Special Protected Area Permit (PAP) strictly required. Only Indian nationals allowed near border; foreigners restricted at Thangu.",
+      "seasonal_access": {
+        "open_months": [
+          4,
+          5,
+          6,
+          9,
+          10,
+          11
+        ],
+        "closed_windows": [
+          {
+            "from_month": 12,
+            "to_month": 3,
+            "reason": "Heavy snowpack and frozen roads"
+          },
+          {
+            "from_month": 7,
+            "to_month": 8,
+            "reason": "Monsoon landslides"
+          }
+        ]
+      },
+      "network": "none",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:chopta_valley",
+    "name": "Chopta Valley",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.9167,
+    "lng": 88.5833,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 200,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": null,
+    "hours_confidence": "estimated",
+    "rating": 4.6,
+    "tags": [
+      "valley",
+      "alpine",
+      "meadow",
+      "rhododendron"
+    ],
+    "description": "High alpine valley with meandering rivers, frozen lakes in winter, and alpine rhododendrons in spring.",
+    "raw": {
+      "altitude_m": 4023,
+      "permit_required": true,
+      "permit_notes": "North Sikkim PAP permit required.",
+      "seasonal_access": {
+        "open_months": [
+          4,
+          5,
+          6,
+          9,
+          10,
+          11
+        ]
+      },
+      "network": "none",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:lachung_monastery",
+    "name": "Lachung Monastery (Samten Cheling)",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.6892,
+    "lng": 88.7425,
+    "category": "culture",
+    "setting": "indoor",
+    "avg_cost": 20,
+    "currency": "INR",
+    "avg_duration_min": 45,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.4,
+    "tags": [
+      "monastery",
+      "culture",
+      "buddhist",
+      "lachung"
+    ],
+    "description": "Charming 19th-century Buddhist monastery amidst apple orchards in Lachung valley.",
+    "raw": {
+      "altitude_m": 2700,
+      "permit_required": true,
+      "permit_notes": "North Sikkim PAP permit required.",
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:yumthang_valley",
+    "name": "Yumthang Valley (Valley of Flowers)",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.8286,
+    "lng": 88.6961,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 400,
+    "currency": "INR",
+    "avg_duration_min": 120,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "15:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.8,
+    "tags": [
+      "nature",
+      "valley",
+      "rhododendron",
+      "hot_springs"
+    ],
+    "description": "Grazing pasture bounded by Himalayan peaks, home to the Shingba Rhododendron Sanctuary and sulphur hot springs.",
+    "raw": {
+      "altitude_m": 3564,
+      "permit_required": true,
+      "permit_notes": "North Sikkim PAP required; vehicles must clear forest checkpoint by 10:00 AM.",
+      "seasonal_access": {
+        "open_months": [
+          3,
+          4,
+          5,
+          6,
+          9,
+          10,
+          11,
+          12
+        ],
+        "closed_windows": [
+          {
+            "from_month": 1,
+            "to_month": 2,
+            "reason": "Snow drifts block road from Lachung"
+          }
+        ]
+      },
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:zero_point",
+    "name": "Zero Point (Yumesamdong)",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.9139,
+    "lng": 88.7306,
+    "category": "adventure",
+    "setting": "outdoor",
+    "avg_cost": 600,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "13:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.7,
+    "tags": [
+      "snow",
+      "high_altitude",
+      "adventure",
+      "border"
+    ],
+    "description": "The edge of civilian access near the Indo-China border where three rivers meet surrounded by snow peaks.",
+    "raw": {
+      "altitude_m": 4663,
+      "permit_required": true,
+      "permit_notes": "Requires additional permit addon from Lachung police check post.",
+      "seasonal_access": {
+        "open_months": [
+          4,
+          5,
+          6,
+          10,
+          11
+        ],
+        "closed_windows": [
+          {
+            "from_month": 12,
+            "to_month": 3,
+            "reason": "Sub-zero temperatures and road snowbound"
+          }
+        ]
+      },
+      "network": "none",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:seven_sister_waterfall",
+    "name": "Seven Sisters Waterfall",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.3889,
+    "lng": 88.6167,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 30,
+    "currency": "INR",
+    "avg_duration_min": 45,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.2,
+    "tags": [
+      "waterfall",
+      "roadside",
+      "nature"
+    ],
+    "description": "Multi-tiered waterfall cascading down green cliffs along the Gangtok-Mangan North Sikkim highway.",
+    "raw": {
+      "altitude_m": 1250,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:ban_jhakri_falls",
+    "name": "Ban Jhakri Falls and Energy Park",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.3458,
+    "lng": 88.5861,
+    "category": "sightseeing",
+    "setting": "outdoor",
+    "avg_cost": 70,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.3,
+    "tags": [
+      "waterfall",
+      "shamanism",
+      "park",
+      "folklore"
+    ],
+    "description": "Recreation park highlighting traditional Sikkimese shaman folklore (Jhakri culture) with a 100-foot waterfall.",
+    "raw": {
+      "altitude_m": 1600,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:tashi_viewpoint",
+    "name": "Tashi Viewpoint",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.3611,
+    "lng": 88.6258,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 30,
+    "currency": "INR",
+    "avg_duration_min": 45,
+    "opening_hours": {
+      "mon": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "05:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.4,
+    "tags": [
+      "sunrise",
+      "kanchenjunga",
+      "viewpoint",
+      "mountains"
+    ],
+    "description": "Popular vantage point on the highway north of Gangtok overlooking Mt Siniolchu and Kanchenjunga.",
+    "raw": {
+      "altitude_m": 1780,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:taste_of_tibet",
+    "name": "Taste of Tibet Restaurant",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.3303,
+    "lng": 88.6131,
+    "category": "food",
+    "setting": "indoor",
+    "avg_cost": 300,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "tue": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "wed": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "thu": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "fri": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "sat": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "sun": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.5,
+    "tags": [
+      "food",
+      "tibetan",
+      "thukpa",
+      "momos"
+    ],
+    "description": "Celebrated local kitchen in Gangtok serving authentic steamed pork momos, beef shabalay, and gyathuk.",
+    "raw": {
+      "altitude_m": 1650,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:nimtho",
+    "name": "Nimtho Traditional Sikkimese Kitchen",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.3292,
+    "lng": 88.6128,
+    "category": "food",
+    "setting": "indoor",
+    "avg_cost": 450,
+    "currency": "INR",
+    "avg_duration_min": 75,
+    "opening_hours": {
+      "mon": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "12:00",
+          "22:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.6,
+    "tags": [
+      "food",
+      "sikkimese",
+      "organic",
+      "thali"
+    ],
+    "description": "Heritage restaurant serving slow-cooked organic Sikkimese thalis, gundruk soup, and smoked pork with kinema.",
+    "raw": {
+      "altitude_m": 1650,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:sikkim:singhik_viewpoint",
+    "name": "Singhik Viewpoint",
+    "city": "North Sikkim",
+    "country": "IN",
+    "lat": 27.5056,
+    "lng": 88.5389,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 0,
+    "currency": "INR",
+    "avg_duration_min": 45,
+    "opening_hours": null,
+    "hours_confidence": "estimated",
+    "rating": 4.5,
+    "tags": [
+      "viewpoint",
+      "kanchenjunga",
+      "scenic"
+    ],
+    "description": "Stunning viewpoint near Mangan offering one of the closest views of Mt Siniolchu and Kanchenjunga peaks.",
+    "raw": {
+      "altitude_m": 1560,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  }
+]

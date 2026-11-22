@@ -1,0 +1,1307 @@
+[
+  {
+    "external_id": "seed:ladakh:shanti_stupa",
+    "name": "Shanti Stupa Leh",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.1725,
+    "lng": 77.5758,
+    "category": "culture",
+    "setting": "outdoor",
+    "avg_cost": 30,
+    "currency": "INR",
+    "avg_duration_min": 75,
+    "opening_hours": {
+      "mon": [
+        [
+          "05:00",
+          "21:00"
+        ]
+      ],
+      "tue": [
+        [
+          "05:00",
+          "21:00"
+        ]
+      ],
+      "wed": [
+        [
+          "05:00",
+          "21:00"
+        ]
+      ],
+      "thu": [
+        [
+          "05:00",
+          "21:00"
+        ]
+      ],
+      "fri": [
+        [
+          "05:00",
+          "21:00"
+        ]
+      ],
+      "sat": [
+        [
+          "05:00",
+          "21:00"
+        ]
+      ],
+      "sun": [
+        [
+          "05:00",
+          "21:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.8,
+    "tags": [
+      "stupa",
+      "sunset",
+      "viewpoint",
+      "buddhist"
+    ],
+    "description": "White-domed Buddhist stupa atop a steep hill in Chanspa, offering sunset views over Leh and the Indus Valley.",
+    "raw": {
+      "altitude_m": 3609,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:leh_palace",
+    "name": "Leh Palace (Lhachen Palkhar)",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.1661,
+    "lng": 77.5861,
+    "category": "sightseeing",
+    "setting": "mixed",
+    "avg_cost": 50,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.5,
+    "tags": [
+      "palace",
+      "history",
+      "architecture",
+      "heritage"
+    ],
+    "description": "Nine-storey royal palace modeled on the Potala Palace of Lhasa, built in the 16th century by King Sengge Namgyal.",
+    "raw": {
+      "altitude_m": 3560,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:hall_of_fame",
+    "name": "Hall of Fame Museum",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.1417,
+    "lng": 77.5444,
+    "category": "culture",
+    "setting": "indoor",
+    "avg_cost": 100,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "19:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "19:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "19:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "19:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "19:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "19:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.8,
+    "tags": [
+      "museum",
+      "military",
+      "kargil",
+      "history"
+    ],
+    "description": "Museum constructed and maintained by the Indian Army commemorating brave soldiers and Ladakhi culture.",
+    "raw": {
+      "altitude_m": 3300,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:magnetic_hill",
+    "name": "Magnetic Hill",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.1875,
+    "lng": 77.3542,
+    "category": "sightseeing",
+    "setting": "outdoor",
+    "avg_cost": 0,
+    "currency": "INR",
+    "avg_duration_min": 45,
+    "opening_hours": {
+      "mon": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "23:59"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.1,
+    "tags": [
+      "gravity_hill",
+      "illusion",
+      "highway",
+      "curiosity"
+    ],
+    "description": "Cyclops gravity hill where neutral-gear vehicles appear to roll uphill due to surrounding landscape optical illusion.",
+    "raw": {
+      "altitude_m": 3350,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:gurudwara_pathar_sahib",
+    "name": "Gurudwara Pathar Sahib",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.2028,
+    "lng": 77.3833,
+    "category": "culture",
+    "setting": "indoor",
+    "avg_cost": 0,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "06:00",
+          "19:00"
+        ]
+      ],
+      "tue": [
+        [
+          "06:00",
+          "19:00"
+        ]
+      ],
+      "wed": [
+        [
+          "06:00",
+          "19:00"
+        ]
+      ],
+      "thu": [
+        [
+          "06:00",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "06:00",
+          "19:00"
+        ]
+      ],
+      "sat": [
+        [
+          "06:00",
+          "19:00"
+        ]
+      ],
+      "sun": [
+        [
+          "06:00",
+          "19:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.9,
+    "tags": [
+      "sikh",
+      "gurudwara",
+      "langar",
+      "history"
+    ],
+    "description": "Historical Sikh shrine built in 1517 to commemorate Guru Nanak Dev Ji's journey through Ladakh.",
+    "raw": {
+      "altitude_m": 3350,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:sangam_confluence",
+    "name": "Sangam (Indus and Zanskar River Confluence)",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.1625,
+    "lng": 77.3333,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 0,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.8,
+    "tags": [
+      "river",
+      "confluence",
+      "rafting",
+      "nature"
+    ],
+    "description": "Dramatic confluence of the muddy turquoise Indus river and the deep blue Zanskar river in Nimmu valley.",
+    "raw": {
+      "altitude_m": 3100,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:alchi_monastery",
+    "name": "Alchi Choskor Monastery",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.2236,
+    "lng": 77.175,
+    "category": "culture",
+    "setting": "indoor",
+    "avg_cost": 100,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "13:00"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.7,
+    "tags": [
+      "unesco_tentative",
+      "ancient",
+      "murals",
+      "kashmiri_art"
+    ],
+    "description": "11th-century monastic enclave famed for exquisite Indo-Tibetan wall frescoes and wood carvings attributed to Lotsawa Rinchen Zangpo.",
+    "raw": {
+      "altitude_m": 3100,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:khardung_la",
+    "name": "Khardung La Pass",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.2789,
+    "lng": 77.6044,
+    "category": "adventure",
+    "setting": "outdoor",
+    "avg_cost": 0,
+    "currency": "INR",
+    "avg_duration_min": 30,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.8,
+    "tags": [
+      "high_pass",
+      "extreme_altitude",
+      "snow",
+      "gateway"
+    ],
+    "description": "High mountain motorable pass at 5,359m serving as the gateway to the Shyok and Nubra valleys.",
+    "raw": {
+      "altitude_m": 5359,
+      "permit_required": true,
+      "permit_notes": "Protected Area Permit (PAP/ILP) strictly required to cross towards Nubra.",
+      "seasonal_access": {
+        "closed_windows": [
+          {
+            "from_month": 12,
+            "to_month": 3,
+            "reason": "Severe winter blizzards and avalanche clearance windows"
+          }
+        ]
+      },
+      "network": "none",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:diskit_monastery",
+    "name": "Diskit Monastery & Maitreya Buddha",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.5422,
+    "lng": 77.5583,
+    "category": "culture",
+    "setting": "mixed",
+    "avg_cost": 50,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.8,
+    "tags": [
+      "monastery",
+      "statue",
+      "nubra",
+      "buddhist"
+    ],
+    "description": "Oldest and largest Buddhist monastery in the Nubra Valley, featuring an iconic 106-foot open-air Maitreya Buddha statue.",
+    "raw": {
+      "altitude_m": 3144,
+      "permit_required": true,
+      "permit_notes": "Nubra Valley PAP/ILP required.",
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:hunder_sand_dunes",
+    "name": "Hunder Sand Dunes & Bactrian Camels",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.5778,
+    "lng": 77.4694,
+    "category": "adventure",
+    "setting": "outdoor",
+    "avg_cost": 500,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.7,
+    "tags": [
+      "desert",
+      "camel_ride",
+      "sand_dunes",
+      "nubra"
+    ],
+    "description": "High-altitude cold desert dunes famous for double-humped Bactrian camels, remnants of the historic Silk Road.",
+    "raw": {
+      "altitude_m": 3048,
+      "permit_required": true,
+      "permit_notes": "Nubra Valley PAP/ILP required.",
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:pangong_tso",
+    "name": "Pangong Tso Lake (Spangmik / Lukung)",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 33.7594,
+    "lng": 78.4389,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 250,
+    "currency": "INR",
+    "avg_duration_min": 150,
+    "opening_hours": {
+      "mon": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.9,
+    "tags": [
+      "lake",
+      "high_altitude",
+      "color_changing",
+      "border"
+    ],
+    "description": "Endorheic salt lake extending from India to Tibet at 4,350m, famous for shifting shades of blue and rugged mountain backdrop.",
+    "raw": {
+      "altitude_m": 4350,
+      "permit_required": true,
+      "permit_notes": "Inner Line Permit (ILP) required. Acclimatization buffer mandatory before visiting.",
+      "seasonal_access": {
+        "open_months": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "closed_windows": [
+          {
+            "from_month": 12,
+            "to_month": 4,
+            "reason": "Lake completely freezes and Chang La pass snowed in"
+          }
+        ]
+      },
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:chang_la_pass",
+    "name": "Chang La Pass",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.0472,
+    "lng": 77.9306,
+    "category": "adventure",
+    "setting": "outdoor",
+    "avg_cost": 0,
+    "currency": "INR",
+    "avg_duration_min": 30,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.6,
+    "tags": [
+      "high_pass",
+      "snow",
+      "gateway",
+      "pangong"
+    ],
+    "description": "High mountain pass at 5,360m on the route to Pangong Lake, guarded by the Chang La Baba temple.",
+    "raw": {
+      "altitude_m": 5360,
+      "permit_required": true,
+      "permit_notes": "Pangong route ILP required.",
+      "seasonal_access": {
+        "closed_windows": [
+          {
+            "from_month": 12,
+            "to_month": 3,
+            "reason": "Winter blizzards and ice sheets"
+          }
+        ]
+      },
+      "network": "none",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:tibetan_kitchen",
+    "name": "The Tibetan Kitchen Leh",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.1644,
+    "lng": 77.5847,
+    "category": "food",
+    "setting": "indoor",
+    "avg_cost": 450,
+    "currency": "INR",
+    "avg_duration_min": 75,
+    "opening_hours": {
+      "mon": [
+        [
+          "11:30",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "11:30",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "11:30",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "11:30",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "11:30",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "11:30",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "11:30",
+          "22:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.6,
+    "tags": [
+      "food",
+      "tibetan",
+      "thukpa",
+      "tingmo",
+      "shapta"
+    ],
+    "description": "Popular Leh restaurant serving authentic Tibetan Gyako (hot pot), tingmo steamed bread, and mutton shapta.",
+    "raw": {
+      "altitude_m": 3500,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:gesmo_restaurant",
+    "name": "Gesmo Restaurant & German Bakery",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.1639,
+    "lng": 77.5853,
+    "category": "food",
+    "setting": "indoor",
+    "avg_cost": 350,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:30",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:30",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:30",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:30",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:30",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:30",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:30",
+          "22:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.4,
+    "tags": [
+      "food",
+      "bakery",
+      "breakfast",
+      "yak_cheese_pizza"
+    ],
+    "description": "Oldest traveler hangout on Fort Road known for freshly baked apple pie, cinnamon rolls, and yak cheese pizza.",
+    "raw": {
+      "altitude_m": 3500,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:shey_palace_monastery",
+    "name": "Shey Palace & Monastery",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.0722,
+    "lng": 77.6333,
+    "category": "culture",
+    "setting": "indoor",
+    "avg_cost": 30,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.5,
+    "tags": [
+      "monastery",
+      "buddha",
+      "copper",
+      "shey"
+    ],
+    "description": "Former summer retreat of the Kings of Ladakh housing a giant copper-gilt statue of Shakyamuni Buddha.",
+    "raw": {
+      "altitude_m": 3415,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:ladakh:thiksey_monastery",
+    "name": "Thiksey Monastery",
+    "city": "Ladakh",
+    "country": "IN",
+    "lat": 34.0583,
+    "lng": 77.6667,
+    "category": "culture",
+    "setting": "mixed",
+    "avg_cost": 50,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "19:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "19:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "19:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "19:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "19:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "19:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.9,
+    "tags": [
+      "monastery",
+      "gelugpa",
+      "sunrise_prayers",
+      "architecture"
+    ],
+    "description": "Spectacular 12-storey monastery complex resembling Lhasa's Potala Palace, housing a 49-foot statue of Maitreya Buddha.",
+    "raw": {
+      "altitude_m": 3600,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  }
+]

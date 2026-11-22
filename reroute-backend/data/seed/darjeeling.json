@@ -1,0 +1,1190 @@
+[
+  {
+    "external_id": "seed:darjeeling:tiger_hill",
+    "name": "Tiger Hill",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0084,
+    "lng": 88.2435,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 100,
+    "currency": "INR",
+    "avg_duration_min": 120,
+    "opening_hours": {
+      "mon": [
+        [
+          "04:00",
+          "07:30"
+        ]
+      ],
+      "tue": [
+        [
+          "04:00",
+          "07:30"
+        ]
+      ],
+      "wed": [
+        [
+          "04:00",
+          "07:30"
+        ]
+      ],
+      "thu": [
+        [
+          "04:00",
+          "07:30"
+        ]
+      ],
+      "fri": [
+        [
+          "04:00",
+          "07:30"
+        ]
+      ],
+      "sat": [
+        [
+          "04:00",
+          "07:30"
+        ]
+      ],
+      "sun": [
+        [
+          "04:00",
+          "07:30"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.6,
+    "tags": [
+      "nature",
+      "sunrise",
+      "kanchenjunga",
+      "viewpoint"
+    ],
+    "description": "Famous viewpoint for sunrise over Mt Kanchenjunga.",
+    "raw": {
+      "altitude_m": 2590,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": {
+        "open_months": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          9,
+          10,
+          11,
+          12
+        ],
+        "note": "Fog and monsoon heavy during July-August"
+      },
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:batasia_loop",
+    "name": "Batasia Loop",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0167,
+    "lng": 88.2467,
+    "category": "sightseeing",
+    "setting": "outdoor",
+    "avg_cost": 50,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.5,
+    "tags": [
+      "sightseeing",
+      "railway",
+      "garden",
+      "history"
+    ],
+    "description": "Spiral railway loop offering panoramic Himalayan views and a Gurkha war memorial.",
+    "raw": {
+      "altitude_m": 2134,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:ghum_monastery",
+    "name": "Old Ghoom Monastery (Yiga Choeling)",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0125,
+    "lng": 88.2389,
+    "category": "culture",
+    "setting": "indoor",
+    "avg_cost": 20,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.5,
+    "tags": [
+      "culture",
+      "buddhist",
+      "monastery",
+      "heritage"
+    ],
+    "description": "Historic Gelugpa Tibetan monastery enshrining a 15-foot statue of Maitreya Buddha.",
+    "raw": {
+      "altitude_m": 2225,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:hmi_zoo",
+    "name": "Padmaja Naidu Himalayan Zoological Park & HMI",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0583,
+    "lng": 88.2569,
+    "category": "sightseeing",
+    "setting": "mixed",
+    "avg_cost": 150,
+    "currency": "INR",
+    "avg_duration_min": 150,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:30",
+          "16:30"
+        ]
+      ],
+      "tue": [
+        [
+          "08:30",
+          "16:30"
+        ]
+      ],
+      "wed": [
+        [
+          "08:30",
+          "16:30"
+        ]
+      ],
+      "thu": [],
+      "fri": [
+        [
+          "08:30",
+          "16:30"
+        ]
+      ],
+      "sat": [
+        [
+          "08:30",
+          "16:30"
+        ]
+      ],
+      "sun": [
+        [
+          "08:30",
+          "16:30"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.6,
+    "tags": [
+      "wildlife",
+      "nature",
+      "mountaineering",
+      "museum"
+    ],
+    "description": "High-altitude zoo home to Red Pandas and Snow Leopards, plus the Himalayan Mountaineering Institute. Closed on Thursdays.",
+    "raw": {
+      "altitude_m": 2133,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:tibetan_refugee_center",
+    "name": "Tibetan Refugee Self-Help Centre",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0542,
+    "lng": 88.2694,
+    "category": "culture",
+    "setting": "indoor",
+    "avg_cost": 50,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "sun": []
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.4,
+    "tags": [
+      "culture",
+      "crafts",
+      "carpets",
+      "heritage"
+    ],
+    "description": "Community workshop and museum displaying traditional Tibetan wool carpet weaving and crafts. Closed on Sundays.",
+    "raw": {
+      "altitude_m": 2050,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:peace_pagoda",
+    "name": "Japanese Peace Pagoda",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0319,
+    "lng": 88.2583,
+    "category": "culture",
+    "setting": "outdoor",
+    "avg_cost": 0,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "04:30",
+          "19:00"
+        ]
+      ],
+      "tue": [
+        [
+          "04:30",
+          "19:00"
+        ]
+      ],
+      "wed": [
+        [
+          "04:30",
+          "19:00"
+        ]
+      ],
+      "thu": [
+        [
+          "04:30",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "04:30",
+          "19:00"
+        ]
+      ],
+      "sat": [
+        [
+          "04:30",
+          "19:00"
+        ]
+      ],
+      "sun": [
+        [
+          "04:30",
+          "19:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.5,
+    "tags": [
+      "peace",
+      "pagoda",
+      "spirituality",
+      "viewpoint"
+    ],
+    "description": "Serene Buddhist stupa designed to unite people of all races and creeds.",
+    "raw": {
+      "altitude_m": 2100,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:glenarys",
+    "name": "Glenary's Bakery and Cafe",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0436,
+    "lng": 88.2678,
+    "category": "food",
+    "setting": "indoor",
+    "avg_cost": 450,
+    "currency": "INR",
+    "avg_duration_min": 75,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "21:30"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "21:30"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "21:30"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "21:30"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "21:30"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "21:30"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "21:30"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.6,
+    "tags": [
+      "food",
+      "bakery",
+      "cafe",
+      "heritage",
+      "pastries"
+    ],
+    "description": "Centuries-old heritage bakery, tea room, and pub famous for pastries and Darjeeling tea.",
+    "raw": {
+      "altitude_m": 2042,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:kevenders",
+    "name": "Keventers Restaurant",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0428,
+    "lng": 88.2672,
+    "category": "food",
+    "setting": "mixed",
+    "avg_cost": 400,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "19:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.3,
+    "tags": [
+      "food",
+      "breakfast",
+      "rooftop",
+      "sausages"
+    ],
+    "description": "Historic open-terrace breakfast spot famed for full English breakfast and hot chocolate.",
+    "raw": {
+      "altitude_m": 2045,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:happy_valley_tea",
+    "name": "Happy Valley Tea Estate",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0544,
+    "lng": 88.2608,
+    "category": "sightseeing",
+    "setting": "mixed",
+    "avg_cost": 150,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [],
+      "tue": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "sun": []
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.4,
+    "tags": [
+      "tea",
+      "nature",
+      "plantation",
+      "tasting"
+    ],
+    "description": "Historic organic tea estate offering guided factory tours and fresh tea tasting. Closed Sun-Mon.",
+    "raw": {
+      "altitude_m": 2100,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": {
+        "open_months": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "note": "Factory processing dormant in winter (Dec-Feb)"
+      },
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:mall_road_chowrasta",
+    "name": "Chowrasta & Mall Road",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0456,
+    "lng": 88.2694,
+    "category": "shopping",
+    "setting": "outdoor",
+    "avg_cost": 200,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.7,
+    "tags": [
+      "shopping",
+      "walk",
+      "social",
+      "souvenirs"
+    ],
+    "description": "Pedestrian town square with pine-lined walking promenades, bookshops, and handicraft stalls.",
+    "raw": {
+      "altitude_m": 2040,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:rock_garden",
+    "name": "Barbotey Rock Garden",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0278,
+    "lng": 88.2389,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 50,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.1,
+    "tags": [
+      "nature",
+      "waterfall",
+      "garden",
+      "rocks"
+    ],
+    "description": "Terraced picnic garden built around a multi-level natural mountain waterfall.",
+    "raw": {
+      "altitude_m": 1700,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": {
+        "closed_windows": [
+          {
+            "from_month": 7,
+            "to_month": 8,
+            "reason": "Monsoon steep mountain road landslide risk"
+          }
+        ]
+      },
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:dhr_steam_joyride",
+    "name": "Darjeeling Himalayan Railway Joyride",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0422,
+    "lng": 88.2636,
+    "category": "adventure",
+    "setting": "mixed",
+    "avg_cost": 1000,
+    "currency": "INR",
+    "avg_duration_min": 120,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.8,
+    "tags": [
+      "unesco",
+      "heritage",
+      "steam_train",
+      "railway"
+    ],
+    "description": "UNESCO World Heritage steam locomotive ride from Darjeeling to Ghum and back.",
+    "raw": {
+      "altitude_m": 2042,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:kalimpong_deolo",
+    "name": "Deolo Hill & Park (Kalimpong)",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0875,
+    "lng": 88.4981,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 50,
+    "currency": "INR",
+    "avg_duration_min": 120,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "17:30"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "17:30"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "17:30"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "17:30"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "17:30"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "17:30"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "17:30"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.6,
+    "tags": [
+      "viewpoint",
+      "paragliding",
+      "park",
+      "nature"
+    ],
+    "description": "Highest point in Kalimpong offering 360-degree views of Relli Valley and Kanchenjunga.",
+    "raw": {
+      "altitude_m": 1704,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:kalimpong_zang_dhok_palri",
+    "name": "Durpin Monastery (Zang Dhok Palri Phodang)",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0444,
+    "lng": 88.4556,
+    "category": "culture",
+    "setting": "indoor",
+    "avg_cost": 20,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.5,
+    "tags": [
+      "culture",
+      "monastery",
+      "tibetan",
+      "art"
+    ],
+    "description": "Tibetan monastery consecrated by the Dalai Lama, housing rare religious texts and wall paintings.",
+    "raw": {
+      "altitude_m": 1372,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:mirik_sumendu_lake",
+    "name": "Mirik Lake (Sumendu Lake)",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 26.8925,
+    "lng": 88.1758,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 100,
+    "currency": "INR",
+    "avg_duration_min": 120,
+    "opening_hours": null,
+    "hours_confidence": "estimated",
+    "rating": 4.3,
+    "tags": [
+      "lake",
+      "boating",
+      "pine_forest",
+      "nature"
+    ],
+    "description": "Scenic natural lake surrounded by Dhupi pine trees and cardamon gardens in Mirik.",
+    "raw": {
+      "altitude_m": 1495,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:darjeeling:bhojohori_manna",
+    "name": "Bhojohori Manna Darjeeling",
+    "city": "Darjeeling",
+    "country": "IN",
+    "lat": 27.0425,
+    "lng": 88.2661,
+    "category": "food",
+    "setting": "indoor",
+    "avg_cost": 350,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "tue": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "wed": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "thu": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "fri": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "sat": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ],
+      "sun": [
+        [
+          "11:30",
+          "21:30"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.2,
+    "tags": [
+      "food",
+      "bengali",
+      "thali",
+      "fish"
+    ],
+    "description": "Authentic regional Bengali cuisine and traditional thalis in central Darjeeling.",
+    "raw": {
+      "altitude_m": 2040,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  }
+]

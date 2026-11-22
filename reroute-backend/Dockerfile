@@ -2,6 +2,10 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# Ensure /app is in Python's search path for app and reroute_agents modules
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -16,11 +20,8 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy application source code
+# Copy application source code, agent modules, and seed data
 COPY . .
-
-# Install package in editable mode without re-downloading dependencies
-RUN pip install --no-cache-dir --no-deps -e .
 
 EXPOSE 8000
 

@@ -14,7 +14,7 @@ class Settings:
             m.strip()
             for m in os.getenv(
                 "LLM_STRONG_CHAIN",
-                "gemini:gemini-2.5-flash,groq:llama-3.3-70b-versatile",
+                "gemini:gemini-2.0-flash,groq:llama-3.3-70b-versatile",
             ).split(",")
             if m.strip()
         ]
@@ -24,7 +24,7 @@ class Settings:
             m.strip()
             for m in os.getenv(
                 "LLM_SMALL_CHAIN",
-                "groq:llama-3.1-8b-instant,gemini:gemini-2.5-flash",
+                "groq:llama-3.1-8b-instant,gemini:gemini-2.0-flash",
             ).split(",")
             if m.strip()
         ]

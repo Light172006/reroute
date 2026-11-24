@@ -1,0 +1,1083 @@
+[
+  {
+    "external_id": "seed:arunachal:tawang_monastery",
+    "name": "Tawang Monastery (Galden Namgey Lhatse)",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.5861,
+    "lng": 91.8594,
+    "category": "culture",
+    "setting": "mixed",
+    "avg_cost": 50,
+    "currency": "INR",
+    "avg_duration_min": 150,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.8,
+    "tags": [
+      "culture",
+      "monastery",
+      "buddhist",
+      "heritage"
+    ],
+    "description": "Largest Buddhist monastery in India and second largest in the world, founded by Merak Lama Lodre Gyamtso in 1680.",
+    "raw": {
+      "altitude_m": 3048,
+      "permit_required": true,
+      "permit_notes": "Inner Line Permit (ILP) required for Indian nationals; PAP for foreign tourists.",
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:sela_pass",
+    "name": "Sela Pass and Sela Lake",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.5056,
+    "lng": 92.1039,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 0,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "06:00",
+          "16:00"
+        ]
+      ],
+      "tue": [
+        [
+          "06:00",
+          "16:00"
+        ]
+      ],
+      "wed": [
+        [
+          "06:00",
+          "16:00"
+        ]
+      ],
+      "thu": [
+        [
+          "06:00",
+          "16:00"
+        ]
+      ],
+      "fri": [
+        [
+          "06:00",
+          "16:00"
+        ]
+      ],
+      "sat": [
+        [
+          "06:00",
+          "16:00"
+        ]
+      ],
+      "sun": [
+        [
+          "06:00",
+          "16:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.9,
+    "tags": [
+      "high_pass",
+      "lake",
+      "snow",
+      "scenic"
+    ],
+    "description": "High mountain pass at 4,170m connecting Tawang to Tezpur and Guwahati, featuring the sacred Paradise Lake.",
+    "raw": {
+      "altitude_m": 4170,
+      "permit_required": true,
+      "permit_notes": "Inner Line Permit (ILP) required.",
+      "seasonal_access": {
+        "open_months": [
+          4,
+          5,
+          6,
+          9,
+          10,
+          11
+        ],
+        "closed_windows": [
+          {
+            "from_month": 12,
+            "to_month": 3,
+            "reason": "Heavy blizzard snow accumulation and black ice"
+          }
+        ]
+      },
+      "network": "none",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:jaswant_garh",
+    "name": "Jaswant Garh War Memorial",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.4667,
+    "lng": 92.1333,
+    "category": "culture",
+    "setting": "mixed",
+    "avg_cost": 0,
+    "currency": "INR",
+    "avg_duration_min": 45,
+    "opening_hours": {
+      "mon": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.8,
+    "tags": [
+      "history",
+      "military",
+      "memorial",
+      "patriotism"
+    ],
+    "description": "War memorial honouring Rifleman Jaswant Singh Rawat (Maha Vir Chakra) of the 4th Garhwal Rifles during the 1962 war.",
+    "raw": {
+      "altitude_m": 3050,
+      "permit_required": true,
+      "permit_notes": "ILP required along highway.",
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:madhuri_lake",
+    "name": "Sangetsar Tso (Madhuri Lake)",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.7125,
+    "lng": 91.7583,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 300,
+    "currency": "INR",
+    "avg_duration_min": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "15:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "15:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "15:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "15:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "15:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "15:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "15:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.8,
+    "tags": [
+      "lake",
+      "nature",
+      "mountains",
+      "scenic"
+    ],
+    "description": "High-altitude lake created by an earthquake in 1971, characterized by submerged tree trunks emerging from turquoise waters.",
+    "raw": {
+      "altitude_m": 3708,
+      "permit_required": true,
+      "permit_notes": "Special Indian Army and DC Tawang civilian pass required beyond Tawang town.",
+      "seasonal_access": {
+        "open_months": [
+          4,
+          5,
+          6,
+          9,
+          10,
+          11
+        ],
+        "closed_windows": [
+          {
+            "from_month": 12,
+            "to_month": 3,
+            "reason": "Road frozen and closed by snow"
+          }
+        ]
+      },
+      "network": "none",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:dirang_dzong",
+    "name": "Dirang Dzong & Monpa Heritage Village",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.3556,
+    "lng": 92.2417,
+    "category": "culture",
+    "setting": "outdoor",
+    "avg_cost": 30,
+    "currency": "INR",
+    "avg_duration_min": 75,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.5,
+    "tags": [
+      "fort",
+      "dzong",
+      "architecture",
+      "monpa"
+    ],
+    "description": "17th-century tribal fortress with traditional stone and wood Monpa architecture overlooking the Dirang river.",
+    "raw": {
+      "altitude_m": 1560,
+      "permit_required": true,
+      "permit_notes": "ILP required.",
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:bomdila_monastery",
+    "name": "Gontse Gaden Rabgyel Lling (Bomdila Monastery)",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.2667,
+    "lng": 92.4167,
+    "category": "culture",
+    "setting": "mixed",
+    "avg_cost": 20,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.6,
+    "tags": [
+      "monastery",
+      "culture",
+      "viewpoint",
+      "buddhist"
+    ],
+    "description": "Major Buddhist monastery built by the 12th reincarnate of Tsona Gontse Rinpoche, overlooking the Bomdila valley.",
+    "raw": {
+      "altitude_m": 2415,
+      "permit_required": true,
+      "permit_notes": "ILP required.",
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:dirang_hot_spring",
+    "name": "Dirang Hot Water Spring",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.3625,
+    "lng": 92.2278,
+    "category": "nature",
+    "setting": "outdoor",
+    "avg_cost": 50,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.1,
+    "tags": [
+      "hot_springs",
+      "sulfur",
+      "nature",
+      "relaxation"
+    ],
+    "description": "Natural sulfurous hot water spring believed to possess medicinal and therapeutic properties.",
+    "raw": {
+      "altitude_m": 1560,
+      "permit_required": true,
+      "permit_notes": "ILP required.",
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:ziro_hong_village",
+    "name": "Hong Village (Ziro Valley Apatani Settlement)",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.5667,
+    "lng": 93.8333,
+    "category": "culture",
+    "setting": "outdoor",
+    "avg_cost": 200,
+    "currency": "INR",
+    "avg_duration_min": 120,
+    "opening_hours": null,
+    "hours_confidence": "estimated",
+    "rating": 4.7,
+    "tags": [
+      "unesco",
+      "tribal",
+      "apatani",
+      "bamboo_houses"
+    ],
+    "description": "One of the largest traditional Apatani tribal villages in Ziro, known for indigenous sustainable paddy-cum-pisciculture farming.",
+    "raw": {
+      "altitude_m": 1572,
+      "permit_required": true,
+      "permit_notes": "Inner Line Permit (ILP) required.",
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:tarin_fish_farm",
+    "name": "Tarin High Altitude Fish Farm",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.5389,
+    "lng": 93.8167,
+    "category": "sightseeing",
+    "setting": "outdoor",
+    "avg_cost": 30,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "sun": []
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.2,
+    "tags": [
+      "agriculture",
+      "fish_farming",
+      "paddy",
+      "nature"
+    ],
+    "description": "Breeding farm for high-altitude carps integrated with organic bamboo pine groves and paddy fields.",
+    "raw": {
+      "altitude_m": 1580,
+      "permit_required": true,
+      "permit_notes": "ILP required.",
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:kardo_shiva_lingam",
+    "name": "Siddheshwar Nath Temple (Kardo Shiva Lingam)",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.5222,
+    "lng": 93.8444,
+    "category": "culture",
+    "setting": "outdoor",
+    "avg_cost": 0,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "06:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.6,
+    "tags": [
+      "hindu",
+      "temple",
+      "shiva",
+      "forest"
+    ],
+    "description": "Naturally occurring 25-foot monolithic stone Shiva Lingam discovered in the Kardo forest hills of Ziro.",
+    "raw": {
+      "altitude_m": 1600,
+      "permit_required": true,
+      "permit_notes": "ILP required.",
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:urgelling_monastery",
+    "name": "Urgelling Monastery (Birthplace of 6th Dalai Lama)",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.5694,
+    "lng": 91.8667,
+    "category": "culture",
+    "setting": "indoor",
+    "avg_cost": 20,
+    "currency": "INR",
+    "avg_duration_min": 45,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.5,
+    "tags": [
+      "culture",
+      "dalai_lama",
+      "buddhist",
+      "history"
+    ],
+    "description": "400-year-old monastery revered as the historic birthplace of Tsangyang Gyatso, the 6th Dalai Lama.",
+    "raw": {
+      "altitude_m": 2900,
+      "permit_required": true,
+      "permit_notes": "ILP required.",
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:tawang_war_memorial",
+    "name": "Tawang War Memorial",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.5833,
+    "lng": 91.8611,
+    "category": "sightseeing",
+    "setting": "outdoor",
+    "avg_cost": 30,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:45",
+          "18:30"
+        ]
+      ],
+      "tue": [
+        [
+          "07:45",
+          "18:30"
+        ]
+      ],
+      "wed": [
+        [
+          "07:45",
+          "18:30"
+        ]
+      ],
+      "thu": [
+        [
+          "07:45",
+          "18:30"
+        ]
+      ],
+      "fri": [
+        [
+          "07:45",
+          "18:30"
+        ]
+      ],
+      "sat": [
+        [
+          "07:45",
+          "18:30"
+        ]
+      ],
+      "sun": [
+        [
+          "07:45",
+          "18:30"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.7,
+    "tags": [
+      "memorial",
+      "military",
+      "history",
+      "stupa"
+    ],
+    "description": "Stupa-styled national memorial overlooking Tawang town dedicated to the martyrs of the 1962 Sino-Indian War.",
+    "raw": {
+      "altitude_m": 3000,
+      "permit_required": true,
+      "permit_notes": "ILP required.",
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:woodland_restaurant",
+    "name": "Woodland Restaurant Tawang",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.5847,
+    "lng": 91.8653,
+    "category": "food",
+    "setting": "indoor",
+    "avg_cost": 350,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "20:30"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "20:30"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "20:30"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "20:30"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "20:30"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "20:30"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "20:30"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.3,
+    "tags": [
+      "food",
+      "monpa",
+      "thukpa",
+      "yak_cheese"
+    ],
+    "description": "Popular restaurant in old market Tawang famous for local Monpa dishes, chhurpi (fermented yak cheese soup), and momos.",
+    "raw": {
+      "altitude_m": 3040,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:ziro_valley_resort_cafe",
+    "name": "Ziro Valley Pine Cafe",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.5501,
+    "lng": 93.8202,
+    "category": "food",
+    "setting": "indoor",
+    "avg_cost": 300,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ]
+    },
+    "hours_confidence": "estimated",
+    "rating": 4.4,
+    "tags": [
+      "food",
+      "cafe",
+      "tribal",
+      "bamboo_shoot"
+    ],
+    "description": "Cozy dining spot serving smoked pork cooked in bamboo hollows, local rice beer (apong), and herbs.",
+    "raw": {
+      "altitude_m": 1570,
+      "permit_required": false,
+      "permit_notes": null,
+      "seasonal_access": null,
+      "network": "good",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  },
+  {
+    "external_id": "seed:arunachal:apple_nursery_dirang",
+    "name": "National Research Centre on Yak & Apple Orchards",
+    "city": "Arunachal Pradesh",
+    "country": "IN",
+    "lat": 27.3592,
+    "lng": 92.2356,
+    "category": "sightseeing",
+    "setting": "outdoor",
+    "avg_cost": 50,
+    "currency": "INR",
+    "avg_duration_min": 60,
+    "opening_hours": null,
+    "hours_confidence": "estimated",
+    "rating": 4.3,
+    "tags": [
+      "yak",
+      "research",
+      "orchard",
+      "agriculture"
+    ],
+    "description": "ICAR research centre dedicated to yak conservation and high-altitude fruit orchards in Dirang.",
+    "raw": {
+      "altitude_m": 1560,
+      "permit_required": true,
+      "permit_notes": "ILP required.",
+      "seasonal_access": null,
+      "network": "poor",
+      "verify": true,
+      "confidence": "estimated",
+      "source": null
+    }
+  }
+]

@@ -26,6 +26,9 @@ class Settings(BaseSettings):
     SEARCH_PROVIDER: str = "tavily"
     TAVILY_API_KEY: Optional[str] = None
 
+    # CORS Origins (comma-separated)
+    CORS_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,http://127.0.0.1:3001"
+
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=True, extra="ignore")
 
 settings = Settings()

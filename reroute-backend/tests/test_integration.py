@@ -34,7 +34,7 @@ def _create_all():
         async with test_engine.begin() as conn:
             await conn.run_sync(Base.metadata.drop_all)
             await conn.run_sync(Base.metadata.create_all)
-    asyncio.get_event_loop().run_until_complete(_go())
+    asyncio.run(_go())
 
 
 def _drop_all():
@@ -42,7 +42,7 @@ def _drop_all():
     async def _go():
         async with test_engine.begin() as conn:
             await conn.run_sync(Base.metadata.drop_all)
-    asyncio.get_event_loop().run_until_complete(_go())
+    asyncio.run(_go())
 
 
 @pytest.fixture

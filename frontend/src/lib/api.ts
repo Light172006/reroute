@@ -18,13 +18,22 @@ import {
 } from '@/types/contract';
 import { mockStore } from '@/mocks/handlers';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+const getApiBaseUrl = (): string => {
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production' && !envUrl) {
+    throw new Error('NEXT_PUBLIC_API_URL environment variable is required in production.');
+  }
+  let url = envUrl || 'http://localhost:8000/api/v1';
+  return url.replace(/\/+$/, '');
+};
+
+const BASE_URL = getApiBaseUrl();
 const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === 'true';
 
 class ApiClient {
   private accessToken: string | null = null;
   private refreshToken: string | null = null;
-  private isRefreshing = false;
+  private refreshPromise: Promise<string | null> | null = null;
 
   constructor() {
     if (typeof window !== 'undefined') {
@@ -56,6 +65,33 @@ class ApiClient {
     return !!this.accessToken;
   }
 
+  private async performTokenRefresh(): Promise<string | null> {
+    if (!this.refreshToken) {
+      this.clearTokens();
+      return null;
+    }
+    try {
+      const refreshRes = await fetch(`${BASE_URL}/auth/refresh`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refresh_token: this.refreshToken }),
+      });
+
+      if (refreshRes.ok) {
+        const data = await refreshRes.json();
+        this.setTokens(data.access_token, this.refreshToken);
+        return data.access_token;
+      }
+    } catch {
+      // Network or parsing error during refresh
+    }
+    this.clearTokens();
+    if (typeof window !== 'undefined') {
+      window.location.href = '/login';
+    }
+    return null;
+  }
+
   private async fetchWithAuth(url: string, options: RequestInit = {}): Promise<Response> {
     const headers = new Headers(options.headers || {});
     if (this.accessToken) {
@@ -65,33 +101,16 @@ class ApiClient {
 
     let response = await fetch(url, { ...options, headers });
 
-    if (response.status === 401 && this.refreshToken && !this.isRefreshing) {
-      this.isRefreshing = true;
-      try {
-        const refreshRes = await fetch(`${BASE_URL}/auth/refresh`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ refresh_token: this.refreshToken }),
+    if (response.status === 401 && this.refreshToken) {
+      if (!this.refreshPromise) {
+        this.refreshPromise = this.performTokenRefresh().finally(() => {
+          this.refreshPromise = null;
         });
-
-        if (refreshRes.ok) {
-          const data = await refreshRes.json();
-          this.setTokens(data.access_token, this.refreshToken);
-          headers.set('Authorization', `Bearer ${data.access_token}`);
-          response = await fetch(url, { ...options, headers });
-        } else {
-          this.clearTokens();
-          if (typeof window !== 'undefined') {
-            window.location.href = '/login';
-          }
-        }
-      } catch (err) {
-        this.clearTokens();
-        if (typeof window !== 'undefined') {
-          window.location.href = '/login';
-        }
-      } finally {
-        this.isRefreshing = false;
+      }
+      const newAccessToken = await this.refreshPromise;
+      if (newAccessToken) {
+        headers.set('Authorization', `Bearer ${newAccessToken}`);
+        response = await fetch(url, { ...options, headers });
       }
     }
 
@@ -122,7 +141,16 @@ class ApiClient {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error('Signup failed');
+
+    if (!res.ok) {
+      let message = 'Signup failed';
+      try {
+        const errorData = await res.json();
+        message = errorData.detail || errorData.message || message;
+      } catch {}
+      throw new Error(message);
+    }
+
     const auth = await res.json();
     this.setTokens(auth.access_token, auth.refresh_token);
     return auth;
@@ -144,7 +172,16 @@ class ApiClient {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error('Invalid email or password');
+
+    if (!res.ok) {
+      let message = 'Invalid email or password';
+      try {
+        const errorData = await res.json();
+        message = errorData.detail || errorData.message || message;
+      } catch {}
+      throw new Error(message);
+    }
+
     const auth = await res.json();
     this.setTokens(auth.access_token, auth.refresh_token);
     return auth;
@@ -155,7 +192,14 @@ class ApiClient {
       return mockStore.user;
     }
     const res = await this.fetchWithAuth(`${BASE_URL}/me`);
-    if (!res.ok) throw new Error('Failed to fetch user');
+    if (!res.ok) {
+      let message = 'Failed to fetch user';
+      try {
+        const errorData = await res.json();
+        message = errorData.detail || errorData.message || message;
+      } catch {}
+      throw new Error(message);
+    }
     return res.json();
   }
 

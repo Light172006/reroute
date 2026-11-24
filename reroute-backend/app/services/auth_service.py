@@ -5,7 +5,7 @@ from typing import Optional
 import uuid
 
 from passlib.context import CryptContext
-from sqlalchemy import insert, select
+from sqlalchemy import func, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
@@ -23,7 +23,8 @@ class AuthService:
     #  User persistence helpers
     # ------------------------------------------------------------------
     async def get_user_by_email(self, email: str) -> Optional[User]:
-        result = await self.db.execute(select(User).where(User.email == email))
+        normalized = email.strip().lower()
+        result = await self.db.execute(select(User).where(func.lower(User.email) == normalized))
         return result.scalar_one_or_none()
 
     async def create_user(
@@ -38,14 +39,15 @@ class AuthService:
         hashed_pw = pwd_context.hash(password)
         now = datetime.now(tz=UTC)
         user_id = uuid.uuid4()
+        normalized_email = email.strip().lower()
 
         stmt = (
             insert(User)
             .values(
                 id=user_id,
-                email=email,
+                email=normalized_email,
                 password_hash=hashed_pw,
-                display_name=display_name,
+                display_name=display_name.strip(),
                 home_currency=home_currency,
                 units=units,
                 created_at=now,
@@ -97,8 +99,12 @@ class AuthService:
         payload = decode_token(refresh_token, settings.SECRET_KEY)
         if payload is None:
             return None
-        user_id = payload.get("sub")
-        if user_id is None:
+        user_id_raw = payload.get("sub")
+        if user_id_raw is None:
+            return None
+        try:
+            user_id = uuid.UUID(str(user_id_raw))
+        except (ValueError, TypeError):
             return None
         user = await self.db.get(User, user_id)
         if user is None:

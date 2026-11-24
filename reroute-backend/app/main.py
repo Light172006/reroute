@@ -1,3 +1,5 @@
+import logging
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
@@ -9,21 +11,45 @@ from app.api.routers import expense as expense_router
 from app.api.dependencies import get_current_user
 from app.api.schemas.auth import UserOut
 
-app = FastAPI(title=settings.PROJECT_NAME, version=settings.VERSION)
+logger = logging.getLogger(__name__)
 
-# Enable CORS for frontend applications (Next.js runs on port 3000 and Vercel domains)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Ensure database schema is created on startup if using SQLite or fresh db
+    try:
+        from app.db.session import engine, Base
+        import app.db.models  # noqa: F401
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        logger.info("Database schema initialized successfully.")
+    except Exception as exc:
+        logger.warning("Database schema check warning: %s", exc)
+    yield
+    from app.db.session import engine
+    await engine.dispose()
+
+
+app = FastAPI(title=settings.PROJECT_NAME, version=settings.VERSION, lifespan=lifespan)
+
+# Environment-driven CORS configuration
+cors_origins = [
+    origin.strip()
+    for origin in settings.CORS_ORIGINS.split(",")
+    if origin.strip()
+] if hasattr(settings, "CORS_ORIGINS") and settings.CORS_ORIGINS else [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:3001",
-        "http://127.0.0.1:3001",
-    ],
-    allow_origin_regex=r"https?://.*",
+    allow_origins=cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization", "Accept", "X-Requested-With"],
 )
 
 # ---------------------------------------------------------------------

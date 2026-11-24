@@ -39,10 +39,17 @@ async def signup(
     if not target_email or not target_password or not target_display_name:
         raise HTTPException(status_code=400, detail="Missing required signup fields: email, password, display_name")
 
+    target_email = str(target_email).strip().lower()
+    target_password = str(target_password)
+    target_display_name = str(target_display_name).strip()
+
+    if len(target_password) < 6:
+        raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
+
     auth = AuthService(db)
-    if await auth.get_user_by_email(str(target_email)):
+    if await auth.get_user_by_email(target_email):
         raise HTTPException(status_code=400, detail="Email already registered")
-    user = await auth.create_user(str(target_email), str(target_password), str(target_display_name))
+    user = await auth.create_user(target_email, target_password, target_display_name)
     tokens = await auth.get_tokens(user)
     user_out = UserOut.model_validate(user)
     return AuthResponse(
@@ -82,8 +89,11 @@ async def login(
     if not target_email or not target_password:
         raise HTTPException(status_code=400, detail="Missing email or password")
 
+    target_email = str(target_email).strip().lower()
+    target_password = str(target_password)
+
     auth = AuthService(db)
-    user = await auth.validate_user(str(target_email), str(target_password))
+    user = await auth.validate_user(target_email, target_password)
     if not user:
         raise HTTPException(status_code=400, detail="Incorrect credentials")
     tokens = await auth.get_tokens(user)

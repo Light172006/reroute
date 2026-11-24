@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Optional, List
 from uuid import UUID, uuid4
 from decimal import Decimal
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 
@@ -43,7 +43,7 @@ class ExpensesService:
             currency=currency,
             amount_in_trip_currency=Decimal(str(amount_in_trip_currency)),
             description=description,
-            spent_at=spent_at or datetime.utcnow(),
+            spent_at=spent_at or datetime.now(timezone.utc),
         )
         self.db.add(expense)
         await self.db.flush()

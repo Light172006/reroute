@@ -5,11 +5,10 @@ from __future__ import annotations
 import operator
 from datetime import UTC, date, datetime, time
 from decimal import Decimal
-from typing import Annotated, Any, Literal, NotRequired
+from typing import Annotated, Any, Literal, NotRequired, TypedDict
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field
-from typing_extensions import TypedDict
 
 # --- Domain Pydantic Models (Matching API Contract) ---
 

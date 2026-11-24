@@ -434,7 +434,7 @@ def build_chat_graph(
     # -------------------------------------------------------------------------
     # Build LangGraph StateGraph
     # -------------------------------------------------------------------------
-    builder = StateGraph(ChatState)
+    builder = StateGraph(cast(Any, ChatState))
     builder.add_node("chat_agent", chat_agent_node)
     builder.add_node("tools", tools_node)
     builder.add_node("finalize", finalize_node)

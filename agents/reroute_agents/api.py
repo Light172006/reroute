@@ -19,15 +19,18 @@ from __future__ import annotations
 import asyncio
 import logging
 from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 from datetime import date
 from decimal import Decimal
 from typing import Any, Literal
 from uuid import UUID, uuid4
 
 from fastapi import APIRouter, FastAPI, Header, HTTPException, Query, status
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
+from reroute_agents.destinations.registry import load_seed_catalog_into_repository
 from reroute_agents.events import error_event, format_sse
 from reroute_agents.gateway import (
     resume_replan,
@@ -593,13 +596,32 @@ def create_app(
     llm_override: Any | None = None,
 ) -> FastAPI:
     """Application factory for standalone HTTP execution."""
+    bundle = repos or create_in_memory_repositories()
+
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        try:
+            await load_seed_catalog_into_repository(bundle.places)
+        except Exception as e:
+            logger.warning("Could not pre-load seed catalog: %s", e)
+        yield
+
     app = FastAPI(
         title="Reroute Agent API",
         version="0.1.0",
         description="FastAPI REST and SSE endpoints for Reroute autonomous agent runtime",
+        lifespan=lifespan,
     )
-    router = create_agent_router(repos=repos, llm_override=llm_override)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    router = create_agent_router(repos=bundle, llm_override=llm_override)
     app.include_router(router, prefix="/api/v1")
+    app.include_router(router)
     return app
 
 

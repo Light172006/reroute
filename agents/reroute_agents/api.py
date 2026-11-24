@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from collections.abc import AsyncIterator
+from collections.abc import AsyncGenerator, AsyncIterator
 from contextlib import asynccontextmanager
 from datetime import date
 from decimal import Decimal
@@ -599,7 +599,7 @@ def create_app(
     bundle = repos or create_in_memory_repositories()
 
     @asynccontextmanager
-    async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         try:
             await load_seed_catalog_into_repository(bundle.places)
         except Exception as e:

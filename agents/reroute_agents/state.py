@@ -35,8 +35,8 @@ class DraftItem(BaseModel):
     title: str
     category: str
     setting: Literal["indoor", "outdoor", "mixed"]
-    start_time: time
-    end_time: time
+    start_time: time | str
+    end_time: time | str
     est_cost: Decimal = Field(default=Decimal(0))
     lat: float | None = None
     lng: float | None = None
@@ -47,10 +47,17 @@ class DraftItem(BaseModel):
     flags: list[str] = Field(default_factory=list)
     notes: str | None = None
 
-    @field_validator("start_time", "end_time", mode="after")
+    @field_validator("start_time", "end_time", mode="before")
     @classmethod
-    def strip_tzinfo(cls, v: time) -> time:
-        if v is not None and v.tzinfo is not None:
+    def parse_time(cls, v: Any) -> Any:
+        if isinstance(v, str):
+            parts = v.strip().split(":")
+            if len(parts) >= 2:
+                h = int(parts[0])
+                m = int(parts[1][:2])
+                s = int(parts[2][:2]) if len(parts) > 2 else 0
+                return time(h, m, s)
+        if isinstance(v, time) and v.tzinfo is not None:
             return v.replace(tzinfo=None)
         return v
 
@@ -68,6 +75,7 @@ class Violation(BaseModel):
         "over_budget",
         "day_too_long",
         "locked_changed",
+        "unknown_place",
     ]
     item_stable_key: UUID | None = None
     day_index: int | None = None

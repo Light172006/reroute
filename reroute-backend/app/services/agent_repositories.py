@@ -485,9 +485,6 @@ class SQLAlchemyPlaceCatalogRepository(PlaceCatalogRepository):
         stmt = stmt.limit(limit)
         result = await self.db.execute(stmt)
         places = result.scalars().all()
-        if not places:
-            fallback = await self.db.execute(select(Place).limit(limit))
-            places = fallback.scalars().all()
 
         return [
             PlaceCandidate(

@@ -19,7 +19,7 @@ import {
 import { mockStore } from '@/mocks/handlers';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
-const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS !== 'false';
+const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === 'true';
 
 class ApiClient {
   private accessToken: string | null = null;

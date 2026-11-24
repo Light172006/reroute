@@ -21,8 +21,11 @@ class Settings(BaseSettings):
 
     # Mock mode: when true, uses FakeListChatModel and seed data.
     # Set to false when real API keys are available.
-    MOCK_TOOLS: bool = True
+    MOCK_TOOLS: bool = False
+    MOCK_LLM: bool = False
+    SEARCH_PROVIDER: str = "tavily"
+    TAVILY_API_KEY: Optional[str] = None
 
-    model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)
+    model_config = SettingsConfigDict(env_file=".env", case_sensitive=True, extra="ignore")
 
 settings = Settings()

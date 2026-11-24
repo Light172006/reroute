@@ -4,6 +4,19 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Automatically load environment variables from candidate locations
+_config_dir = Path(__file__).resolve().parent
+for _env_path in [
+    _config_dir / ".env",
+    _config_dir.parent / ".env",
+    _config_dir.parent.parent / ".env",
+    _config_dir.parent.parent / "reroute-backend" / ".env",
+]:
+    if _env_path.exists():
+        load_dotenv(_env_path, override=False)
 
 
 @dataclass(frozen=True)
@@ -14,7 +27,7 @@ class Settings:
             m.strip()
             for m in os.getenv(
                 "LLM_STRONG_CHAIN",
-                "gemini:gemini-3.5-flash,groq:llama-3.3-70b-versatile",
+                "gemini:gemini-3.5-flash-lite,gemini:gemini-3.1-flash-lite,groq:openai/gpt-oss-120b,groq:openai/gpt-oss-20b",
             ).split(",")
             if m.strip()
         ]
@@ -24,7 +37,7 @@ class Settings:
             m.strip()
             for m in os.getenv(
                 "LLM_SMALL_CHAIN",
-                "gemini:gemini-3.5-flash,gemini:gemini-3.5-flash-lite",
+                "gemini:gemini-3.5-flash-lite,gemini:gemini-3.1-flash-lite,groq:openai/gpt-oss-20b",
             ).split(",")
             if m.strip()
         ]
@@ -48,7 +61,10 @@ class Settings:
     tavily_api_key: str | None = (os.getenv("TAVILY_API_KEY") or "").strip() or None
 
     # Web research provider & limits
-    search_provider: str = os.getenv("SEARCH_PROVIDER", "mock").lower()
+    search_provider: str = os.getenv(
+        "SEARCH_PROVIDER",
+        "tavily" if (os.getenv("TAVILY_API_KEY") or "").strip() else "mock",
+    ).lower()
     web_max_searches: int = int(os.getenv("WEB_MAX_SEARCHES", "5"))
     web_max_fetches: int = int(os.getenv("WEB_MAX_FETCHES", "10"))
     web_max_geocodes: int = int(os.getenv("WEB_MAX_GEOCODES", "10"))

@@ -19,8 +19,8 @@ class PlaceResearchItem(BaseModel):
     setting: Literal["indoor", "outdoor", "mixed"] = "outdoor"
     avg_cost: Decimal = Decimal(100)
     avg_duration_min: int = 60
-    opening_hours: str | None = None
-    source_url: str  # Mandatory: Where did this information come from
+    opening_hours: dict[str, Any] | str | None = None
+    source_url: str = "web://extracted"  # Default fallback if LLM omits source_url
     verified: bool = False  # True only if lat/lng were confirmed by geocoding
     confidence: float = Field(default=0.8, ge=0.0, le=1.0)
     raw: dict[str, Any] = Field(default_factory=dict)

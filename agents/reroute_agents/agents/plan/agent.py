@@ -70,7 +70,7 @@ def build_plan_agent(
     import reroute_agents.graphs.plan_graph as pg
 
     intake_fn = getattr(pg, "intake_node", intake_node)
-    researcher = create_researcher_node(repos.places)
+    researcher = create_researcher_node(repos.places, llm_override=llm_override)
     planner = create_planner_node(llm_override)
     finalize = create_finalize_node(repos.itineraries, repos.trips)
 

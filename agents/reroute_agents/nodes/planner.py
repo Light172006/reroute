@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
+from reroute_agents.config import settings
 from reroute_agents.events import draft_event, error_event, step_event
 from reroute_agents.llm import FakeLLM, ResilientLLMChain, get_llm
 from reroute_agents.state import DraftItem, ItineraryDraft, PlanState
@@ -236,7 +237,31 @@ def create_planner_node(llm_override: Any | None = None) -> Any:
                     node_name="planner",
                 )
             except Exception as e:
-                logger.warning("LLM generation failed, falling back to deterministic: %s", e)
+                logger.error("LLM generation failed in planner: %s", e)
+                if not settings.mock_llm:
+                    events.append(
+                        error_event(
+                            code="llm_generation_failed",
+                            message=f"LLM planner failed: {e}",
+                            recoverable=False,
+                            node="planner",
+                        )
+                    )
+                    events.append(
+                        step_event(
+                            node="planner",
+                            message=f"Planning failed: LLM execution failed ({e})",
+                            status="failed",
+                        )
+                    )
+                    return {
+                        "draft": ItineraryDraft(
+                            items=[],
+                            summary=f"Planning failed for {spec.destination}: LLM execution error ({e}).",
+                        ),
+                        "iteration": iteration,
+                        "events": events,
+                    }
                 draft = _build_deterministic_draft_from_candidates(state)
         else:
             try:
@@ -247,7 +272,32 @@ def create_planner_node(llm_override: Any | None = None) -> Any:
                         {"role": "user", "content": user_content},
                     ]
                 )
-            except Exception:
+            except Exception as e:
+                logger.error("LLM generation failed in planner: %s", e)
+                if not settings.mock_llm:
+                    events.append(
+                        error_event(
+                            code="llm_generation_failed",
+                            message=f"LLM planner failed: {e}",
+                            recoverable=False,
+                            node="planner",
+                        )
+                    )
+                    events.append(
+                        step_event(
+                            node="planner",
+                            message=f"Planning failed: LLM execution failed ({e})",
+                            status="failed",
+                        )
+                    )
+                    return {
+                        "draft": ItineraryDraft(
+                            items=[],
+                            summary=f"Planning failed for {spec.destination}: LLM execution error ({e}).",
+                        ),
+                        "iteration": iteration,
+                        "events": events,
+                    }
                 draft = _build_deterministic_draft_from_candidates(state)
 
         # Emit draft event for timeline

@@ -145,7 +145,7 @@ async def _load_seed_catalog_fallback(destination: str) -> list[PlaceResearchIte
                 avg_cost=Decimal(str(p.get("avg_cost", 100))),
                 avg_duration_min=p.get("avg_duration_min", 60),
                 opening_hours=p.get("opening_hours"),
-                source_url=raw_info.get("source", f"seed://{catalog_key}"),
+                source_url=raw_info.get("source") or f"seed://{catalog_key}",
                 verified=True,
                 confidence=1.0,
                 seed=True,
@@ -279,22 +279,28 @@ def build_web_agent(llm_override: Any | None = None) -> Any:
         extracted_places: list[PlaceResearchItem] = []
         llm = llm_override or get_llm("strong")
 
-        # Prepare untrusted web content block with strict defense delimiters
+        # Prepare untrusted web content block with strict defense delimiters and token-safe length
         content_blocks: list[str] = []
-        for p in fetched_pages:
+        for p in fetched_pages[:5]:
             url = p.get("url", "")
-            text = p.get("text", "")
-            content_blocks.append(f'<untrusted_web_content source="{url}">\n{text}\n</untrusted_web_content>')
+            trimmed_text = p.get("text", "")[:3000].strip()
+            if trimmed_text:
+                content_blocks.append(
+                    f'<untrusted_web_content source="{url}">\n{trimmed_text}\n</untrusted_web_content>'
+                )
 
         if not content_blocks and search_results:
-            for s in search_results:
+            for s in search_results[:5]:
                 url = s.get("url", "")
-                snippet = s.get("snippet", "")
-                content_blocks.append(f'<untrusted_web_content source="{url}">\n{snippet}\n</untrusted_web_content>')
+                snippet = s.get("snippet", "")[:1000].strip()
+                if snippet:
+                    content_blocks.append(
+                        f'<untrusted_web_content source="{url}">\n{snippet}\n</untrusted_web_content>'
+                    )
 
         user_content = (
             f"Extract the top attractions and key sights for the destination '{destination}'.\n\n"
-            + "\n\n".join(content_blocks[:5])
+            + "\n\n".join(content_blocks)
         )
 
         if isinstance(llm, FakeLLM):
@@ -327,19 +333,29 @@ def build_web_agent(llm_override: Any | None = None) -> Any:
         else:
             extracted_places = _extract_places_from_snippets(search_results, destination)
 
-        # Fallback to seed if 0 places extracted
+        # Only fall back to seed catalog if mock mode is active (FakeLLM or mock_tools enabled)
         is_fallback = False
         if not extracted_places:
-            logger.info("Web research yielded 0 places for '%s'; falling back to seed catalog", destination)
-            extracted_places = await _load_seed_catalog_fallback(destination)
-            is_fallback = True
-            events.append(
-                step_event(
-                    node="web_agent.fallback",
-                    message=f"Web search yielded 0 places; using regional seed catalog for {destination}",
-                    status="running",
+            if isinstance(llm, FakeLLM) or settings.mock_tools:
+                logger.info("Mock mode active: using regional seed catalog for '%s'", destination)
+                extracted_places = await _load_seed_catalog_fallback(destination)
+                is_fallback = True
+                events.append(
+                    step_event(
+                        node="web_agent.fallback",
+                        message=f"Mock mode active: using regional seed catalog for {destination}",
+                        status="running",
+                    )
                 )
-            )
+            else:
+                logger.warning("Web research yielded 0 places for '%s'; no places extracted", destination)
+                events.append(
+                    step_event(
+                        node="web_agent.extract",
+                        message=f"No verified places found via web research for destination '{destination}'",
+                        status="failed",
+                    )
+                )
 
         return {
             "extracted_places": extracted_places,
@@ -444,20 +460,36 @@ async def run_web_research(
         events = final_state.get("events", [])
         return result, events
     except Exception as exc:
-        logger.error("Web research agent encountered unexpected error: %s; falling back to seed", exc)
-        seed_places = await _load_seed_catalog_fallback(destination)
-        result = ResearchResult(
-            destination=destination,
-            places=seed_places,
-            source="seed_fallback",
-            fallback=True,
-            summary=f"Web agent error fallback for {destination}: {exc}",
-        )
-        err_events = [
-            step_event(
-                node="web_agent.fallback",
-                message=f"Research failed: {exc}; loaded {len(seed_places)} seed places",
-                status="running",
+        logger.error("Web research agent encountered unexpected error: %s", exc)
+        if settings.mock_tools:
+            seed_places = await _load_seed_catalog_fallback(destination)
+            result = ResearchResult(
+                destination=destination,
+                places=seed_places,
+                source="seed_fallback",
+                fallback=True,
+                summary=f"Web agent error fallback for {destination}: {exc}",
             )
-        ]
+            err_events = [
+                step_event(
+                    node="web_agent.fallback",
+                    message=f"Research failed: {exc}; loaded {len(seed_places)} seed places",
+                    status="running",
+                )
+            ]
+        else:
+            result = ResearchResult(
+                destination=destination,
+                places=[],
+                source="failed",
+                fallback=True,
+                summary=f"Web agent research failed for {destination}: {exc}",
+            )
+            err_events = [
+                step_event(
+                    node="web_agent.extract",
+                    message=f"Web research error: {exc}",
+                    status="failed",
+                )
+            ]
         return result, err_events

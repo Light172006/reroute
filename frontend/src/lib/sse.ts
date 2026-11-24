@@ -3,7 +3,7 @@ import { mockStore } from '@/mocks/handlers';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
-const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS !== 'false';
+const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === 'true';
 
 export interface SSEStreamOptions {
   runId: string;

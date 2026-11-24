@@ -45,6 +45,28 @@ async def validator_node(state: Any) -> dict[str, Any]:
         places_metadata=meta,
     )
 
+    # Provenance verification: scheduled items must correspond to researched candidates
+    if candidates:
+        candidate_ids = {c.id for c in candidates}
+        candidate_names = {c.name.strip().lower(): c.id for c in candidates}
+        provenance_violations: list[Violation] = []
+        for item in draft.items:
+            matched_id = item.place_id if (item.place_id and item.place_id in candidate_ids) else None
+            if not matched_id and item.title:
+                matched_id = candidate_names.get(item.title.strip().lower())
+                if matched_id:
+                    item.place_id = matched_id
+            if not matched_id:
+                provenance_violations.append(
+                    Violation(
+                        code="unknown_place",
+                        day_index=item.day_index,
+                        item_stable_key=item.stable_key,
+                        detail=f"Place '{item.title}' is not a verified research candidate.",
+                    )
+                )
+        violations = list(violations) + provenance_violations
+
     if violations:
         msg = f"Validation found {len(violations)} constraint issue(s) to resolve"
         status = "failed"

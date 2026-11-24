@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, timedelta
 from typing import Any
 from uuid import UUID
 
@@ -19,8 +19,6 @@ def check_seasonal_access(
 
     for day_index, day_items in items_by_day.items():
         # Calculate approximate date for day_index (1-based)
-        from datetime import timedelta
-
         item_date = trip_start_date + timedelta(days=day_index - 1)
         month = item_date.month
 

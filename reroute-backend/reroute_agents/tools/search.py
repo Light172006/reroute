@@ -201,15 +201,14 @@ class TavilySearchProvider(SearchProvider):
                 res = await client.post(url, json=payload)
                 res.raise_for_status()
                 data = res.json()
-                results = []
-                for item in data.get("results", []):
-                    results.append(
-                        {
-                            "title": item.get("title", ""),
-                            "url": item.get("url", ""),
-                            "snippet": item.get("content", ""),
-                        }
-                    )
+                results = [
+                    {
+                        "title": item.get("title", ""),
+                        "url": item.get("url", ""),
+                        "snippet": item.get("content", ""),
+                    }
+                    for item in data.get("results", [])
+                ]
                 return results[:max_results]
         except Exception as e:
             logger.warning("Tavily search failed (%s); falling back to mock results", e)

@@ -23,6 +23,8 @@ from reroute_agents.state import (
     DraftItem,
     InjectedSignals,
     ItineraryDraft,
+    PlanState,
+    ReplanState,
     Signals,
     TripSpec,
 )
@@ -84,7 +86,7 @@ async def test_plan_graph_fix_loop_caps_at_max_iterations(base_trip_spec: TripSp
     )
 
     graph = build_plan_graph(repos, llm_override=fake_llm)
-    state = {
+    state: PlanState = {
         "trip_id": str(base_trip_spec.trip_id),
         "spec": base_trip_spec,
         "candidates": [],
@@ -169,7 +171,7 @@ async def test_replan_graph_fix_loop_caps_at_max_iterations(base_trip_spec: Trip
     graph = build_replan_graph(repos, llm_override=fake_llm, checkpointer=checkpointer)
 
     run_id = uuid4()
-    state = {
+    state: ReplanState = {
         "trip_id": str(base_trip_spec.trip_id),
         "run_id": str(run_id),
         "base_version_id": str(v1_id),
@@ -262,7 +264,7 @@ async def test_replanner_scope_invariant_preserves_locked_and_unaffected_items(b
         fake_llm = FakeLLM()
         graph = build_replan_graph(repos, llm_override=fake_llm, checkpointer=checkpointer)
 
-        initial_state = {
+        initial_state: ReplanState = {
             "trip_id": str(base_trip_spec.trip_id),
             "run_id": str(run_id),
             "base_version_id": str(v1_id),
@@ -334,7 +336,7 @@ async def test_replan_graph_rejection_discards_changes(base_trip_spec: TripSpec)
     graph = build_replan_graph(repos, llm_override=FakeLLM(), checkpointer=checkpointer)
     config = {"configurable": {"thread_id": str(run_id)}}
 
-    state = {
+    state: ReplanState = {
         "trip_id": str(base_trip_spec.trip_id),
         "run_id": str(run_id),
         "base_version_id": str(v1_id),
@@ -400,7 +402,7 @@ async def test_replan_graph_consecutive_alternatives_terminates(base_trip_spec: 
     graph = build_replan_graph(repos, llm_override=FakeLLM(), checkpointer=checkpointer)
     config = {"configurable": {"thread_id": str(run_id)}}
 
-    state = {
+    state: ReplanState = {
         "trip_id": str(base_trip_spec.trip_id),
         "run_id": str(run_id),
         "base_version_id": str(v1_id),
@@ -487,7 +489,7 @@ async def test_concurrency_30_simultaneous_trips_independent_execution(base_trip
         )
         fake_llm = FakeLLM(canned_responses={"ItineraryDraft": draft})
         graph = build_plan_graph(repos, llm_override=fake_llm)
-        state = {
+        state: PlanState = {
             "trip_id": str(t_id),
             "spec": spec,
             "candidates": [],

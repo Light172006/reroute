@@ -84,7 +84,7 @@ def analyze_impacts(
                     day_index=day_idx,
                     affected_stable_keys=injected_weather_affected,
                     summary=summary,
-                    source="injected" if injected else "open-meteo",
+                    source="injected",
                     data={"precip_prob": precip, "window": f"{from_str}-{to_str}"},
                     fingerprint=fp,
                 )

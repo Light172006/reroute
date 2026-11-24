@@ -65,7 +65,7 @@ async def validator_node(state: Any) -> dict[str, Any]:
                         detail=f"Place '{item.title}' is not a verified research candidate.",
                     )
                 )
-        violations = list(violations) + provenance_violations
+        violations.extend(provenance_violations)
 
     if violations:
         msg = f"Validation found {len(violations)} constraint issue(s) to resolve"

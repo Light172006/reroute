@@ -35,8 +35,8 @@ class DraftItem(BaseModel):
     title: str
     category: str
     setting: Literal["indoor", "outdoor", "mixed"]
-    start_time: time | str
-    end_time: time | str
+    start_time: time
+    end_time: time
     est_cost: Decimal = Field(default=Decimal(0))
     lat: float | None = None
     lng: float | None = None

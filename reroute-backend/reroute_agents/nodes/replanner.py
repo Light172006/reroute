@@ -139,7 +139,7 @@ def create_replanner_node(
                         match = next(
                             (li for li in llm_draft.items if li.stable_key == it.stable_key), None
                         )
-                        refined_items.append(match if match else it.model_copy(deep=True))
+                        refined_items.append(match or it.model_copy(deep=True))
                 proposed_draft.items = refined_items
             except Exception as e:
                 logger.warning("LLM refinement failed in replanner: %s", e)

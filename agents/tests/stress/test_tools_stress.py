@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+from decimal import Decimal
 from typing import Any
 from unittest.mock import AsyncMock, patch
 from uuid import uuid4
@@ -286,8 +287,8 @@ async def test_expenses_tool_summary_and_error_handling() -> None:
     """Test get_expenses_summary with valid and invalid trip IDs."""
     repo = InMemoryExpenseRepository()
     t_id = uuid4()
-    await repo.add_expense(t_id, category="food", amount=450.0, currency="INR")
-    await repo.add_expense(t_id, category="transit", amount=1200.0, currency="INR")
+    await repo.add_expense(t_id, category="food", amount=Decimal("450.0"), currency="INR")
+    await repo.add_expense(t_id, category="transit", amount=Decimal("1200.0"), currency="INR")
 
     expenses_tool = create_expenses_tool(repo)
 

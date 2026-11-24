@@ -17,7 +17,6 @@ from reroute_agents.llm import FakeLLM
 from reroute_agents.repositories.in_memory import create_in_memory_repositories
 from reroute_agents.state import TripSpec
 
-
 # Geographic bounding boxes [min_lat, min_lng, max_lat, max_lng]
 BOUNDING_BOXES = {
     "arunachal": {"min_lat": 26.5, "max_lat": 29.5, "min_lng": 91.5, "max_lng": 97.5},

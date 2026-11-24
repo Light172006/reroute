@@ -20,37 +20,39 @@ def create_researcher_node(catalog_repo: PlaceCatalogRepository) -> Any:
         events = []
 
         cfg = resolve_destination(spec.destination)
-        city_query = cfg.id if cfg else spec.destination
 
         events.append(
             tool_call_event(
                 tool="search_places",
-                args={"city": city_query, "tags": spec.vibe_tags},
+                args={"city": spec.destination, "tags": spec.vibe_tags},
                 node="researcher",
             )
         )
 
         candidates = await catalog_repo.search_places(
-            city=city_query,
+            city=spec.destination,
             tags=spec.vibe_tags if spec.vibe_tags else None,
             limit=25,
         )
 
-        # Also search using raw spec.destination if resolved id was different and yielded few places
-        if len(candidates) < 8 and city_query != spec.destination:
-            alt_candidates = await catalog_repo.search_places(
-                city=spec.destination,
-                tags=spec.vibe_tags if spec.vibe_tags else None,
-                limit=25,
-            )
-            for c in alt_candidates:
-                if not any(existing.id == c.id for existing in candidates):
-                    candidates.append(c)
+        # Try resolved destination aliases if sub-region or city name variant was given
+        if len(candidates) < 8 and cfg:
+            for alias in cfg.aliases:
+                alias_matches = await catalog_repo.search_places(
+                    city=alias,
+                    tags=spec.vibe_tags if spec.vibe_tags else None,
+                    limit=25,
+                )
+                for c in alias_matches:
+                    if not any(existing.id == c.id for existing in candidates):
+                        candidates.append(c)
+                if len(candidates) >= 8:
+                    break
 
         # Fallback to broader catalog search if vibe tags restricted results
         if len(candidates) < 8:
             broader = await catalog_repo.search_places(
-                city=city_query,
+                city=spec.destination,
                 limit=30,
             )
             for c in broader:

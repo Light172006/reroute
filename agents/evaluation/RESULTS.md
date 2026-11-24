@@ -1,6 +1,6 @@
 # Reroute Agent System: Evaluation Benchmark Results
 
-**Benchmark Run Timestamp:** 2026-11-24 08:26:39 UTC
+**Benchmark Run Timestamp:** 2026-11-24 09:53:56 UTC
 **Test Set Size:** 20 Scripted Trips (4 Himalayan & North-East Regions) + 10 Disruption Scenarios
 
 ---
@@ -12,7 +12,7 @@
 | **Plan Generation Success Rate** | >= 95% | **100.0%** (20/20) | **PASS** |
 | **Constraint Satisfaction Rate** | >= 90% | **100.0%** (20/20) | **PASS** |
 | **Replan Purity (Touched only affected items)** | >= 85% | **100.0%** (10/10) | **PASS** |
-| **Median Generation Latency** | <= 40.0s | **0.02s** | **PASS** |
+| **Median Generation Latency** | <= 40.0s | **0.03s** | **PASS** |
 
 ---
 

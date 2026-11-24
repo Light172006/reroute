@@ -7,7 +7,6 @@ from decimal import Decimal
 from typing import Any, Literal, TypedDict
 
 from langgraph.graph import StateGraph
-from pydantic import BaseModel, Field
 
 from reroute_agents.agents.web.schemas import (
     PlaceResearchItem,

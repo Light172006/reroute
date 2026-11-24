@@ -57,11 +57,14 @@ def build_plan_agent(
     builder = StateGraph(cast(Any, PlanState))
 
     # Instantiate nodes with injected dependencies
+    import reroute_agents.graphs.plan_graph as pg
+
+    intake_fn = getattr(pg, "intake_node", intake_node)
     researcher = create_researcher_node(repos.places)
     planner = create_planner_node(llm_override)
     finalize = create_finalize_node(repos.itineraries, repos.trips)
 
-    builder.add_node("intake", intake_node)
+    builder.add_node("intake", intake_fn)
     builder.add_node("researcher", researcher)
     builder.add_node("planner", planner)
     builder.add_node("validator", validator_node)

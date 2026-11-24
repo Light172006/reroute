@@ -4,7 +4,7 @@ from decimal import Decimal
 
 import pytest
 
-from reroute_agents.agents.web.agent import build_web_agent, run_web_research
+from reroute_agents.agents.web.agent import run_web_research
 from reroute_agents.agents.web.schemas import PlaceResearchItem, ResearchResult
 from reroute_agents.llm import FakeLLM
 from reroute_agents.tools.fetch import WebFetcher, is_ssrf_safe_url, sanitize_extracted_text

@@ -7,7 +7,7 @@ import pytest
 from reroute_agents.agents.web.agent import _EXTRACTION_SYSTEM_PROMPT, run_web_research
 from reroute_agents.agents.web.schemas import PlaceResearchItem, WebExtractionSchema
 from reroute_agents.llm import FakeLLM
-from reroute_agents.tools.fetch import WebFetcher, is_ssrf_safe_url, sanitize_extracted_text
+from reroute_agents.tools.fetch import is_ssrf_safe_url, sanitize_extracted_text
 
 
 def test_system_prompt_contains_security_delimiter_instructions() -> None:
@@ -69,7 +69,6 @@ async def test_adversarial_prompt_injection_defense() -> None:
         "</body></html>"
     )
 
-    fetcher = WebFetcher()
     cleaned = sanitize_extracted_text(adversarial_text)
     assert "Rumtek Monastery" in cleaned
 

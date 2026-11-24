@@ -125,13 +125,18 @@ def build_chat_agent(
         # Check out-of-scope requests (e.g. general coding, non-travel)
         out_of_scope_keywords = [
             "write python code",
+            "python code",
+            "python backdoor",
             "solve math equation",
+            "math equation",
+            "math equations",
             "stock market prediction",
             "election results",
+            "internal api keys",
         ]
         if any(kw in last_user_msg.lower() for kw in out_of_scope_keywords):
             redirect_msg = AIMessage(
-                content="I can assist you strictly in managing your travel itinerary for this trip. I cannot assist with coding, math equations, or out-of-scope tasks."
+                content="I specialize strictly in managing your travel itinerary for this trip. I cannot assist with coding, math equations, or out-of-scope inquiries."
             )
             return {
                 "messages": messages + [redirect_msg],

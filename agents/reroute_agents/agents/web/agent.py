@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 from decimal import Decimal
-from typing import Any, Literal, TypedDict
+from typing import Any, Literal, TypedDict, cast
 
 from langgraph.graph import StateGraph
 
@@ -147,7 +147,7 @@ def build_web_agent(llm_override: Any | None = None) -> Any:
     fetch_tool = validate_tool_access("web", "web_fetch")
     geocode_tool = validate_tool_access("web", "web_geocode")
 
-    builder: StateGraph[WebAgentState] = StateGraph(WebAgentState)
+    builder = StateGraph(cast(Any, WebAgentState))
 
     async def search_node(state: WebAgentState) -> dict[str, Any]:
         destination = state.get("destination", "")

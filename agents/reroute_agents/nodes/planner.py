@@ -3,13 +3,12 @@
 from __future__ import annotations
 
 import logging
-from datetime import time
-from decimal import Decimal
+from datetime import time, timedelta
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
-from reroute_agents.events import draft_event, step_event
+from reroute_agents.events import draft_event, error_event, step_event
 from reroute_agents.llm import FakeLLM, ResilientLLMChain, get_llm
 from reroute_agents.state import DraftItem, ItineraryDraft, PlanState
 
@@ -27,6 +26,12 @@ def _build_deterministic_draft_from_candidates(state: PlanState) -> ItineraryDra
     """Fallback generator to construct a structurally valid draft if LLM is unavailable."""
     spec = state["spec"]
     candidates = state["candidates"]
+    if not candidates:
+        return ItineraryDraft(
+            items=[],
+            summary=f"No verified place candidates available for destination {spec.destination}.",
+        )
+
     num_days = max((spec.end_date - spec.start_date).days + 1, 1)
 
     items: list[DraftItem] = []
@@ -56,24 +61,60 @@ def _build_deterministic_draft_from_candidates(state: PlanState) -> ItineraryDra
         fallback_lat, fallback_lng = 27.04, 88.26
 
     for day in range(1, num_days + 1):
+        day_date = spec.start_date + timedelta(days=day - 1)
+        weekday = day_date.strftime("%a").lower()[:3]
         for pos in range(min(stops_per_day, len(time_slots))):
-            cand = candidates[cand_idx % len(candidates)] if candidates else None
-            cand_idx += 1
-
             start_t, end_t = time_slots[pos]
+            start_m = start_t.hour * 60 + start_t.minute
+            end_m = end_t.hour * 60 + end_t.minute
+
+            # Select candidate that is open on this day and time window
+            cand = None
+            attempts = 0
+            while attempts < len(candidates):
+                c = candidates[cand_idx % len(candidates)]
+                cand_idx += 1
+                attempts += 1
+
+                if c.opening_hours and isinstance(c.opening_hours, dict) and c.hours_confidence != "unknown":
+                    day_wins = c.opening_hours.get(weekday)
+                    if day_wins is None:
+                        day_wins = c.opening_hours.get(day_date.strftime("%A").lower())
+                    if day_wins is not None:
+                        if len(day_wins) == 0:
+                            continue
+                        fits = False
+                        for win in day_wins:
+                            if len(win) == 2:
+                                try:
+                                    wh1, wm1 = map(int, win[0].split(":"))
+                                    wh2, wm2 = map(int, win[1].split(":"))
+                                    if (wh1 * 60 + wm1) <= start_m and end_m <= (wh2 * 60 + wm2):
+                                        fits = True
+                                        break
+                                except Exception as ex:
+                                    logger.debug("Failed parsing opening window: %s", ex)
+                        if not fits:
+                            continue
+                cand = c
+                break
+
+            if not cand:
+                cand = candidates[cand_idx % len(candidates)]
+
             item = DraftItem(
                 stable_key=uuid4(),
                 day_index=day,
                 position=pos,
-                place_id=cand.id if cand else uuid4(),
-                title=cand.name if cand else f"Scenic Stop {pos + 1}",
-                category=cand.category if cand else "sightseeing",
-                setting=cand.setting if cand else "outdoor",
+                place_id=cand.id,
+                title=cand.name,
+                category=cand.category,
+                setting=cand.setting,
                 start_time=start_t,
                 end_time=end_t,
-                est_cost=cand.avg_cost if cand else Decimal(100),
-                lat=cand.lat if cand else fallback_lat,
-                lng=cand.lng if cand else fallback_lng,
+                est_cost=cand.avg_cost,
+                lat=cand.lat if cand.lat is not None else fallback_lat,
+                lng=cand.lng if cand.lng is not None else fallback_lng,
                 is_locked=False,
                 travel_mode="taxi" if pos > 0 else None,
                 travel_minutes=20 if pos > 0 else 0,
@@ -96,6 +137,31 @@ def create_planner_node(llm_override: Any | None = None) -> Any:
         violations = state.get("violations", [])
         iteration = state.get("iteration", 0) + 1
         events = []
+
+        if not candidates:
+            events.append(
+                error_event(
+                    code="no_candidates_found",
+                    message=f"No verified place candidates available for destination '{spec.destination}'. Cannot construct itinerary.",
+                    recoverable=False,
+                    node="planner",
+                )
+            )
+            events.append(
+                step_event(
+                    node="planner",
+                    message="Planning halted: no candidates found",
+                    status="failed",
+                )
+            )
+            return {
+                "draft": ItineraryDraft(
+                    items=[],
+                    summary=f"No verified places found for {spec.destination}.",
+                ),
+                "iteration": iteration,
+                "events": events,
+            }
 
         num_days = max((spec.end_date - spec.start_date).days + 1, 1)
         step_msg = f"Building day-by-day itinerary (iteration {iteration})"

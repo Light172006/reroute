@@ -65,9 +65,11 @@ def analyze_impacts(
 
         injected_weather_affected: list[UUID] = []
         for it in day_items:
-            if it.setting in ("outdoor", "mixed"):
-                if not (it.end_time <= win_start_t or it.start_time >= win_end_t):
-                    injected_weather_affected.append(it.stable_key)
+            if (
+                it.setting in ("outdoor", "mixed")
+                and not (it.end_time <= win_start_t or it.start_time >= win_end_t)
+            ):
+                injected_weather_affected.append(it.stable_key)
 
         if injected_weather_affected and precip >= settings.precip_prob_threshold:
             pct = int(precip * 100)
@@ -111,14 +113,16 @@ def analyze_impacts(
 
                 if p_prob >= settings.precip_prob_threshold or snow > 0.5 or vis < 1000:
                     for it in day_items:
-                        if it.setting in ("outdoor", "mixed"):
-                            if not (it.end_time <= h_start or it.start_time >= h_end):
-                                forecast_affected_set.add(it.stable_key)
-                                max_precip = max(max_precip, p_prob)
-                                if snow > 0.5:
-                                    severe_snow = True
-                                if vis < 1000:
-                                    low_vis = True
+                        if (
+                            it.setting in ("outdoor", "mixed")
+                            and not (it.end_time <= h_start or it.start_time >= h_end)
+                        ):
+                            forecast_affected_set.add(it.stable_key)
+                            max_precip = max(max_precip, p_prob)
+                            if snow > 0.5:
+                                severe_snow = True
+                            if vis < 1000:
+                                low_vis = True
 
             if forecast_affected_set:
                 pct = int(max_precip * 100)

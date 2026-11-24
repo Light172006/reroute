@@ -78,7 +78,7 @@ async def run_evaluation_benchmark(output_path: Path | None = None) -> dict[str,
         # Resolve base trip
         base_info = trip_map.get(d_scen.trip_id)
         if not base_info:
-            base_info = list(trip_map.values())[0]
+            base_info = next(iter(trip_map.values()))
 
         spec = base_info["spec"]
         curr_v = await repos.itineraries.get_current_version(spec.trip_id)

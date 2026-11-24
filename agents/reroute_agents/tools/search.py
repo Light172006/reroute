@@ -150,6 +150,9 @@ class MockSearchProvider(SearchProvider):
         elif any(w in q_lower for w in ["meghalaya", "shillong", "cherrapunji", "sohra", "dawki"]):
             matched = _MOCK_SEARCH_DATA["meghalaya"]
         else:
+            if any(w in q_lower for w in ["unknown", "nonexistent", "invalid", "fake", "notfound", "empty"]):
+                return []
+
             # Generic deterministic results for any other query
             clean_term = query.replace("places to visit in", "").replace("attractions in", "").strip()
             matched = [

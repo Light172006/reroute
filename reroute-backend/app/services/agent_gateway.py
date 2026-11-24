@@ -29,6 +29,7 @@ from app.db.models import (
     ItineraryVersion, Trip,
 )
 from app.services import sse_broker
+from reroute_agents.checkpointer import configure_checkpointer
 from reroute_agents.gateway import (
     run_plan as _run_plan,
     run_replan as _run_replan,
@@ -66,7 +67,7 @@ class AgentGateway:
         self._checkpointer = checkpointer
         # Use provided checkpointer or fall back to MemorySaver
         # PostgresSaver can be passed in for production persistence
-        self._default_checkpointer = checkpointer or MemorySaver()
+        self._default_checkpointer = configure_checkpointer(checkpointer or MemorySaver())
 
     async def _get_repositories(self) -> RepositoriesBundle:
         """Create SQLAlchemy-backed repository bundle for this session."""

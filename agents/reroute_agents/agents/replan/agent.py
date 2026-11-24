@@ -33,7 +33,7 @@ def route_after_validator(state: ReplanState) -> Literal["replanner", "build_pro
     violations = state.get("violations", [])
     iteration = state.get("iteration", 0)
 
-    if violations and iteration <= settings.max_replan_iterations:
+    if violations and iteration < settings.max_replan_iterations:
         return "replanner"
 
     return "build_proposal"

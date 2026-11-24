@@ -23,6 +23,11 @@ def route_after_validator(state: PlanState) -> Literal["planner", "budget_check"
     """Determine whether to re-plan, proceed to budget check, or finalize."""
     violations = state.get("violations", [])
     iteration = state.get("iteration", 0)
+    draft = state.get("draft")
+    candidates = state.get("candidates", [])
+
+    if not candidates or not draft or not draft.items:
+        return "finalize"
 
     if violations:
         if iteration < settings.max_plan_iterations:
@@ -36,6 +41,11 @@ def route_after_budget(state: PlanState) -> Literal["planner", "finalize"]:
     """Determine whether budget check passed or requires refinement."""
     violations = state.get("violations", [])
     iteration = state.get("iteration", 0)
+    draft = state.get("draft")
+    candidates = state.get("candidates", [])
+
+    if not candidates or not draft or not draft.items:
+        return "finalize"
 
     if violations:
         if iteration < settings.max_plan_iterations:

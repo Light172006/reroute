@@ -32,7 +32,49 @@ def create_apply_changes_node(
         if not proposal:
             return {"events": [done_event(status="completed", node="apply_changes")]}
 
+        # Guard against stale or already-processed proposals
+        existing_prop = await proposal_repo.get_proposal(proposal.id)
+        if existing_prop and existing_prop.status != "pending":
+            events.append(
+                step_event(
+                    node="apply_changes",
+                    message=f"Proposal {proposal.id} is stale (status: {existing_prop.status}). Cannot apply.",
+                    status="failed",
+                )
+            )
+            events.append(
+                done_event(
+                    status="failed",
+                    proposal_id=proposal.id,
+                    node="apply_changes",
+                )
+            )
+            return {"events": events}
+
         if decision == "approve":
+            # Verify trip's current version still matches base_version_id
+            curr_trip_ver = await itinerary_repo.get_current_version(trip_id)
+            if curr_trip_ver and curr_trip_ver["id"] != base_version_id:
+                events.append(
+                    step_event(
+                        node="apply_changes",
+                        message=f"Proposal is stale: trip version has changed from {base_version_id} to {curr_trip_ver['id']}.",
+                        status="failed",
+                    )
+                )
+                await proposal_repo.update_proposal_status(
+                    proposal_id=proposal.id,
+                    status="superseded",
+                )
+                events.append(
+                    done_event(
+                        status="failed",
+                        proposal_id=proposal.id,
+                        node="apply_changes",
+                    )
+                )
+                return {"events": events}
+
             # Retrieve latest version number
             base_ver = await itinerary_repo.get_version_by_id(base_version_id)
             new_version_no = (base_ver["version_no"] + 1) if base_ver else 2

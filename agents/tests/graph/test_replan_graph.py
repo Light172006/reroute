@@ -294,3 +294,99 @@ async def test_replan_graph_locked_items_are_never_changed() -> None:
     assert len(final_state.get("affected_item_ids", [])) == 0
     curr_v = await repos.itineraries.get_current_version(trip_id)
     assert curr_v["version_no"] == 1
+
+
+@pytest.mark.asyncio
+async def test_replan_graph_stale_proposal_cannot_be_applied() -> None:
+    """Verify that if an itinerary advances version in parallel, a stale proposal is rejected."""
+    repos = create_in_memory_repositories()
+    await load_seed_catalog_into_repository(repos.places, "darjeeling")
+
+    trip_id = uuid4()
+    spec = TripSpec(
+        trip_id=trip_id,
+        destination="Darjeeling",
+        start_date=date(2026, 12, 12),
+        end_date=date(2026, 12, 13),
+        budget_total=Decimal(15000),
+        currency="INR",
+        pace="balanced",
+    )
+    await repos.trips.save_trip(spec)
+
+    item1 = DraftItem(
+        day_index=2,
+        position=0,
+        title="Tiger Hill Walk",
+        category="nature",
+        setting="outdoor",
+        start_time=time(14, 0),
+        end_time=time(16, 0),
+        est_cost=Decimal(200),
+    )
+    v1_id = await repos.itineraries.save_version(
+        trip_id=trip_id,
+        version_no=1,
+        reason="Initial plan",
+        created_by="agent:planner",
+        items=[item1],
+    )
+    await repos.trips.update_current_version(trip_id, v1_id)
+
+    injected_weather = InjectedSignals(
+        type="weather",
+        day_index=2,
+        params={"precip_prob": 0.85, "from": "14:00", "to": "18:00"},
+    )
+    signals = Signals(injected=injected_weather)
+
+    run_id = uuid4()
+    checkpointer = MemorySaver()
+    graph = build_replan_graph(repos, checkpointer=checkpointer)
+    config = {"configurable": {"thread_id": str(run_id)}}
+
+    # Pause at interrupt
+    await graph.ainvoke(
+        {
+            "trip_id": str(trip_id),
+            "run_id": str(run_id),
+            "base_version_id": str(v1_id),
+            "spec": spec,
+            "signals": signals,
+            "disruptions": [],
+            "affected_item_ids": [],
+            "current_items": [item1],
+            "draft": None,
+            "violations": [],
+            "proposal": None,
+            "decision": None,
+            "iteration": 0,
+            "events": [],
+        },
+        config=config,
+    )
+
+    # In parallel, someone advances the trip to version 2
+    v2_id = await repos.itineraries.save_version(
+        trip_id=trip_id,
+        version_no=2,
+        parent_version_id=v1_id,
+        reason="Concurrent manual edit",
+        created_by="user",
+        items=[item1],
+    )
+    await repos.trips.update_current_version(trip_id, v2_id)
+
+    # Now attempt to resume approval on the stale proposal
+    resume_state = await graph.ainvoke(Command(resume={"decision": "approve"}), config=config)
+
+    # The stale approval must fail and the trip must remain at v2
+    curr_v = await repos.itineraries.get_current_version(trip_id)
+    assert curr_v is not None
+    assert curr_v["id"] == v2_id
+    assert curr_v["version_no"] == 2
+
+    # Events must reflect failure
+    done_evts = [e for e in resume_state["events"] if e.type == "done"]
+    assert any(e.payload.get("status") == "failed" for e in done_evts)
+

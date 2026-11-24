@@ -331,3 +331,45 @@ async def test_chat_graph_handles_unknown_tool_and_exceptions_gracefully() -> No
     err_events = [e for e in final_state["events"] if e.type == "error"]
     assert any("tool_not_found" in str(e.payload) for e in err_events)
     assert "done" in event_types
+
+
+@pytest.mark.asyncio
+async def test_chat_graph_question_does_not_modify_itinerary() -> None:
+    """Verify that an informational question does not create proposals or modify the itinerary."""
+    repos = create_in_memory_repositories()
+    trip_id = uuid4()
+    run_id = uuid4()
+
+    fake_llm = FakeLLM(
+        canned_responses={
+            "text": "The altitude of Tiger Hill is approximately 2,590 meters (8,500 feet). Bring warm layers!"
+        }
+    )
+
+    graph = build_chat_graph(repos, llm_override=fake_llm, checkpointer=MemorySaver())
+
+    initial_state = {
+        "trip_id": str(trip_id),
+        "run_id": str(run_id),
+        "messages": [
+            {
+                "role": "user",
+                "content": "What is the altitude of Tiger Hill and what should I wear?",
+            }
+        ],
+        "current_items": list(),
+        "spec": None,
+        "proposal": None,
+        "events": list(),
+    }
+
+    config = {"configurable": {"thread_id": str(run_id)}}
+    final_state = await graph.ainvoke(initial_state, config=config)
+
+    # Must NOT create a proposal or call modify_item
+    assert final_state.get("proposal") is None
+    event_types = [e.type for e in final_state["events"]]
+    assert "proposal" not in event_types
+    tool_calls = [e for e in final_state["events"] if e.type == "tool_call"]
+    assert not any(e.payload.get("tool") == "modify_item" for e in tool_calls)
+

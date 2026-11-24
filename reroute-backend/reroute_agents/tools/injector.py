@@ -75,3 +75,23 @@ class DisruptionInjector:
             }
 
         return signals
+
+
+def create_injector_tool() -> Any:
+    """Create LangChain BaseTool for disruption injection."""
+    from langchain_core.tools import tool
+
+    @tool
+    def inject_disruption(
+        type: str, day_index: int, params: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
+        """Inject a synthetic disruption signal (weather, closure, delay, budget_overrun) for testing."""
+        injected = InjectedSignals(
+            type=type,  # type: ignore[arg-type]
+            day_index=day_index,
+            params=params or {},
+        )
+        signals = DisruptionInjector.inject(injected)
+        return {"ok": True, "type": type, "day_index": day_index, "signals": signals.model_dump()}
+
+    return inject_disruption

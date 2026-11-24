@@ -219,8 +219,7 @@ class ResilientLLMChain:
                 )
                 async def _call(current_model: Any = model) -> T:
                     runner = current_model.with_structured_output(schema)
-                    res = await runner.ainvoke(prompt)
-                    return res  # type: ignore[no-any-return]
+                    return await runner.ainvoke(prompt)  # type: ignore[no-any-return]
 
                 result = await _call()
                 latency_ms = int((time.monotonic() - start_t) * 1000)

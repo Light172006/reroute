@@ -21,13 +21,19 @@ def create_finalize_node(
         violations = state.get("violations", [])
         events = []
 
-        if not draft:
+        if not draft or not draft.items:
             return {
                 "events": [
-                    step_event(node="finalize", message="No draft generated", status="failed"),
+                    step_event(
+                        node="finalize",
+                        message="No valid draft generated or candidates unavailable",
+                        status="failed",
+                    ),
                     done_event(status="failed", node="finalize"),
                 ]
             }
+
+        is_valid = len(violations) == 0
 
         # Annotate items with any remaining unresolved violation flags
         for v in violations:
@@ -47,7 +53,7 @@ def create_finalize_node(
                         it.flags.append(flag_name)
 
         summary_text = draft.summary
-        if violations:
+        if not is_valid:
             summary_text += f" (Note: {len(violations)} issues flagged for traveler review)"
 
         # Save immutable version 1
@@ -63,11 +69,23 @@ def create_finalize_node(
         await trip_repo.update_current_version(spec.trip_id, version_id)
 
         step_msg = f"Itinerary finalized (v1) with {len(draft.items)} stops"
-        if violations:
+        if not is_valid:
             step_msg += f" ({len(violations)} unresolved items flagged)"
 
-        events.append(step_event(node="finalize", message=step_msg, status="done"))
-        events.append(done_event(status="completed", version_id=version_id, node="finalize"))
+        events.append(
+            step_event(
+                node="finalize",
+                message=step_msg,
+                status="done" if is_valid else "failed",
+            )
+        )
+        events.append(
+            done_event(
+                status="completed" if is_valid else "failed",
+                version_id=version_id,
+                node="finalize",
+            )
+        )
 
         return {
             "events": events,

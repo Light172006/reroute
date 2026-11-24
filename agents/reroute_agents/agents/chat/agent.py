@@ -94,7 +94,7 @@ def build_chat_agent(
         start_time: str | None = None,
         end_time: str | None = None,
     ) -> dict[str, Any]:
-        """Propose a modification to an item (never writes directly; creates a pending proposal)."""
+        """Propose a modification to an item (never writes directly; creates a pending proposal). ONLY invoke this when the user explicitly instructs an itinerary change, NEVER for informational or hypothetical questions."""
         return {
             "ok": True,
             "action": "proposal_created",

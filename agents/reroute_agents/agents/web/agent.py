@@ -57,6 +57,21 @@ def _extract_places_from_snippets(
 
     for item in results:
         title = item.get("title", "")
+        # Skip generic guide or search overview titles that are not specific venues
+        t_lower = title.lower()
+        if any(
+            g in t_lower
+            for g in [
+                "top places",
+                "guide to",
+                "things to do",
+                "places to explore",
+                "heritage walk of",
+                "places to visit",
+            ]
+        ):
+            continue
+
         # Remove common guide suffixes
         clean_name = title.split(" - ")[0].split(" | ")[0].split(" (")[0].strip()
         # Security sanitization
@@ -104,8 +119,10 @@ async def _load_seed_catalog_fallback(destination: str) -> list[PlaceResearchIte
     from reroute_agents.destinations.registry import get_seed_dir
 
     cfg = resolve_destination(destination)
-    seed_filename = cfg.seed_filename if cfg else "darjeeling.json"
-    catalog_key = cfg.id if cfg else "darjeeling"
+    if not cfg:
+        return []
+    seed_filename = cfg.seed_filename
+    catalog_key = cfg.id
 
     seed_file = get_seed_dir() / seed_filename
     if not seed_file.exists():

@@ -84,15 +84,20 @@ def check_altitude_acclimatization(
 
         # Day 1 Arrival Day extreme altitude rest rule:
         # If Day 1 has high-exertion or extreme altitude (> 3000m) without rest
-        if day_index == 1 and day_max_alt >= high_risk_threshold_m:
-            # Check if Day 1 contains strenuous sightseeing or far travel
-            if len(day_items) > 2 or any(
-                item.category in ("adventure", "nature") and item.setting == "outdoor"
-                for item in day_items
-            ):
-                violations.append(
-                    Violation(
-                        code="day_too_long",
+        if (
+            day_index == 1
+            and day_max_alt >= high_risk_threshold_m
+            and (
+                len(day_items) > 2
+                or any(
+                    item.category in ("adventure", "nature") and item.setting == "outdoor"
+                    for item in day_items
+                )
+            )
+        ):
+            violations.append(
+                Violation(
+                    code="day_too_long",
                         day_index=1,
                         item_stable_key=day_items[0].stable_key,
                         detail=(

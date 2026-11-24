@@ -8,6 +8,7 @@ from collections.abc import AsyncIterator
 from typing import Any, Literal
 from uuid import UUID
 
+from langchain_core.messages import HumanMessage
 from langgraph.types import Command
 
 from reroute_agents.checkpointer import configure_checkpointer, create_default_checkpointer
@@ -20,7 +21,10 @@ from reroute_agents.repositories.in_memory import create_in_memory_repositories
 from reroute_agents.repositories.interfaces import RepositoriesBundle
 from reroute_agents.state import (
     AgentEvent,
+    ChatState,
     InjectedSignals,
+    PlanState,
+    ReplanState,
     Signals,
 )
 
@@ -71,7 +75,7 @@ async def run_plan(
             yield err
             return
 
-        initial_state = {
+        initial_state: PlanState = {
             "trip_id": str(trip_id),
             "spec": spec,
             "candidates": [],
@@ -168,7 +172,7 @@ async def run_replan(
         current_items = await bundle.itineraries.get_version_items(curr_v["id"])
         signals = Signals(injected=injected)
 
-        initial_state = {
+        initial_state: ReplanState = {
             "trip_id": str(trip_id),
             "run_id": str(run_id),
             "base_version_id": str(curr_v["id"]),
@@ -297,9 +301,7 @@ async def run_chat(
     graph = build_chat_graph(bundle, llm_override=llm_override, checkpointer=chk)
 
     try:
-        from langchain_core.messages import HumanMessage
-
-        initial_state = {
+        initial_state: ChatState = {
             "trip_id": str(trip_id),
             "run_id": str(run_id),
             "messages": [HumanMessage(content=message)],

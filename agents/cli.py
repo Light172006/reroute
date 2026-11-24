@@ -233,6 +233,35 @@ async def handle_check_rules(args: argparse.Namespace) -> None:
             print(f"  [{v.code.upper():<15}] {day_str:<8} | {v.detail}")
 
 
+async def handle_research(args: argparse.Namespace) -> None:
+    """Handle `research` CLI command to test the Web Research Agent directly."""
+    print_banner(f"Web Research: {args.destination}")
+    tags = [t.strip() for t in args.tags.split(",") if t.strip()] if args.tags else []
+    fake_llm = FakeLLM() if args.fake_llm else None
+
+    from reroute_agents.agents.web.agent import run_web_research
+
+    result, _ = await run_web_research(
+        destination=args.destination,
+        vibe_tags=tags,
+        llm_override=fake_llm,
+    )
+
+    print(f"Destination : {result.destination}")
+    print(f"Source      : {result.source} (Fallback: {result.fallback})")
+    print(f"Tool Counts : {result.tool_counts}")
+    print(f"Places Found: {len(result.places)}\n")
+
+    for i, p in enumerate(result.places, start=1):
+        verified_str = "Verified" if p.verified else "Unverified"
+        print(f"  {i}. {p.name:<35} | {p.category:<12} | {verified_str} ({p.lat:.4f}, {p.lng:.4f})")
+        print(f"     Est. Cost: INR {p.avg_cost} | Duration: {p.avg_duration_min} min")
+        print(f"     Source   : {p.source_url}")
+        if p.description:
+            print(f"     Desc     : {p.description[:100]}...")
+        print()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Reroute Agent CLI")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -261,6 +290,13 @@ def main() -> None:
     p_chk = subparsers.add_parser("check-rules", help="Run validator on JSON itinerary")
     p_chk.add_argument("--file", required=True, help="Path to JSON file")
 
+    # research command
+    p_res = subparsers.add_parser("research", help="Run Web Research Agent on a destination")
+    p_res.add_argument("destination", help="Target destination name (e.g. 'Arunachal Pradesh', 'Sikkim')")
+    p_res.add_argument("--tags", default="", help="Comma-separated vibe tags (e.g. 'nature,culture')")
+    p_res.add_argument("--fake-llm", action="store_true", help="Run with deterministic FakeLLM")
+    p_res.add_argument("--mock-tools", action="store_true", help="Run with mock tools")
+
     # serve command
     p_srv = subparsers.add_parser("serve", help="Run the FastAPI Agent HTTP & SSE server")
     p_srv.add_argument("--host", default="127.0.0.1", help="Host interface to bind")
@@ -275,6 +311,8 @@ def main() -> None:
         asyncio.run(handle_simulate(args))
     elif args.command == "check-rules":
         asyncio.run(handle_check_rules(args))
+    elif args.command == "research":
+        asyncio.run(handle_research(args))
     elif args.command == "serve":
         import uvicorn
 

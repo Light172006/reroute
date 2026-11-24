@@ -41,6 +41,20 @@ def _build_deterministic_draft_from_candidates(state: PlanState) -> ItineraryDra
         (time(16, 30), time(18, 0)),
     ]
 
+    from reroute_agents.destinations.registry import resolve_destination
+
+    cfg = resolve_destination(spec.destination)
+    if cfg and cfg.id == "arunachal":
+        fallback_lat, fallback_lng = 27.58, 92.20
+    elif cfg and cfg.id == "north_sikkim":
+        fallback_lat, fallback_lng = 27.50, 88.60
+    elif cfg and cfg.id == "ladakh":
+        fallback_lat, fallback_lng = 34.15, 77.57
+    elif cfg and cfg.id == "meghalaya":
+        fallback_lat, fallback_lng = 25.57, 91.88
+    else:
+        fallback_lat, fallback_lng = 27.04, 88.26
+
     for day in range(1, num_days + 1):
         for pos in range(min(stops_per_day, len(time_slots))):
             cand = candidates[cand_idx % len(candidates)] if candidates else None
@@ -58,8 +72,8 @@ def _build_deterministic_draft_from_candidates(state: PlanState) -> ItineraryDra
                 start_time=start_t,
                 end_time=end_t,
                 est_cost=cand.avg_cost if cand else Decimal(100),
-                lat=cand.lat if cand else 27.04,
-                lng=cand.lng if cand else 88.26,
+                lat=cand.lat if cand else fallback_lat,
+                lng=cand.lng if cand else fallback_lng,
                 is_locked=False,
                 travel_mode="taxi" if pos > 0 else None,
                 travel_minutes=20 if pos > 0 else 0,
@@ -171,7 +185,7 @@ def create_planner_node(llm_override: Any | None = None) -> Any:
                 draft = _build_deterministic_draft_from_candidates(state)
 
         # Emit draft event for timeline
-        ready_days = sorted(list({it.day_index for it in draft.items}))
+        ready_days = sorted({it.day_index for it in draft.items})
         events.append(draft_event(days_ready=ready_days, node="planner"))
         events.append(
             step_event(

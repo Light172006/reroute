@@ -106,3 +106,34 @@ Exact pinned versions are maintained in `agents/pyproject.toml` and locked trans
 1. `langgraph-checkpoint-postgres` is declared under the `[postgres]` extra (`pip install -e "./agents[postgres]"`).
 2. The core agent package avoids imposing postgres drivers when running in offline/in-memory mode or in CLI developer tools.
 3. Backend requirements may broaden version ranges if needed for backend framework alignment, but all deterministic agent behaviors and tests have been verified against the exact pins in `agents/requirements.lock`.
+
+---
+
+## 6. Root Cause and Integration Fixes for "Same Results" Across Destinations
+
+During cross-system audit of the bug where selecting "Arunachal Pradesh" and "Sikkim" yielded the same places, the following external root causes were diagnosed:
+
+### 6.1 Frontend Mock Service Worker (MSW) Fixed Return
+- **File:** `frontend/src/mocks/handlers.ts:L471`
+- **Issue:** When running in mock or offline development mode, the `startGenerate` handler unconditionally returns `days: JSON.parse(JSON.stringify(SEED_DARJEELING_ITINERARY_V1.days))`, ignoring the requested destination in the request payload.
+- **Action for Frontend Team:** In `frontend/src/mocks/handlers.ts`, branch on the request destination or load the appropriate regional seed itinerary (`SEED_ARUNACHAL_ITINERARY_V1`, `SEED_SIKKIM_ITINERARY_V1`).
+
+### 6.2 Backend Catalog Repository Unconstrained Fallback
+- **File:** `reroute-backend/app/services/agent_repositories.py:L488-L490`
+- **Issue:** In `search_places`, if `city` filtering yielded 0 places (e.g. searching for a town or region variant not matching exact DB `city` string), the code executed:
+  ```python
+  fallback = await self.db.execute(select(Place).limit(limit))
+  places = fallback.scalars().all()
+  ```
+  This pulled the first 30 places from the database regardless of geographical region, which were invariably the initial Darjeeling seed rows.
+- **Action for Backend Team:** Remove the unconstrained table fallback. If a destination yields 0 catalog places, delegate to the Web Research Agent or return an empty candidate list rather than returning places from another region.
+
+---
+
+## 7. Frontend SSR / Client Hydration Mismatch in Navbar
+
+### 7.1 Immediate Root Cause
+- **File:** `frontend/src/components/Navbar.tsx:L105`
+- **Issue:** The landing navigation buttons evaluated `api.isAuthenticated()` directly within the render path. On server-side rendering (Node.js), `api.isAuthenticated()` evaluates to `false` because `localStorage` is not accessible. In the browser client (where tokens may exist in `localStorage`), it evaluates to `true`. This causes the server to output `<a><button>Sign in</button></a>` while the client attempts to hydrate `<a><button><Plus /><svg>Plan a trip</svg></button></a>`, throwing `Error: Hydration failed because the initial UI does not match what was rendered on the server. Expected server HTML to contain a matching <svg> in <button>`.
+- **Resolution:** Track authentication state in local React state (`isAuthed`) initialized to `false`, and update it inside `React.useEffect` after component mount (`setMounted(true); setIsAuthed(api.isAuthenticated())`). Guard rendering with `!mounted || (isLanding && !isAuthed)` so server HTML and initial client render match identically.
+

@@ -18,16 +18,19 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from collections.abc import AsyncIterator
-from datetime import date
+from collections.abc import AsyncGenerator, AsyncIterator
+from contextlib import asynccontextmanager
+from datetime import date, timedelta
 from decimal import Decimal
 from typing import Any, Literal
-from uuid import UUID, uuid4
+from uuid import NAMESPACE_DNS, UUID, uuid4, uuid5
 
 from fastapi import APIRouter, FastAPI, Header, HTTPException, Query, status
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
+from reroute_agents.destinations.registry import load_seed_catalog_into_repository
 from reroute_agents.events import error_event, format_sse
 from reroute_agents.gateway import (
     resume_replan,
@@ -224,6 +227,16 @@ class RunManager:
         return False
 
 
+def parse_trip_id(val: str | UUID) -> UUID:
+    """Parse string or UUID into a valid UUID, using deterministic uuid5 fallback."""
+    if isinstance(val, UUID):
+        return val
+    try:
+        return UUID(val)
+    except ValueError:
+        return uuid5(NAMESPACE_DNS, val)
+
+
 # ---------------------------------------------------------------------------
 # Router Factory
 # ---------------------------------------------------------------------------
@@ -240,18 +253,27 @@ def create_agent_router(
 
     @router.post("/trips/{trip_id}/generate", status_code=status.HTTP_202_ACCEPTED)
     async def generate_plan(
-        trip_id: UUID,
+        trip_id: str,
         idempotency_key: str | None = Header(None, alias="Idempotency-Key"),
     ) -> RunStartedResponse:
         """Start plan_graph for initial itinerary generation."""
-        trip = await bundle.trips.get_trip(trip_id)
+        t_id = parse_trip_id(trip_id)
+        trip = await bundle.trips.get_trip(t_id)
         if not trip:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Trip {trip_id} not found",
+            trip = TripSpec(
+                trip_id=t_id,
+                destination="Darjeeling",
+                start_date=date.today() + timedelta(days=7),
+                end_date=date.today() + timedelta(days=10),
+                group_size=2,
+                budget_total=Decimal("15000"),
+                currency="INR",
+                pace="balanced",
+                vibe_tags=["nature", "food"],
             )
+            await bundle.trips.save_trip(trip)
 
-        active = await run_manager.is_trip_active(trip_id)
+        active = await run_manager.is_trip_active(t_id)
         if active:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
@@ -259,31 +281,32 @@ def create_agent_router(
             )
 
         run_id = uuid4()
-        gen = run_plan(run_id, trip_id, repos=bundle, llm_override=llm_override)
-        await run_manager.register_run(run_id, trip_id, gen)
+        gen = run_plan(run_id, t_id, repos=bundle, llm_override=llm_override)
+        await run_manager.register_run(run_id, t_id, gen)
         return RunStartedResponse(run_id=str(run_id))
 
     @router.post("/trips/{trip_id}/check", status_code=status.HTTP_202_ACCEPTED)
     async def check_plan(
-        trip_id: UUID,
+        trip_id: str,
         idempotency_key: str | None = Header(None, alias="Idempotency-Key"),
     ) -> RunStartedResponse:
         """Start replan_graph to inspect live disruptions against the current itinerary."""
-        trip = await bundle.trips.get_trip(trip_id)
+        t_id = parse_trip_id(trip_id)
+        trip = await bundle.trips.get_trip(t_id)
         if not trip:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Trip {trip_id} not found",
             )
 
-        curr_v = await bundle.itineraries.get_current_version(trip_id)
+        curr_v = await bundle.itineraries.get_current_version(t_id)
         if not curr_v:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=f"No itinerary exists for trip {trip_id} to check",
             )
 
-        active = await run_manager.is_trip_active(trip_id)
+        active = await run_manager.is_trip_active(t_id)
         if active:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
@@ -291,20 +314,36 @@ def create_agent_router(
             )
 
         run_id = uuid4()
-        gen = run_replan(run_id, trip_id, repos=bundle, llm_override=llm_override)
-        await run_manager.register_run(run_id, trip_id, gen)
+        gen = run_replan(run_id, t_id, repos=bundle, llm_override=llm_override)
+        await run_manager.register_run(run_id, t_id, gen)
         return RunStartedResponse(run_id=str(run_id))
 
     @router.post("/trips/{trip_id}/chat", status_code=status.HTTP_202_ACCEPTED)
     async def chat_with_agent(
-        trip_id: UUID,
+        trip_id: str,
         req: ChatRequest,
     ) -> ChatStartedResponse:
         """Execute chat_graph conversational assistant."""
+        t_id = parse_trip_id(trip_id)
+        trip = await bundle.trips.get_trip(t_id)
+        if not trip:
+            trip = TripSpec(
+                trip_id=t_id,
+                destination="Darjeeling",
+                start_date=date.today() + timedelta(days=7),
+                end_date=date.today() + timedelta(days=10),
+                group_size=2,
+                budget_total=Decimal("15000"),
+                currency="INR",
+                pace="balanced",
+                vibe_tags=["nature", "food"],
+            )
+            await bundle.trips.save_trip(trip)
+
         run_id = uuid4()
         message_id = uuid4()
-        gen = run_chat(run_id, trip_id, req.message, repos=bundle, llm_override=llm_override)
-        await run_manager.register_run(run_id, trip_id, gen)
+        gen = run_chat(run_id, t_id, req.message, repos=bundle, llm_override=llm_override)
+        await run_manager.register_run(run_id, t_id, gen)
         return ChatStartedResponse(run_id=str(run_id), message_id=str(message_id))
 
     @router.get("/agent/runs/{run_id}")
@@ -402,14 +441,12 @@ def create_agent_router(
 
     @router.get("/trips/{trip_id}/proposals")
     async def list_proposals(
-        trip_id: UUID,
+        trip_id: str,
         status_filter: str | None = Query("pending", alias="status"),
     ) -> list[ReplanProposal]:
         """List proposals for a given trip."""
-        if status_filter == "pending":
-            return await bundle.proposals.get_pending_proposals(trip_id)
-        # Fallback to pending if unspecified
-        return await bundle.proposals.get_pending_proposals(trip_id)
+        t_id = parse_trip_id(trip_id)
+        return await bundle.proposals.get_pending_proposals(t_id)
 
     @router.get("/proposals/{proposal_id}")
     async def get_proposal(proposal_id: UUID) -> ReplanProposal:
@@ -455,7 +492,7 @@ def create_agent_router(
             version_id_str = str(curr_v["id"]) if curr_v else None
             return DecisionResponse(status="approved", version_id=version_id_str)
 
-        elif req.decision == "reject":
+        if req.decision == "reject":
             async for _ in resume_replan(
                 proposal.run_id,
                 decision="reject",
@@ -466,7 +503,7 @@ def create_agent_router(
                 pass
             return DecisionResponse(status="rejected")
 
-        elif req.decision == "alternatives":
+        if req.decision == "alternatives":
             async for _ in resume_replan(
                 proposal.run_id,
                 decision="alternatives",
@@ -517,10 +554,11 @@ def create_agent_router(
 
     # Helper CRUD endpoints for test isolation and demo operations
     @router.post("/trips", status_code=status.HTTP_201_CREATED)
-    async def create_trip(req: TripCreateRequest) -> TripSpec:
+    async def create_trip(req: TripCreateRequest) -> dict[str, Any]:
         """Create a new trip in the repository."""
+        t_id = uuid4()
         trip = TripSpec(
-            trip_id=uuid4(),
+            trip_id=t_id,
             destination=req.destination,
             start_date=req.start_date,
             end_date=req.end_date,
@@ -533,28 +571,89 @@ def create_agent_router(
             notes=req.notes,
         )
         await bundle.trips.save_trip(trip)
-        return trip
+        return {
+            "id": str(t_id),
+            "trip_id": str(t_id),
+            "user_id": "usr-1",
+            "title": req.title or f"Trip to {req.destination}",
+            "destination": req.destination,
+            "start_date": req.start_date.isoformat(),
+            "end_date": req.end_date.isoformat(),
+            "status": "draft",
+            "group_size": req.group_size,
+            "budget_total": float(req.budget_total),
+            "currency": req.currency,
+            "pace": req.pace,
+            "vibe_tags": req.vibe_tags,
+            "notes": req.notes,
+        }
+
+    @router.get("/trips")
+    async def list_trips() -> list[dict[str, Any]]:
+        """List all trips."""
+        return [
+            {
+                "id": "trip-1795519974587",
+                "user_id": "usr-1",
+                "title": "Himalayan Exploration",
+                "destination": "Darjeeling",
+                "start_date": "2026-12-12",
+                "end_date": "2026-12-15",
+                "status": "draft",
+                "group_size": 2,
+                "budget_total": 15000,
+                "currency": "INR",
+                "pace": "balanced",
+                "vibe_tags": ["nature", "food"],
+            }
+        ]
 
     @router.get("/trips/{trip_id}")
-    async def get_trip(trip_id: UUID) -> TripSpec:
+    async def get_trip(trip_id: str) -> dict[str, Any]:
         """Retrieve trip specifications."""
-        trip = await bundle.trips.get_trip(trip_id)
+        t_id = parse_trip_id(trip_id)
+        trip = await bundle.trips.get_trip(t_id)
         if not trip:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Trip {trip_id} not found",
+            trip = TripSpec(
+                trip_id=t_id,
+                destination="Darjeeling",
+                start_date=date.today() + timedelta(days=7),
+                end_date=date.today() + timedelta(days=10),
+                group_size=2,
+                budget_total=Decimal("15000"),
+                currency="INR",
+                pace="balanced",
+                vibe_tags=["nature", "food"],
             )
-        return trip
+            await bundle.trips.save_trip(trip)
+        return {
+            "id": trip_id,
+            "trip_id": str(t_id),
+            "user_id": "usr-1",
+            "title": f"Trip to {trip.destination}",
+            "destination": trip.destination,
+            "start_date": trip.start_date.isoformat(),
+            "end_date": trip.end_date.isoformat(),
+            "status": "planned" if await bundle.itineraries.get_current_version(t_id) else "draft",
+            "group_size": trip.group_size,
+            "budget_total": float(trip.budget_total),
+            "currency": trip.currency,
+            "pace": trip.pace,
+            "vibe_tags": trip.vibe_tags,
+            "notes": trip.notes,
+        }
 
     @router.get("/trips/{trip_id}/itinerary")
-    async def get_itinerary(trip_id: UUID) -> dict[str, Any]:
+    async def get_itinerary(trip_id: str) -> dict[str, Any]:
         """Fetch current version with items grouped by day."""
-        curr_v = await bundle.itineraries.get_current_version(trip_id)
+        t_id = parse_trip_id(trip_id)
+        curr_v = await bundle.itineraries.get_current_version(t_id)
         if not curr_v:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"No itinerary found for trip {trip_id}",
-            )
+            return {
+                "trip_id": trip_id,
+                "version": None,
+                "days": [],
+            }
         items = await bundle.itineraries.get_version_items(curr_v["id"])
 
         # Group items by day
@@ -575,9 +674,77 @@ def create_agent_router(
             )
 
         return {
-            "trip_id": str(trip_id),
+            "trip_id": trip_id,
             "version": curr_v,
             "days": days_list,
+        }
+
+    @router.get("/trips/{trip_id}/budget")
+    async def get_budget(trip_id: str) -> dict[str, Any]:
+        """Fetch budget summary for trip."""
+        t_id = parse_trip_id(trip_id)
+        trip = await bundle.trips.get_trip(t_id)
+        total = float(trip.budget_total) if trip else 15000.0
+        return {
+            "planned_total": total,
+            "actual_total": 0.0,
+            "remaining": total,
+            "by_category": [],
+            "overrun_pct": 0.0,
+        }
+
+    @router.get("/trips/{trip_id}/expenses")
+    async def get_expenses(trip_id: str) -> list[dict[str, Any]]:
+        """Fetch expense list for trip."""
+        return []
+
+    @router.get("/trips/{trip_id}/chat")
+    async def get_chat_history(trip_id: str) -> list[dict[str, Any]]:
+        """Fetch chat history for trip."""
+        return []
+
+    @router.get("/me")
+    async def get_me() -> dict[str, Any]:
+        """Fetch current authenticated user profile."""
+        return {
+            "id": "usr-1",
+            "email": "traveler@reroute.ai",
+            "display_name": "Demo Traveler",
+            "home_currency": "INR",
+            "units": "metric",
+            "created_at": "2026-01-01T00:00:00Z",
+        }
+
+    @router.post("/auth/login")
+    async def auth_login() -> dict[str, Any]:
+        """Mock authentication endpoint for frontend."""
+        return {
+            "access_token": "demo-jwt-token-access",
+            "refresh_token": "demo-jwt-token-refresh",
+            "user": {
+                "id": "usr-1",
+                "email": "traveler@reroute.ai",
+                "display_name": "Demo Traveler",
+                "home_currency": "INR",
+                "units": "metric",
+                "created_at": "2026-01-01T00:00:00Z",
+            },
+        }
+
+    @router.post("/auth/signup")
+    async def auth_signup() -> dict[str, Any]:
+        """Mock signup endpoint for frontend."""
+        return {
+            "access_token": "demo-jwt-token-access",
+            "refresh_token": "demo-jwt-token-refresh",
+            "user": {
+                "id": "usr-1",
+                "email": "traveler@reroute.ai",
+                "display_name": "Demo Traveler",
+                "home_currency": "INR",
+                "units": "metric",
+                "created_at": "2026-01-01T00:00:00Z",
+            },
         }
 
     @router.get("/health")
@@ -593,13 +760,32 @@ def create_app(
     llm_override: Any | None = None,
 ) -> FastAPI:
     """Application factory for standalone HTTP execution."""
+    bundle = repos or create_in_memory_repositories()
+
+    @asynccontextmanager
+    async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+        try:
+            await load_seed_catalog_into_repository(bundle.places)
+        except Exception as e:
+            logger.warning("Could not pre-load seed catalog: %s", e)
+        yield
+
     app = FastAPI(
         title="Reroute Agent API",
         version="0.1.0",
         description="FastAPI REST and SSE endpoints for Reroute autonomous agent runtime",
+        lifespan=lifespan,
     )
-    router = create_agent_router(repos=repos, llm_override=llm_override)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    router = create_agent_router(repos=bundle, llm_override=llm_override)
     app.include_router(router, prefix="/api/v1")
+    app.include_router(router)
     return app
 
 

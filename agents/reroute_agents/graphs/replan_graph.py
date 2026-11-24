@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Literal
+from typing import Any, Literal, cast
 
 from langgraph.graph import END, START, StateGraph
 
@@ -51,7 +51,7 @@ def build_replan_graph(
     checkpointer: Any | None = None,
 ) -> Any:
     """Build and compile the replan graph with HITL interrupt support."""
-    builder = StateGraph(ReplanState)
+    builder = StateGraph(cast(Any, ReplanState))
 
     collect_signals = create_collect_signals_node(repos.expenses)
     impact_analyzer = create_impact_analyzer_node(repos.disruptions, repos.trips)

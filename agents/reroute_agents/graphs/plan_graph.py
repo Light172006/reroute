@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Literal
+from typing import Any, Literal, cast
 
 from langgraph.graph import END, START, StateGraph
 
@@ -50,7 +50,7 @@ def build_plan_graph(
     checkpointer: Any | None = None,
 ) -> Any:
     """Build and compile the LangGraph plan_graph."""
-    builder = StateGraph(PlanState)
+    builder = StateGraph(cast(Any, PlanState))
 
     # Instantiate nodes with injected dependencies
     researcher = create_researcher_node(repos.places)

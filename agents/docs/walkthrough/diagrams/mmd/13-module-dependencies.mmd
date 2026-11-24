@@ -1,0 +1,20 @@
+flowchart TD
+  classDef codeNode fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
+  classDef storageNode fill:#f3e8ff,stroke:#9333ea,stroke-width:2px;
+  classDef toolNode fill:#fce7f3,stroke:#db2777,stroke-width:2px;
+  classDef llmNode fill:#fef3c7,stroke:#d97706,stroke-width:2px;
+
+  API["api.py"]:::codeNode --> GW["gateway.py"]:::codeNode
+  MON["monitor.py"]:::codeNode --> GW
+
+  GW --> GRAPHS["graphs/ plan, replan, chat"]:::codeNode
+  GW --> REPOS[("repositories/ in_memory, interfaces")]:::storageNode
+  GW --> CHK[("checkpointer.py")]:::storageNode
+
+  GRAPHS --> NODES["nodes/ planner, validator, replanner"]:::codeNode
+  GRAPHS --> TOOLS{{"tools/ weather, routing, places"}}:::toolNode
+
+  NODES --> RULES["rules/ validator, impact, altitude"]:::codeNode
+  NODES --> LLM("llm.py ResilientLLMChain"):::llmNode
+  TOOLS --> TOOLS_BASE["tools/base.py safe_tool"]:::codeNode
+  RULES --> STATE["state.py Pydantic Models and States"]:::codeNode\n

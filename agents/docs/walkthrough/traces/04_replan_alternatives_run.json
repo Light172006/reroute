@@ -1,0 +1,120 @@
+[
+  {
+    "type": "step",
+    "node": "collect_signals",
+    "message": "Checking live weather, mountain road conditions, and expense totals",
+    "status": "running",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "collect_signals",
+    "message": "Signals collected successfully",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "disruption",
+    "node": "impact_analyzer",
+    "message": "Disruption detected: Precipitation likely on Day 2 (90%, 13:00-17:00)",
+    "status": "done",
+    "payload": {
+      "id": "a5af1132-6dba-4ccd-a573-eb13692cbd14",
+      "trip_id": "62f25c7c-7cef-4678-aa33-f6d82878dc66",
+      "type": "weather",
+      "severity": "high",
+      "day_index": 2,
+      "window_start": null,
+      "window_end": null,
+      "affected_stable_keys": [
+        "306104eb-db7a-44ce-8985-2b8786c4d271"
+      ],
+      "summary": "Precipitation likely on Day 2 (90%, 13:00-17:00)",
+      "source": "injected",
+      "data": {
+        "precip_prob": 0.9,
+        "window": "13:00-17:00"
+      },
+      "fingerprint": "fcbb20132a0938df"
+    }
+  },
+  {
+    "type": "step",
+    "node": "impact_analyzer",
+    "message": "Detected 1 disruption(s) affecting 1 stop(s)",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "replanner",
+    "message": "Evaluating substitutions for 1 affected stop(s)",
+    "status": "running",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "replanner",
+    "message": "Prepared substitution proposal modifying 1 stop(s)",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "validator",
+    "message": "All constraint checks passed (hours, gaps, pace, altitude, and seasonal access)",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "proposal",
+    "node": "build_proposal",
+    "message": "Replan proposal ready for review",
+    "status": "done",
+    "payload": {
+      "proposal_id": "7e724c3b-b3c8-4d9c-b56a-f0b5f0a7015d"
+    }
+  },
+  {
+    "type": "step",
+    "node": "build_proposal",
+    "message": "Proposal created (1 changes). Awaiting traveler decision.",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "build_proposal",
+    "message": "Proposal resumed with traveler decision: alternatives",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "apply_changes",
+    "message": "Proposal superseded. Preparing alternative suggestions.",
+    "status": "running",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "replanner",
+    "message": "Generating alternative substitutions (different options) for 1 stop(s)",
+    "status": "running",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "replanner",
+    "message": "Prepared substitution proposal modifying 1 stop(s)",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "validator",
+    "message": "All constraint checks passed (hours, gaps, pace, altitude, and seasonal access)",
+    "status": "done",
+    "payload": {}
+  }
+]

@@ -1,0 +1,20 @@
+flowchart LR
+  classDef codeNode fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
+  classDef storageNode fill:#f3e8ff,stroke:#9333ea,stroke-width:2px;
+
+  TripSpec["TripSpec: Pydantic"]:::codeNode --> ItineraryDraft["ItineraryDraft: Pydantic"]:::codeNode
+  ItineraryDraft --> DraftItem["DraftItem: Pydantic"]:::codeNode
+  DraftItem --> Violation["Violation: Pydantic"]:::codeNode
+  DraftItem --> DisruptionEvent["DisruptionEvent: Pydantic"]:::codeNode
+
+  ReplanProposal["ReplanProposal: Pydantic"]:::codeNode --> DiffItem["DiffItem: Pydantic"]:::codeNode
+  ReplanProposal --> DraftItem
+
+  PlanState[("PlanState: TypedDict")]:::storageNode --> TripSpec
+  PlanState --> DraftItem
+  PlanState --> Violation
+  PlanState --> AgentEvent["AgentEvent: Pydantic"]:::codeNode
+
+  ReplanState[("ReplanState: TypedDict")]:::storageNode --> ReplanProposal
+  ReplanState --> DisruptionEvent
+  ReplanState --> AgentEvent\n

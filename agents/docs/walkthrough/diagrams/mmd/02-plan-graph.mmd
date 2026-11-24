@@ -1,0 +1,22 @@
+flowchart TD
+  classDef stadium fill:#f4f4f5,stroke:#3f3f46,stroke-width:2px;
+  classDef codeNode fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
+  classDef llmNode fill:#fef3c7,stroke:#d97706,stroke-width:2px;
+  classDef toolNode fill:#fce7f3,stroke:#db2777,stroke-width:2px;
+  classDef decisionNode fill:#fef9c3,stroke:#ca8a04,stroke-width:2px;
+
+  START([START]):::stadium --> INTAKE["Validate Trip Spec [intake_node]"]:::codeNode
+  INTAKE --> RESEARCH{{"Search Catalog Places [researcher_node]"}}:::toolNode
+  RESEARCH --> PLANNER("Draft Day-by-Day Itinerary [planner_node]"):::llmNode
+  PLANNER --> VALIDATE["Execute Pure Rules [validator_node]"]:::codeNode
+
+  VALIDATE --> COND_VAL{"Violations Exist? [route_after_validator]"}:::decisionNode
+  COND_VAL -- "Issues and Iter less than 3" --> PLANNER
+  COND_VAL -- "Issues and Iter at 3 (Cap)" --> FINALIZE["Persist Version and Flag Issues [finalize_node]"]:::codeNode
+  COND_VAL -- "No Violations" --> BUDGET["Audit Cost and Daily Limits [budget_check_node]"]:::codeNode
+
+  BUDGET --> COND_BUD{"Budget OK? [route_after_budget]"}:::decisionNode
+  COND_BUD -- "Overrun and Iter less than 3" --> PLANNER
+  COND_BUD -- "Passed or Iter at 3" --> FINALIZE
+
+  FINALIZE --> END_NODE([END: Initial Itinerary v1]):::stadium\n

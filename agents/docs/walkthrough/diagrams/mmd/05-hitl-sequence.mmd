@@ -1,0 +1,28 @@
+sequenceDiagram
+  autonumber
+  actor User as Traveler
+  participant FE as Frontend UI
+  participant BE as Backend API
+  participant GW as Gateway [gateway.py]
+  participant RG as Replan Graph [replan_graph.py]
+  participant CP as Checkpointer [checkpointer.py]
+
+  User->>FE: Report disruption or trigger monitor
+  FE->>BE: POST /trips/{id}/replan
+  BE->>GW: run_replan(run_id, trip_id)
+  GW->>RG: astream(initial_state)
+  RG->>GW: emit disruption_event and proposal_event
+  GW-->>BE: SSE stream (proposal ready)
+  BE-->>FE: Render visual diff (cost, items changed)
+  RG->>CP: interrupt() saves state to thread_id
+  Note over RG,CP: Execution suspended. No changes committed.
+
+  User->>FE: Submit decision (approve / reject / alternatives)
+  FE->>BE: POST /trips/{id}/replan/resume
+  BE->>GW: resume_replan(run_id, decision)
+  GW->>CP: Load suspended state by thread_id
+  GW->>RG: astream(Command(resume={decision}))
+  RG->>RG: apply_changes_node (updates version on approve)
+  RG->>GW: emit done_event
+  GW-->>BE: SSE stream (done)
+  BE-->>FE: Render updated itinerary v(N+1)\n

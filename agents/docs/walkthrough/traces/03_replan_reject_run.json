@@ -1,0 +1,109 @@
+[
+  {
+    "type": "step",
+    "node": "collect_signals",
+    "message": "Checking live weather, mountain road conditions, and expense totals",
+    "status": "running",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "collect_signals",
+    "message": "Signals collected successfully",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "disruption",
+    "node": "impact_analyzer",
+    "message": "Disruption detected: Precipitation likely on Day 2 (90%, 13:00-17:00)",
+    "status": "done",
+    "payload": {
+      "id": "b5373426-6daf-4881-a209-012caffc5ed5",
+      "trip_id": "cedbc579-a9af-4d6e-b890-0bdcb941d003",
+      "type": "weather",
+      "severity": "high",
+      "day_index": 2,
+      "window_start": null,
+      "window_end": null,
+      "affected_stable_keys": [
+        "9956eef7-b07f-46b3-a099-e68a2e35b66f"
+      ],
+      "summary": "Precipitation likely on Day 2 (90%, 13:00-17:00)",
+      "source": "injected",
+      "data": {
+        "precip_prob": 0.9,
+        "window": "13:00-17:00"
+      },
+      "fingerprint": "fa7e8a9256406749"
+    }
+  },
+  {
+    "type": "step",
+    "node": "impact_analyzer",
+    "message": "Detected 1 disruption(s) affecting 1 stop(s)",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "replanner",
+    "message": "Evaluating substitutions for 1 affected stop(s)",
+    "status": "running",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "replanner",
+    "message": "Prepared substitution proposal modifying 1 stop(s)",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "validator",
+    "message": "All constraint checks passed (hours, gaps, pace, altitude, and seasonal access)",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "proposal",
+    "node": "build_proposal",
+    "message": "Replan proposal ready for review",
+    "status": "done",
+    "payload": {
+      "proposal_id": "6e4ea5c8-b28a-4ea0-ac0d-0f53088a6f4f"
+    }
+  },
+  {
+    "type": "step",
+    "node": "build_proposal",
+    "message": "Proposal created (1 changes). Awaiting traveler decision.",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "build_proposal",
+    "message": "Proposal resumed with traveler decision: reject",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "apply_changes",
+    "message": "Proposal rejected. Existing itinerary preserved unchanged.",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "done",
+    "node": "apply_changes",
+    "message": "Execution finished with status: completed",
+    "status": "done",
+    "payload": {
+      "status": "completed",
+      "proposal_id": "28850d30-c935-48ea-ac01-a35dc8090410"
+    }
+  }
+]

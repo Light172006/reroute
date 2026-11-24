@@ -1,0 +1,163 @@
+[
+  {
+    "type": "step",
+    "node": "intake",
+    "message": "Preparing plan for Darjeeling (3 days, balanced pace, budget: 15000 INR)",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "tool_call",
+    "node": "researcher",
+    "message": "Calling tool search_places",
+    "status": "running",
+    "payload": {
+      "tool": "search_places",
+      "args": {
+        "city": "Darjeeling",
+        "tags": [
+          "tea",
+          "nature"
+        ]
+      }
+    }
+  },
+  {
+    "type": "tool_result",
+    "node": "researcher",
+    "message": "Found 16 candidate places in Darjeeling",
+    "status": "done",
+    "payload": {
+      "tool": "search_places",
+      "ok": true,
+      "summary": "Found 16 candidate places in Darjeeling",
+      "cached": true
+    }
+  },
+  {
+    "type": "step",
+    "node": "researcher",
+    "message": "Researched 16 attractions, food spots, and viewpoints matching vibe 'tea, nature'",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "planner",
+    "message": "Building day-by-day itinerary (iteration 1)",
+    "status": "running",
+    "payload": {}
+  },
+  {
+    "type": "draft",
+    "node": "planner",
+    "message": "Draft itinerary ready for days: [1, 2, 3]",
+    "status": "done",
+    "payload": {
+      "days_ready": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  {
+    "type": "step",
+    "node": "planner",
+    "message": "Draft completed with 9 stops across 3 days",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "validator",
+    "message": "Validation found 4 constraint issue(s) to resolve",
+    "status": "failed",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "planner",
+    "message": "Refining itinerary to resolve 4 issues (iteration 2)",
+    "status": "running",
+    "payload": {}
+  },
+  {
+    "type": "draft",
+    "node": "planner",
+    "message": "Draft itinerary ready for days: [1, 2, 3]",
+    "status": "done",
+    "payload": {
+      "days_ready": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  {
+    "type": "step",
+    "node": "planner",
+    "message": "Draft completed with 9 stops across 3 days",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "validator",
+    "message": "Validation found 4 constraint issue(s) to resolve",
+    "status": "failed",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "planner",
+    "message": "Refining itinerary to resolve 4 issues (iteration 3)",
+    "status": "running",
+    "payload": {}
+  },
+  {
+    "type": "draft",
+    "node": "planner",
+    "message": "Draft itinerary ready for days: [1, 2, 3]",
+    "status": "done",
+    "payload": {
+      "days_ready": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  {
+    "type": "step",
+    "node": "planner",
+    "message": "Draft completed with 9 stops across 3 days",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "validator",
+    "message": "Validation found 4 constraint issue(s) to resolve",
+    "status": "failed",
+    "payload": {}
+  },
+  {
+    "type": "step",
+    "node": "finalize",
+    "message": "Itinerary finalized (v1) with 9 stops (4 unresolved items flagged)",
+    "status": "done",
+    "payload": {}
+  },
+  {
+    "type": "done",
+    "node": "finalize",
+    "message": "Execution finished with status: completed",
+    "status": "done",
+    "payload": {
+      "status": "completed",
+      "version_id": "3504680f-8789-42cf-8a21-4c8522999c54"
+    }
+  }
+]

@@ -1,0 +1,29 @@
+flowchart TD
+  classDef stadium fill:#f4f4f5,stroke:#3f3f46,stroke-width:2px;
+  classDef codeNode fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
+  classDef llmNode fill:#fef3c7,stroke:#d97706,stroke-width:2px;
+  classDef toolNode fill:#fce7f3,stroke:#db2777,stroke-width:2px;
+  classDef humanNode fill:#ecfdf5,stroke:#059669,stroke-width:2px;
+
+  subgraph PLAN_EVENTS ["Plan Stream: 18 Real Events"]
+    P1["step: intake"]:::codeNode --> P2{{"tool_call and tool_result: researcher"}}:::toolNode
+    P2 --> P3("step and draft: planner iter 1"):::llmNode
+    P3 --> P4["step: validator 4 issues"]:::codeNode
+    P4 --> P5("step and draft: planner iter 2"):::llmNode
+    P5 --> P6["step: validator 4 issues"]:::codeNode
+    P6 --> P7("step and draft: planner iter 3"):::llmNode
+    P7 --> P8["step: validator cap reached"]:::codeNode
+    P8 --> P9["step: finalize v1"]:::codeNode
+    P9 --> P10([done: completed]):::stadium
+  end
+
+  subgraph REPLAN_EVENTS ["Replan Stream: 12 Real Events"]
+    R1{{"step: collect_signals"}}:::toolNode --> R2["disruption: rain Day 2"]:::codeNode
+    R2 --> R3("step: replanner substitution"):::llmNode
+    R3 --> R4["step: validator passed"]:::codeNode
+    R4 --> R5["proposal: ready for review"]:::codeNode
+    R5 --> R6[/"PAUSE: interrupt HITL"/]:::humanNode
+    R6 --> R7["step: resumed approve"]:::codeNode
+    R7 --> R8["step: apply_changes updated v2"]:::codeNode
+    R8 --> R9([done: completed]):::stadium
+  end\n

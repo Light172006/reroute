@@ -1,0 +1,17 @@
+flowchart TD
+  classDef stadium fill:#f4f4f5,stroke:#3f3f46,stroke-width:2px;
+  classDef codeNode fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
+  classDef decisionNode fill:#fef9c3,stroke:#ca8a04,stroke-width:2px;
+
+  START([validate_itinerary]):::stadium --> R1["1. Check Overlaps [overlap]"]:::codeNode
+  R1 --> R2["2. Check 30m Travel Gaps [travel_gap]"]:::codeNode
+  R2 --> R3["3. Check Opening Hours [opening_hours]"]:::codeNode
+  R3 --> R4["4. Check Budget Total and Daily Cap [budget_total]"]:::codeNode
+  R4 --> R5["5. Check Locked Items Unchanged [locked_item_modified]"]:::codeNode
+  R5 --> R6["6. Check Pace Stops/Day [pace_exceeded]"]:::codeNode
+  R6 --> R7["7. Check Altitude Delta > 1200m [altitude_jump]"]:::codeNode
+  R7 --> R8["8. Check High Mountain Passes [pass_closed]"]:::codeNode
+  R8 --> R9["9. Check Restricted Area Permits [permit_missing]"]:::codeNode
+  R9 --> CHK{"Violations List Empty?"}:::decisionNode
+  CHK -- "Yes" --> PASS([Valid Itinerary]):::stadium
+  CHK -- "No" --> FAIL([Return list of Violation objects]):::stadium\n

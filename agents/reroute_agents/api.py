@@ -232,9 +232,9 @@ def parse_trip_id(val: str | UUID) -> UUID:
     if isinstance(val, UUID):
         return val
     try:
-        return UUID(str(val))
+        return UUID(val)
     except ValueError:
-        return uuid5(NAMESPACE_DNS, str(val))
+        return uuid5(NAMESPACE_DNS, val)
 
 
 # ---------------------------------------------------------------------------

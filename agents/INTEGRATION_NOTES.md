@@ -128,3 +128,12 @@ During cross-system audit of the bug where selecting "Arunachal Pradesh" and "Si
   This pulled the first 30 places from the database regardless of geographical region, which were invariably the initial Darjeeling seed rows.
 - **Action for Backend Team:** Remove the unconstrained table fallback. If a destination yields 0 catalog places, delegate to the Web Research Agent or return an empty candidate list rather than returning places from another region.
 
+---
+
+## 7. Frontend SSR / Client Hydration Mismatch in Navbar
+
+### 7.1 Immediate Root Cause
+- **File:** `frontend/src/components/Navbar.tsx:L105`
+- **Issue:** The landing navigation buttons evaluated `api.isAuthenticated()` directly within the render path. On server-side rendering (Node.js), `api.isAuthenticated()` evaluates to `false` because `localStorage` is not accessible. In the browser client (where tokens may exist in `localStorage`), it evaluates to `true`. This causes the server to output `<a><button>Sign in</button></a>` while the client attempts to hydrate `<a><button><Plus /><svg>Plan a trip</svg></button></a>`, throwing `Error: Hydration failed because the initial UI does not match what was rendered on the server. Expected server HTML to contain a matching <svg> in <button>`.
+- **Resolution:** Track authentication state in local React state (`isAuthed`) initialized to `false`, and update it inside `React.useEffect` after component mount (`setMounted(true); setIsAuthed(api.isAuthenticated())`). Guard rendering with `!mounted || (isLanding && !isAuthed)` so server HTML and initial client render match identically.
+

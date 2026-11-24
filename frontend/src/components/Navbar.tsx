@@ -22,9 +22,11 @@ export function Navbar() {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
+  const [isAuthed, setIsAuthed] = React.useState(false);
 
   React.useEffect(() => {
     setMounted(true);
+    setIsAuthed(api.isAuthenticated());
   }, []);
 
   const isAuthPage = pathname === '/login' || pathname === '/signup';
@@ -100,7 +102,7 @@ export function Navbar() {
             </Button>
           )}
 
-          {isAuthPage ? null : isLanding && !api.isAuthenticated() ? (
+          {isAuthPage ? null : !mounted || (isLanding && !isAuthed) ? (
             <div className="flex items-center gap-2">
               <Link href="/login">
                 <Button variant="ghost" size="sm">

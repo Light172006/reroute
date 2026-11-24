@@ -92,7 +92,7 @@ def create_researcher_node(catalog_repo: PlaceCatalogRepository) -> Any:
                     hours_confidence="verified" if place.verified else "medium",
                     lat=place.lat,
                     lng=place.lng,
-                    tags=[place.category] + list(spec.vibe_tags),
+                    tags=[place.category, *spec.vibe_tags],
                     description=place.description,
                     raw={
                         "source": place.source_url,

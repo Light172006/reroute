@@ -14,7 +14,7 @@ class Settings:
             m.strip()
             for m in os.getenv(
                 "LLM_STRONG_CHAIN",
-                "gemini:gemini-2.0-flash,groq:llama-3.3-70b-versatile",
+                "gemini:gemini-3.5-flash,groq:llama-3.3-70b-versatile",
             ).split(",")
             if m.strip()
         ]
@@ -24,7 +24,7 @@ class Settings:
             m.strip()
             for m in os.getenv(
                 "LLM_SMALL_CHAIN",
-                "groq:llama-3.1-8b-instant,gemini:gemini-2.0-flash",
+                "gemini:gemini-3.5-flash,gemini:gemini-3.5-flash-lite",
             ).split(",")
             if m.strip()
         ]
@@ -41,11 +41,11 @@ class Settings:
     )
 
     # API Keys
-    google_api_key: str | None = os.getenv("GOOGLE_API_KEY")
-    groq_api_key: str | None = os.getenv("GROQ_API_KEY")
-    openrouter_api_key: str | None = os.getenv("OPENROUTER_API_KEY")
-    ors_api_key: str | None = os.getenv("ORS_API_KEY")
-    tavily_api_key: str | None = os.getenv("TAVILY_API_KEY")
+    google_api_key: str | None = (os.getenv("GOOGLE_API_KEY") or "").strip() or None
+    groq_api_key: str | None = (os.getenv("GROQ_API_KEY") or "").strip() or None
+    openrouter_api_key: str | None = (os.getenv("OPENROUTER_API_KEY") or "").strip() or None
+    ors_api_key: str | None = (os.getenv("ORS_API_KEY") or "").strip() or None
+    tavily_api_key: str | None = (os.getenv("TAVILY_API_KEY") or "").strip() or None
 
     # Web research provider & limits
     search_provider: str = os.getenv("SEARCH_PROVIDER", "mock").lower()

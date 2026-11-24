@@ -185,7 +185,7 @@ def create_planner_node(llm_override: Any | None = None) -> Any:
                 draft = _build_deterministic_draft_from_candidates(state)
 
         # Emit draft event for timeline
-        ready_days = sorted(list({it.day_index for it in draft.items}))
+        ready_days = sorted({it.day_index for it in draft.items})
         events.append(draft_event(days_ready=ready_days, node="planner"))
         events.append(
             step_event(

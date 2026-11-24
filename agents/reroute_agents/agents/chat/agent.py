@@ -26,7 +26,7 @@ from reroute_agents.events import (
     tool_call_event,
     tool_result_event,
 )
-from reroute_agents.llm import FakeLLM, get_llm
+from reroute_agents.llm import FakeLLM, create_model_instance, get_llm
 from reroute_agents.repositories.interfaces import RepositoriesBundle
 from reroute_agents.state import ChatState, DiffItem, ReplanProposal
 
@@ -101,7 +101,7 @@ def build_chat_agent(
             "message": f"Proposal created to modify item {item_stable_key}: {reason}. User must review and approve.",
         }
 
-    tools_list = [get_itinerary, modify_item] + chat_tools
+    tools_list = [get_itinerary, modify_item, *chat_tools]
     tools_map = {t.name: t for t in tools_list}
 
     # -------------------------------------------------------------------------
@@ -118,7 +118,7 @@ def build_chat_agent(
             if isinstance(m, HumanMessage):
                 last_user_msg = str(m.content)
                 break
-            elif isinstance(m, dict) and m.get("role") == "user":
+            if isinstance(m, dict) and m.get("role") == "user":
                 last_user_msg = str(m.get("content", ""))
                 break
 
@@ -139,7 +139,7 @@ def build_chat_agent(
                 content="I specialize strictly in managing your travel itinerary for this trip. I cannot assist with coding, math equations, or out-of-scope inquiries."
             )
             return {
-                "messages": messages + [redirect_msg],
+                "messages": [*messages, redirect_msg],
                 "iteration": iteration + 1,
             }
 
@@ -181,14 +181,12 @@ def build_chat_agent(
                         conv_messages.append(AIMessage(content=content))
 
             model = llm.chain_specs[0] if hasattr(llm, "chain_specs") else llm
-            from reroute_agents.llm import create_model_instance
-
             model_inst = create_model_instance(model) if isinstance(model, str) else model
             model_with_tools = cast(Any, model_inst).bind_tools(tools_list)
             ai_msg = await model_with_tools.ainvoke(conv_messages)
 
         return {
-            "messages": messages + [ai_msg],
+            "messages": [*messages, ai_msg],
             "iteration": iteration + 1,
         }
 
@@ -351,7 +349,7 @@ def build_chat_agent(
             )
 
         update_dict: dict[str, Any] = {
-            "messages": messages + tool_messages,
+            "messages": [*messages, *tool_messages],
             "events": events,
         }
         if proposal_created is not None:

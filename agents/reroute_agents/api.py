@@ -492,7 +492,7 @@ def create_agent_router(
             version_id_str = str(curr_v["id"]) if curr_v else None
             return DecisionResponse(status="approved", version_id=version_id_str)
 
-        elif req.decision == "reject":
+        if req.decision == "reject":
             async for _ in resume_replan(
                 proposal.run_id,
                 decision="reject",
@@ -503,7 +503,7 @@ def create_agent_router(
                 pass
             return DecisionResponse(status="rejected")
 
-        elif req.decision == "alternatives":
+        if req.decision == "alternatives":
             async for _ in resume_replan(
                 proposal.run_id,
                 decision="alternatives",

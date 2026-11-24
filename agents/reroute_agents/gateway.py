@@ -8,6 +8,7 @@ from collections.abc import AsyncIterator
 from typing import Any, Literal
 from uuid import UUID
 
+from langchain_core.messages import HumanMessage
 from langgraph.types import Command
 
 from reroute_agents.checkpointer import configure_checkpointer, create_default_checkpointer
@@ -297,8 +298,6 @@ async def run_chat(
     graph = build_chat_graph(bundle, llm_override=llm_override, checkpointer=chk)
 
     try:
-        from langchain_core.messages import HumanMessage
-
         initial_state = {
             "trip_id": str(trip_id),
             "run_id": str(run_id),

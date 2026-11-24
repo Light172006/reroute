@@ -8,7 +8,7 @@ from decimal import Decimal
 from typing import Annotated, Any, Literal, NotRequired, TypedDict
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 # --- Domain Pydantic Models (Matching API Contract) ---
 
@@ -46,6 +46,13 @@ class DraftItem(BaseModel):
     travel_distance_m: int | None = None
     flags: list[str] = Field(default_factory=list)
     notes: str | None = None
+
+    @field_validator("start_time", "end_time", mode="after")
+    @classmethod
+    def strip_tzinfo(cls, v: time) -> time:
+        if v is not None and v.tzinfo is not None:
+            return v.replace(tzinfo=None)
+        return v
 
 
 class ItineraryDraft(BaseModel):

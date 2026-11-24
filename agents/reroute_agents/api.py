@@ -599,7 +599,7 @@ def create_app(
     bundle = repos or create_in_memory_repositories()
 
     @asynccontextmanager
-    async def lifespan(app: FastAPI):
+    async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         try:
             await load_seed_catalog_into_repository(bundle.places)
         except Exception as e:

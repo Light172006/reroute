@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+from collections.abc import Callable
 from datetime import time
 from pathlib import Path
 from typing import Any, Literal, cast
@@ -171,7 +172,7 @@ def build_chat_graph(
         # Real / Structured LLM invocation
         try:
             model = (
-                llm.create_model_instance(llm.chain_specs[0])
+                cast(Any, llm).create_model_instance(llm.chain_specs[0])
                 if hasattr(llm, "create_model_instance")
                 else llm
             )
@@ -315,12 +316,17 @@ def build_chat_graph(
                     res = {"ok": False, "error": str(exc)}
 
             elif tool_name in tools_map:
-                tool_fn = tools_map[tool_name]
+                tool_instance = tools_map[tool_name]
                 try:
-                    if hasattr(tool_fn, "ainvoke"):
-                        res = await tool_fn.ainvoke(tool_args)
+                    if hasattr(tool_instance, "ainvoke"):
+                        res = await tool_instance.ainvoke(tool_args)
+                    elif hasattr(tool_instance, "invoke"):
+                        res = tool_instance.invoke(tool_args)
+                    elif callable(tool_instance):
+                        call_fn = cast(Callable[..., Any], tool_instance)
+                        res = call_fn(**tool_args)
                     else:
-                        res = tool_fn(**tool_args)
+                        raise TypeError(f"Tool '{tool_name}' is not callable and has no invoke method")
                 except Exception as exc:
                     err_msg = f"Tool execution failed for '{tool_name}': {exc}"
                     logger.warning(err_msg)

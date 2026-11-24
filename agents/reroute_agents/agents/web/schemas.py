@@ -27,6 +27,12 @@ class PlaceResearchItem(BaseModel):
     seed: bool = False  # Flag so seed records and web records can coexist
 
 
+class WebExtractionSchema(BaseModel):
+    """Pydantic schema for structured LLM extraction of place candidates."""
+
+    places: list[PlaceResearchItem] = Field(default_factory=list)
+
+
 class ResearchResult(BaseModel):
     """Structured output returned by the Web Research Agent."""
 

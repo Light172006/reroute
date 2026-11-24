@@ -9,7 +9,11 @@ from typing import Any, Literal, TypedDict
 from langgraph.graph import StateGraph
 from pydantic import BaseModel, Field
 
-from reroute_agents.agents.web.schemas import PlaceResearchItem, ResearchResult
+from reroute_agents.agents.web.schemas import (
+    PlaceResearchItem,
+    ResearchResult,
+    WebExtractionSchema,
+)
 from reroute_agents.agents.web.tools import get_web_tools
 from reroute_agents.config import settings
 from reroute_agents.destinations.registry import resolve_destination
@@ -20,12 +24,6 @@ from reroute_agents.tools.fetch import sanitize_extracted_text
 from reroute_agents.tools.registry import validate_tool_access
 
 logger = logging.getLogger(__name__)
-
-
-class WebExtractionSchema(BaseModel):
-    """Pydantic schema for structured LLM extraction of place candidates."""
-
-    places: list[PlaceResearchItem] = Field(default_factory=list)
 
 
 class WebAgentState(TypedDict, total=False):

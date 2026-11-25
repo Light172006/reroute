@@ -205,3 +205,39 @@ def test_place_candidate_normalizes_string_and_partial_dict_opening_hours() -> N
         lng=75.7873,
     )
     assert p4.opening_hours is None
+
+
+def test_sanitize_extracted_text_strips_boilerplate_navigation() -> None:
+    """Verify nav/header/footer chrome is stripped so article attractions aren't pushed past truncation."""
+    nav_links = "Menu Hotel Deals Sign In Currency " * 20
+    article_body = (
+        "Calangute Beach is one of Goa's most popular beaches with lively shacks and water sports. "
+        "Baga Beach offers parasailing and nightlife. Basilica of Bom Jesus is a UNESCO heritage church. "
+    ) * 3
+    raw_html = f"<html><body><header><nav>{nav_links}</nav></header><main><p>{article_body}</p></main><footer>Copyright Accor</footer></body></html>"
+    cleaned = sanitize_extracted_text(raw_html)
+    assert "Menu Hotel Deals" not in cleaned
+    assert "Copyright Accor" not in cleaned
+    assert "Calangute Beach" in cleaned
+    assert "Basilica of Bom Jesus" in cleaned
+
+
+def test_place_research_item_coerces_llm_cost_and_duration_strings() -> None:
+    """Verify PlaceResearchItem tolerates natural-language LLM cost and duration outputs."""
+    p_paid = PlaceResearchItem(
+        name="Grande Island",
+        avg_cost="₹800–₹1,500 for parasailing",  # type: ignore[arg-type]
+        avg_duration_min="2 hours",  # type: ignore[arg-type]
+        setting="Outdoor",  # type: ignore[arg-type]
+    )
+    assert p_paid.avg_cost == Decimal("800")
+    assert p_paid.avg_duration_min == 120
+    assert p_paid.setting == "outdoor"
+
+    p_free = PlaceResearchItem(
+        name="Palolem Beach",
+        avg_cost="Free entry",  # type: ignore[arg-type]
+    )
+    assert p_free.avg_cost == Decimal(0)
+    assert p_free.lat == 0.0
+    assert p_free.lng == 0.0

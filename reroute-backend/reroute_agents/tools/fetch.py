@@ -19,7 +19,8 @@ logger = logging.getLogger(__name__)
 # Regex to strip control characters (except common whitespace \n, \r, \t)
 _CONTROL_CHAR_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]")
 _HTML_TAG_RE = re.compile(r"<[^>]+>")
-_SCRIPT_STYLE_RE = re.compile(r"<(script|style|noscript)[^>]*>.*?</\1>", re.DOTALL | re.IGNORECASE)
+_SCRIPT_STYLE_RE = re.compile(r"<(script|style|noscript|svg)[^>]*>.*?</\1>", re.DOTALL | re.IGNORECASE)
+_BOILERPLATE_RE = re.compile(r"<(nav|header|footer|aside|form)\b[^>]*>.*?</\1>", re.DOTALL | re.IGNORECASE)
 
 
 def is_ssrf_safe_url(url: str) -> tuple[bool, str]:
@@ -71,19 +72,21 @@ def is_ssrf_safe_url(url: str) -> tuple[bool, str]:
     return True, "OK"
 
 
-def sanitize_extracted_text(raw_html: str, max_bytes: int = 51200) -> str:
-    """Strip script/styles, remove HTML tags, unescape entities, and clean control chars."""
-    # 1. Remove script and style blocks
+def _strip_html_to_text(raw_html: str) -> str:
     cleaned = _SCRIPT_STYLE_RE.sub(" ", raw_html)
-    # 2. Strip HTML tags
     cleaned = _HTML_TAG_RE.sub(" ", cleaned)
-    # 3. Unescape HTML entities
     cleaned = html.unescape(cleaned)
-    # 4. Remove unwanted control characters
     cleaned = _CONTROL_CHAR_RE.sub("", cleaned)
-    # 5. Normalize whitespace
-    cleaned = re.sub(r"\s+", " ", cleaned).strip()
-    # 6. Truncate to size limit
+    return re.sub(r"\s+", " ", cleaned).strip()
+
+
+def sanitize_extracted_text(raw_html: str, max_bytes: int = 51200) -> str:
+    """Strip scripts, layout chrome, and HTML tags while preserving article text."""
+    stripped_boilerplate = _BOILERPLATE_RE.sub(" ", _SCRIPT_STYLE_RE.sub(" ", raw_html))
+    cleaned = _strip_html_to_text(stripped_boilerplate)
+    # Fall back if stripping <header>/<nav>/<form> removed the main body on unusual layouts
+    if len(cleaned) < 200:
+        cleaned = _strip_html_to_text(raw_html)
     if len(cleaned.encode("utf-8")) > max_bytes:
         cleaned = cleaned[:max_bytes] + "... [Truncated at 50KB limit]"
     return cleaned

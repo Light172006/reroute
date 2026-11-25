@@ -236,8 +236,16 @@ def test_place_research_item_coerces_llm_cost_and_duration_strings() -> None:
 
     p_free = PlaceResearchItem(
         name="Palolem Beach",
+        category="Beach",
         avg_cost="Free entry",  # type: ignore[arg-type]
     )
+    assert p_free.category == "nature"
     assert p_free.avg_cost == Decimal(0)
     assert p_free.lat == 0.0
     assert p_free.lng == 0.0
+
+    p_heritage = PlaceResearchItem(
+        name="Basilica of Bom Jesus",
+        category="Heritage Site",
+    )
+    assert p_heritage.category == "culture"

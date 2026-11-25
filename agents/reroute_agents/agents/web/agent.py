@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from decimal import Decimal
 from typing import Any, Literal, TypedDict, cast
@@ -231,14 +232,10 @@ def build_web_agent(llm_override: Any | None = None) -> Any:
         fetched_pages: list[dict[str, Any]] = []
 
         fetches_run = tool_counts.get("fetch", 0)
-        # Fetch top pages within budget
-        for item in search_results:
-            if fetches_run >= settings.web_max_fetches:
-                break
-            url = item.get("url")
-            if not url:
-                continue
+        remaining_budget = max(0, settings.web_max_fetches - fetches_run)
+        urls = [item.get("url") for item in search_results if item.get("url")][:remaining_budget]
 
+        for url in urls:
             events.append(
                 tool_call_event(
                     tool="web_fetch",
@@ -247,21 +244,26 @@ def build_web_agent(llm_override: Any | None = None) -> Any:
                 )
             )
 
-            fetch_res = await fetch_tool.ainvoke({"url": url})
-            fetches_run += 1
-            tool_counts["fetch"] = fetches_run
-
-            events.append(
-                tool_result_event(
-                    tool="web_fetch",
-                    ok=fetch_res.get("ok", False),
-                    summary=f"Fetched {len(fetch_res.get('text', ''))} chars from {url}",
-                    node="web_agent.fetch",
-                )
+        if urls:
+            results = await asyncio.gather(
+                *(fetch_tool.ainvoke({"url": url}) for url in urls),
+                return_exceptions=True,
             )
-
-            if fetch_res.get("ok"):
-                fetched_pages.append(fetch_res)
+            for url, fetch_res in zip(urls, results):
+                fetches_run += 1
+                tool_counts["fetch"] = fetches_run
+                if isinstance(fetch_res, Exception):
+                    fetch_res = {"ok": False, "url": url, "error": str(fetch_res), "text": ""}
+                events.append(
+                    tool_result_event(
+                        tool="web_fetch",
+                        ok=fetch_res.get("ok", False),
+                        summary=f"Fetched {len(fetch_res.get('text', ''))} chars from {url}",
+                        node="web_agent.fetch",
+                    )
+                )
+                if fetch_res.get("ok"):
+                    fetched_pages.append(fetch_res)
 
         return {
             "fetched_pages": fetched_pages,
@@ -396,11 +398,12 @@ def build_web_agent(llm_override: Any | None = None) -> Any:
         is_fallback = state.get("fallback", False)
 
         geocodes_run = tool_counts.get("geocode", 0)
+        consecutive_failures = 0
 
         for place in places:
             # If coordinates are missing or unverified and we have geocode budget
             if (place.lat == 0.0 or not place.verified) and not place.seed:
-                if geocodes_run >= settings.web_max_geocodes:
+                if geocodes_run >= settings.web_max_geocodes or consecutive_failures >= 2:
                     break
 
                 events.append(
@@ -430,6 +433,9 @@ def build_web_agent(llm_override: Any | None = None) -> Any:
                     place.lat = float(geo_res["lat"])
                     place.lng = float(geo_res["lng"])
                     place.verified = geo_res.get("verified", True)
+                    consecutive_failures = 0
+                else:
+                    consecutive_failures += 1
 
         # Avoid keeping (0.0, 0.0) ocean coordinates when other places geocoded cleanly
         geocoded_places = [p for p in places if p.lat != 0.0 or p.lng != 0.0]

@@ -83,13 +83,14 @@ class AgentGateway:
         return (n or 0) + 1
 
     async def _publish(self, run_id: uuid.UUID, ev: dict) -> dict:
-        """Persist + broadcast. Returns the event so callers can branch."""
+        """Persist + broadcast. Commits immediately so SSE reconnect replays see live progress."""
         await sse_broker.persist_event(
             self.db, run_id=run_id, seq=ev["seq"], ev_type=ev["type"],
             node=ev.get("node"), message=ev.get("message"),
             status=ev.get("status"), payload=ev.get("payload"),
             latency_ms=ev.get("latency_ms"),
         )
+        await self.db.commit()
         sse_broker._broadcast(str(run_id), {
             "id": str(ev["seq"]), "event": ev["type"],
             "data": json.dumps(ev),

@@ -29,6 +29,71 @@ class TripSpec(BaseModel):
     budget_per_day_cap: Decimal | None = None
 
 
+_VALID_CATEGORIES = frozenset({
+    "sightseeing",
+    "food",
+    "culture",
+    "nature",
+    "nightlife",
+    "shopping",
+    "adventure",
+    "transport",
+    "stay",
+    "other",
+})
+_VALID_TRAVEL_MODES = frozenset({"walk", "taxi", "bus", "train", "metro", "bike", "car"})
+
+
+def normalize_category(value: Any) -> str:
+    """Map free-form LLM category labels into canonical ItemType enum values."""
+    if not value:
+        return "sightseeing"
+    low = str(value).strip().lower()
+    if low in _VALID_CATEGORIES:
+        return low
+    checks: tuple[tuple[tuple[str, ...], str], ...] = (
+        (("food", "restaurant", "cafe", "dining", "bakery", "culinary", "eat"), "food"),
+        (("nightlife", "club", "bar", "pub", "party", "casino", "lounge"), "nightlife"),
+        (("shop", "market", "bazaar", "mall", "flea", "souvenir"), "shopping"),
+        (("adventure", "sport", "trek", "hike", "scuba", "rafting", "paragliding", "kayak", "dive", "safari"), "adventure"),
+        (("beach", "nature", "lake", "waterfall", "falls", "park", "wildlife", "sanctuary", "mountain", "pass", "valley", "forest", "island", "river"), "nature"),
+        (("culture", "heritage", "monastery", "temple", "church", "fort", "palace", "museum", "memorial", "monument", "historic", "religious", "shrine", "neighborhood"), "culture"),
+        (("transport", "airport", "station", "ferry", "transit"), "transport"),
+        (("stay", "hotel", "resort", "hostel", "homestay", "villa"), "stay"),
+        (("sightseeing", "viewpoint", "landmark", "attraction", "tour"), "sightseeing"),
+    )
+    for keywords, target in checks:
+        if any(k in low for k in keywords):
+            return target
+    return "sightseeing"
+
+
+def normalize_travel_mode(value: Any) -> str | None:
+    """Map free-form travel modes into canonical TransportMode enum values."""
+    if value is None:
+        return None
+    low = str(value).strip().lower()
+    if not low:
+        return None
+    if low in _VALID_TRAVEL_MODES:
+        return low
+    if any(k in low for k in ("walk", "foot", "stroll")):
+        return "walk"
+    if any(k in low for k in ("taxi", "cab", "uber", "ola", "auto", "rickshaw", "tuk")):
+        return "taxi"
+    if any(k in low for k in ("bus", "coach", "shuttle", "ferry", "boat")):
+        return "bus"
+    if any(k in low for k in ("train", "rail")):
+        return "train"
+    if any(k in low for k in ("metro", "subway")):
+        return "metro"
+    if any(k in low for k in ("bike", "cycle", "scooter", "scooty", "motorbike")):
+        return "bike"
+    if any(k in low for k in ("car", "drive", "jeep", "suv")):
+        return "car"
+    return "taxi"
+
+
 class DraftItem(BaseModel):
     stable_key: UUID = Field(default_factory=uuid4)
     day_index: int
@@ -62,6 +127,16 @@ class DraftItem(BaseModel):
         if isinstance(v, time) and v.tzinfo is not None:
             return v.replace(tzinfo=None)
         return v
+
+    @field_validator("category", mode="before")
+    @classmethod
+    def _coerce_category(cls, v: Any) -> str:
+        return normalize_category(v)
+
+    @field_validator("travel_mode", mode="before")
+    @classmethod
+    def _coerce_travel_mode(cls, v: Any) -> str | None:
+        return normalize_travel_mode(v)
 
 
 class ItineraryDraft(BaseModel):
@@ -352,6 +427,11 @@ class PlaceCandidate(BaseModel):
     @classmethod
     def _coerce_opening_hours(cls, v: Any) -> dict[str, list[list[str]]] | None:
         return normalize_opening_hours(v)
+
+    @field_validator("category", mode="before")
+    @classmethod
+    def _coerce_category(cls, v: Any) -> str:
+        return normalize_category(v)
 
 
 class Signals(BaseModel):

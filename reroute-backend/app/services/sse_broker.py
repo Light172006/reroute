@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import uuid
 from typing import AsyncIterator, Awaitable, Callable, Optional
 
 from sse_starlette import EventSourceResponse
@@ -121,11 +122,27 @@ async def event_generator(
     3. On client disconnect the generator is simply abandoned — the
        broker keeps broadcasting to remaining subscribers.
     """
-    # 1. Replay missed events.
+    # 1. Replay missed events and check if run already terminated.
+    replayed_done = False
+    terminal_status: Optional[str] = None
     async for db in db_factory():
         for ev in await replay_after(db, run_id, last_event_id):
+            if ev.get("event") == "done":
+                replayed_done = True
             yield ev
+        run_uuid = uuid.UUID(str(run_id)) if not isinstance(run_id, uuid.UUID) else run_id
+        run_row = await db.get(AgentRun, run_uuid)
+        if run_row and run_row.status in (RunStatus.completed, RunStatus.failed, RunStatus.cancelled):
+            terminal_status = run_row.status.value
         break
+
+    if replayed_done or terminal_status is not None:
+        if not replayed_done and terminal_status is not None:
+            yield {
+                "event": "done",
+                "data": json.dumps({"type": "done", "status": terminal_status}),
+            }
+        return
 
     # 2. Live subscription.
     q = _queue_for(run_id)
@@ -133,6 +150,8 @@ async def event_generator(
         while True:
             ev = await q.get()
             yield ev
+            if ev.get("event") == "done":
+                break
     except asyncio.CancelledError:
         # Client disconnected — normal, not an error
         raise

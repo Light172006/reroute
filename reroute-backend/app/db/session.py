@@ -5,6 +5,9 @@ from app.core.config import settings
 engine_kwargs = {"echo": False}
 if settings.DATABASE_URL.startswith("sqlite"):
     engine_kwargs["connect_args"] = {"check_same_thread": False}
+else:
+    engine_kwargs["pool_pre_ping"] = True
+    engine_kwargs["pool_recycle"] = 180
 
 engine = create_async_engine(settings.DATABASE_URL, **engine_kwargs)
 async_session_maker = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)

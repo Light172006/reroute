@@ -144,7 +144,7 @@ class GeocodingService:
         params = {"q": search_query, "format": "json", "limit": "1"}
 
         try:
-            async with httpx.AsyncClient(timeout=8.0, headers=headers) as client:
+            async with httpx.AsyncClient(timeout=4.0, headers=headers) as client:
                 res = await client.get("https://nominatim.openstreetmap.org/search", params=params)
                 res.raise_for_status()
                 data = res.json()

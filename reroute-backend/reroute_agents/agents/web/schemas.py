@@ -8,6 +8,8 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field, field_validator
 
+from reroute_agents.state import normalize_category
+
 
 def _coerce_decimal_cost(value: Any) -> Decimal:
     """Parse LLM-returned costs like 'Free entry' or '₹800–₹1,500' into Decimal."""
@@ -50,6 +52,11 @@ class PlaceResearchItem(BaseModel):
     confidence: float = Field(default=0.8, ge=0.0, le=1.0)
     raw: dict[str, Any] = Field(default_factory=dict)
     seed: bool = False  # Flag so seed records and web records can coexist
+
+    @field_validator("category", mode="before")
+    @classmethod
+    def _parse_category(cls, v: Any) -> str:
+        return normalize_category(v)
 
     @field_validator("avg_cost", mode="before")
     @classmethod

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -48,7 +48,17 @@ async def start_plan_run(
     )
     active = existing.scalar_one_or_none()
     if active:
-        return active, False  # router turns this into a 409
+        stale_cutoff = _now() - timedelta(minutes=5)
+        created_at = active.created_at
+        if created_at and created_at.tzinfo is None:
+            created_at = created_at.replace(tzinfo=timezone.utc)
+        if created_at and created_at < stale_cutoff:
+            active.status = RunStatus.failed
+            active.error = "Run timed out or interrupted by server restart."
+            active.finished_at = _now()
+            await db.flush()
+        else:
+            return active, False  # router turns this into a 409
 
     run = AgentRun(
         id=uuid.uuid4(),
@@ -146,6 +156,12 @@ async def _execute_run(
 ) -> None:
     gw = AgentGateway(db)
     try:
+        run_row = await db.get(AgentRun, run_id)
+        if run_row and run_row.status == RunStatus.queued:
+            run_row.status = RunStatus.running
+            run_row.started_at = _now()
+            await db.commit()
+
         if kind == "plan":
             gen = gw.run_plan(run_id, kwargs["trip_id"], kwargs.get("spec", {}))
         elif kind == "replan":
@@ -157,30 +173,50 @@ async def _execute_run(
         else:
             raise ValueError(f"unknown run kind: {kind}")
 
+        last_done_status: Optional[str] = None
         async for ev in gen:
-            pass  # gateway already persisted + broadcast each event
+            if ev.get("type") == "done":
+                last_done_status = ev.get("status")
 
-        # The generator itself sets completed/awaiting_user; this is the
-        # safety net for generators that exit without a done event.
+        # Mark final run and trip state cleanly
         run = await db.get(AgentRun, run_id)
         if run and run.status in (RunStatus.queued, RunStatus.running):
-            run.status = RunStatus.completed
+            run.status = RunStatus.failed if last_done_status == "failed" else RunStatus.completed
             run.finished_at = _now()
-            await db.commit()
+        trip_id = kwargs.get("trip_id")
+        if trip_id and kind in ("plan", "replan", "resume_replan"):
+            trip = await db.get(Trip, trip_id)
+            if trip and trip.status == "generating":
+                trip.status = "planned" if trip.current_version_id else "draft"
+        await db.commit()
     except Exception as exc:  # noqa: BLE001
         log.exception("run %s failed", run_id)
-        run = await db.get(AgentRun, run_id)
-        if run:
-            run.status = RunStatus.failed
-            run.error = str(exc)
-            run.finished_at = _now()
+        try:
+            await db.rollback()
+            run = await db.get(AgentRun, run_id)
+            if run:
+                run.status = RunStatus.failed
+                run.error = str(exc)
+                run.finished_at = _now()
+            trip_id = kwargs.get("trip_id")
+            if trip_id:
+                trip = await db.get(Trip, trip_id)
+                if trip and trip.status == "generating":
+                    trip.status = "planned" if trip.current_version_id else "draft"
             await db.commit()
+        except Exception:
+            log.exception("failed to persist failure state for run %s", run_id)
+
         sse_broker._broadcast(str(run_id), {
             "event": "error",
             "data": json.dumps({
                 "type": "error", "code": "run_failed", "recoverable": False,
                 "message": str(exc),
             }),
+        })
+        sse_broker._broadcast(str(run_id), {
+            "event": "done",
+            "data": json.dumps({"type": "done", "status": "failed"}),
         })
 
 

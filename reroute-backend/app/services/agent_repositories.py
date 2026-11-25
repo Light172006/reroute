@@ -33,6 +33,8 @@ from reroute_agents.state import (
     PlaceCandidate,
     ReplanProposal,
     TripSpec,
+    normalize_category,
+    normalize_travel_mode,
 )
 
 from app.db.models import (
@@ -212,15 +214,15 @@ class SQLAlchemyItineraryRepository(ItineraryRepository):
                 position=item.position,
                 place_id=actual_place_id,
                 title=item.title,
-                category=item.category,
-                setting=item.setting,
+                category=normalize_category(item.category),
+                setting=item.setting if item.setting in ("indoor", "outdoor", "mixed") else "mixed",
                 start_time=item.start_time,
                 end_time=item.end_time,
                 est_cost=item.est_cost,
                 lat=item.lat,
                 lng=item.lng,
                 is_locked=item.is_locked,
-                travel_mode=item.travel_mode,
+                travel_mode=normalize_travel_mode(item.travel_mode),
                 travel_minutes=item.travel_minutes,
                 travel_distance_m=item.travel_distance_m,
                 flags=item.flags,
@@ -544,37 +546,38 @@ class SQLAlchemyPlaceCatalogRepository(PlaceCatalogRepository):
     async def upsert_place(self, place: PlaceCandidate) -> None:
         from app.db.models import Place
 
-        result = await self.db.execute(
-            select(Place).where(
-                (Place.id == place.id)
-                | ((Place.source == "seed") & (Place.external_id == place.external_id))
+        async with self.db.begin_nested():
+            result = await self.db.execute(
+                select(Place).where(
+                    (Place.id == place.id)
+                    | ((Place.source == "seed") & (Place.external_id == place.external_id))
+                )
             )
-        )
-        db_place = result.scalars().first()
+            db_place = result.scalars().first()
 
-        if not db_place:
-            db_place = Place(id=place.id)
-            self.db.add(db_place)
+            if not db_place:
+                db_place = Place(id=place.id)
+                self.db.add(db_place)
 
-        db_place.external_id = place.external_id
-        db_place.source = "seed"
-        db_place.name = place.name
-        db_place.city = place.city
-        db_place.country = place.country
-        db_place.category = place.category
-        db_place.setting = place.setting
-        db_place.avg_cost = place.avg_cost
-        db_place.currency = place.currency
-        db_place.avg_duration_min = place.avg_duration_min
-        db_place.opening_hours = place.opening_hours
-        db_place.hours_confidence = place.hours_confidence
-        db_place.lat = place.lat
-        db_place.lng = place.lng
-        db_place.rating = place.rating
-        db_place.tags = place.tags
-        db_place.description = place.description
-        db_place.raw = place.raw
-        await self.db.flush()
+            db_place.external_id = place.external_id
+            db_place.source = "seed"
+            db_place.name = place.name
+            db_place.city = place.city
+            db_place.country = place.country
+            db_place.category = normalize_category(place.category)
+            db_place.setting = place.setting if place.setting in ("indoor", "outdoor", "mixed") else "mixed"
+            db_place.avg_cost = place.avg_cost
+            db_place.currency = place.currency
+            db_place.avg_duration_min = place.avg_duration_min
+            db_place.opening_hours = place.opening_hours
+            db_place.hours_confidence = place.hours_confidence
+            db_place.lat = place.lat
+            db_place.lng = place.lng
+            db_place.rating = place.rating
+            db_place.tags = place.tags
+            db_place.description = place.description
+            db_place.raw = place.raw
+            await self.db.flush()
 
 
 class SQLAlchemyExpenseRepository(ExpenseRepository):

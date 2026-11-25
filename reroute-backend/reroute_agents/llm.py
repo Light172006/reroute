@@ -144,8 +144,8 @@ def create_model_instance(spec: str) -> Any:
             model=model_name,
             google_api_key=key,
             temperature=0.2,
-            timeout=25.0,
-            max_retries=1,
+            timeout=15.0,
+            max_retries=0,
         )
 
     if provider == "groq":
@@ -158,8 +158,8 @@ def create_model_instance(spec: str) -> Any:
             model_name=model_name,
             groq_api_key=key,
             temperature=0.2,
-            request_timeout=25.0,
-            max_retries=1,
+            request_timeout=15.0,
+            max_retries=0,
         )
 
     if provider == "ollama":
@@ -223,7 +223,7 @@ class ResilientLLMChain:
                 )
                 async def _call(current_model: Any = model) -> T:
                     runner = current_model.with_structured_output(schema)
-                    return await asyncio.to_thread(runner.invoke, prompt)  # type: ignore[no-any-return]
+                    return await asyncio.wait_for(runner.ainvoke(prompt), timeout=20.0)  # type: ignore[no-any-return]
 
                 result = await _call()
                 latency_ms = int((time.monotonic() - start_t) * 1000)

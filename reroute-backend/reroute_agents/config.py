@@ -70,7 +70,7 @@ class Settings:
     web_max_fetches: int = int(os.getenv("WEB_MAX_FETCHES", "10"))
     web_max_geocodes: int = int(os.getenv("WEB_MAX_GEOCODES", "10"))
     web_max_text_bytes: int = int(os.getenv("WEB_MAX_TEXT_BYTES", "51200"))
-    web_fetch_timeout_sec: float = float(os.getenv("WEB_FETCH_TIMEOUT_SEC", "10.0"))
+    web_fetch_timeout_sec: float = float(os.getenv("WEB_FETCH_TIMEOUT_SEC", "6.0"))
 
     # Local Ollama config
     ollama_base_url: str = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
@@ -110,7 +110,7 @@ class Settings:
     budget_overrun_pct_threshold: float = 0.10
 
     # Graph loop caps
-    max_plan_iterations: int = 3
+    max_plan_iterations: int = 2
     max_replan_iterations: int = 2
     max_chat_iterations: int = 5
 

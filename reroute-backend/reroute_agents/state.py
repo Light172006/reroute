@@ -101,10 +101,10 @@ class DraftItem(BaseModel):
     place_id: UUID | None = None
     title: str
     category: str
-    setting: Literal["indoor", "outdoor", "mixed"]
+    setting: Literal["indoor", "outdoor", "mixed"] | str | None = "outdoor"
     start_time: time
     end_time: time
-    est_cost: Decimal = Field(default=Decimal(0))
+    est_cost: Decimal | float | int | str | None = Field(default=Decimal(0))
     lat: float | None = None
     lng: float | None = None
     is_locked: bool = False
@@ -127,6 +127,37 @@ class DraftItem(BaseModel):
         if isinstance(v, time) and v.tzinfo is not None:
             return v.replace(tzinfo=None)
         return v
+
+    @field_validator("setting", mode="before")
+    @classmethod
+    def _coerce_setting(cls, v: Any) -> str:
+        if isinstance(v, str):
+            low = v.strip().lower()
+            if low in ("indoor", "outdoor", "mixed"):
+                return low
+        return "outdoor"
+
+    @field_validator("est_cost", mode="before")
+    @classmethod
+    def _coerce_est_cost(cls, v: Any) -> Decimal:
+        if v is None:
+            return Decimal(0)
+        if isinstance(v, Decimal):
+            return max(v, Decimal(0))
+        if isinstance(v, (int, float)):
+            return Decimal(str(max(0, v)))
+        if isinstance(v, str):
+            from decimal import InvalidOperation
+            import re
+            cleaned = v.strip().lower().replace(",", "")
+            m = re.search(r"\d+(?:\.\d+)?", cleaned)
+            if m:
+                try:
+                    return Decimal(m.group(0))
+                except InvalidOperation:
+                    return Decimal(0)
+            return Decimal(0)
+        return Decimal(0)
 
     @field_validator("category", mode="before")
     @classmethod
@@ -410,8 +441,8 @@ class PlaceCandidate(BaseModel):
     city: str
     country: str = "IN"
     category: str
-    setting: Literal["indoor", "outdoor", "mixed"] = "mixed"
-    avg_cost: Decimal = Field(default=Decimal(0))
+    setting: Literal["indoor", "outdoor", "mixed"] | str | None = "mixed"
+    avg_cost: Decimal | float | int | str | None = Field(default=Decimal(0))
     currency: str = "INR"
     avg_duration_min: int = 60
     opening_hours: dict[str, list[list[str]]] | None = None
@@ -432,6 +463,37 @@ class PlaceCandidate(BaseModel):
     @classmethod
     def _coerce_category(cls, v: Any) -> str:
         return normalize_category(v)
+
+    @field_validator("setting", mode="before")
+    @classmethod
+    def _coerce_setting(cls, v: Any) -> str:
+        if isinstance(v, str):
+            low = v.strip().lower()
+            if low in ("indoor", "outdoor", "mixed"):
+                return low
+        return "mixed"
+
+    @field_validator("avg_cost", mode="before")
+    @classmethod
+    def _coerce_avg_cost(cls, v: Any) -> Decimal:
+        if v is None:
+            return Decimal(0)
+        if isinstance(v, Decimal):
+            return max(v, Decimal(0))
+        if isinstance(v, (int, float)):
+            return Decimal(str(max(0, v)))
+        if isinstance(v, str):
+            from decimal import InvalidOperation
+            import re
+            cleaned = v.strip().lower().replace(",", "")
+            m = re.search(r"\d+(?:\.\d+)?", cleaned)
+            if m:
+                try:
+                    return Decimal(m.group(0))
+                except InvalidOperation:
+                    return Decimal(0)
+            return Decimal(0)
+        return Decimal(0)
 
 
 class Signals(BaseModel):

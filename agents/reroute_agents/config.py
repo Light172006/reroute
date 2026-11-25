@@ -28,7 +28,7 @@ class Settings:
             m.strip()
             for m in os.getenv(
                 "LLM_STRONG_CHAIN",
-                "gemini:gemini-3.5-flash-lite,gemini:gemini-3.1-flash-lite,groq:openai/gpt-oss-120b,groq:openai/gpt-oss-20b",
+                "gemini:gemini-2.5-flash,gemini:gemini-1.5-flash,gemini:gemini-3.5-flash-lite,gemini:gemini-3.1-flash-lite,groq:llama-3.3-70b-versatile,groq:openai/gpt-oss-120b,groq:llama-3.1-8b-instant,groq:openai/gpt-oss-20b",
             ).split(",")
             if m.strip()
         ]
@@ -38,7 +38,7 @@ class Settings:
             m.strip()
             for m in os.getenv(
                 "LLM_SMALL_CHAIN",
-                "gemini:gemini-3.5-flash-lite,gemini:gemini-3.1-flash-lite,groq:openai/gpt-oss-20b",
+                "gemini:gemini-2.5-flash,gemini:gemini-1.5-flash,gemini:gemini-3.5-flash-lite,gemini:gemini-3.1-flash-lite,groq:llama-3.3-70b-versatile,groq:llama-3.1-8b-instant,groq:openai/gpt-oss-20b",
             ).split(",")
             if m.strip()
         ]

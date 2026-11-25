@@ -146,6 +146,7 @@ def create_model_instance(spec: str) -> Any:
             temperature=0.2,
             timeout=15.0,
             max_retries=0,
+            max_output_tokens=4096,
         )
 
     if provider == "groq":
@@ -158,8 +159,9 @@ def create_model_instance(spec: str) -> Any:
             model_name=model_name,
             groq_api_key=key,
             temperature=0.2,
-            request_timeout=15.0,
+            request_timeout=20.0,
             max_retries=0,
+            max_tokens=4096,
         )
 
     if provider == "ollama":

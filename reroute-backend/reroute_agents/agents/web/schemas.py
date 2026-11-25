@@ -40,16 +40,16 @@ class PlaceResearchItem(BaseModel):
 
     name: str
     description: str = ""
-    lat: float = 0.0
-    lng: float = 0.0
+    lat: float | None = 0.0
+    lng: float | None = 0.0
     category: str = "sightseeing"
-    setting: Literal["indoor", "outdoor", "mixed"] = "outdoor"
-    avg_cost: Decimal = Decimal(100)
-    avg_duration_min: int = 60
+    setting: Literal["indoor", "outdoor", "mixed"] | str | None = "outdoor"
+    avg_cost: Decimal | float | int | str | None = None
+    avg_duration_min: int | None = 60
     opening_hours: dict[str, Any] | str | None = None
-    source_url: str = "web://extracted"  # Default fallback if LLM omits source_url
-    verified: bool = False  # True only if lat/lng were confirmed by geocoding
-    confidence: float = Field(default=0.8, ge=0.0, le=1.0)
+    source_url: str | None = "web://extracted"  # Default fallback if LLM omits source_url
+    verified: bool | None = False  # True only if lat/lng were confirmed by geocoding
+    confidence: float | None = Field(default=0.8, ge=0.0, le=1.0)
     raw: dict[str, Any] = Field(default_factory=dict)
     seed: bool = False  # Flag so seed records and web records can coexist
 
@@ -57,6 +57,15 @@ class PlaceResearchItem(BaseModel):
     @classmethod
     def _parse_category(cls, v: Any) -> str:
         return normalize_category(v)
+
+    @field_validator("setting", mode="before")
+    @classmethod
+    def _parse_setting(cls, v: Any) -> str:
+        if isinstance(v, str):
+            low = v.strip().lower()
+            if low in ("indoor", "outdoor", "mixed"):
+                return low
+        return "outdoor"
 
     @field_validator("avg_cost", mode="before")
     @classmethod
@@ -79,24 +88,26 @@ class PlaceResearchItem(BaseModel):
                 return max(15, min(val, 720))
         return 60
 
-    @field_validator("setting", mode="before")
-    @classmethod
-    def _parse_setting(cls, v: Any) -> Literal["indoor", "outdoor", "mixed"]:
-        if isinstance(v, str):
-            low = v.strip().lower()
-            if low in ("indoor", "outdoor", "mixed"):
-                return low  # type: ignore[return-value]
-        return "mixed"
-
     @field_validator("lat", "lng", mode="before")
     @classmethod
-    def _parse_coord(cls, v: Any) -> float:
+    def _parse_coords(cls, v: Any) -> float:
         if v is None or v == "":
             return 0.0
         try:
             return float(v)
-        except (TypeError, ValueError):
+        except (ValueError, TypeError):
             return 0.0
+
+    @field_validator("confidence", mode="before")
+    @classmethod
+    def _parse_confidence(cls, v: Any) -> float:
+        if v is None:
+            return 0.8
+        try:
+            val = float(v)
+            return max(0.0, min(1.0, val))
+        except (ValueError, TypeError):
+            return 0.8
 
 
 class WebExtractionSchema(BaseModel):

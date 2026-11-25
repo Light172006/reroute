@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import json
 import operator
+import re
 from datetime import UTC, date, datetime, time
 from decimal import Decimal
 from typing import Annotated, Any, Literal, NotRequired, TypedDict
@@ -131,6 +133,201 @@ class ReplanProposal(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
 
+_DAYS_ORDER = ("mon", "tue", "wed", "thu", "fri", "sat", "sun")
+_DAY_ALIASES: dict[str, str] = {
+    "mon": "mon",
+    "monday": "mon",
+    "tue": "tue",
+    "tues": "tue",
+    "tuesday": "tue",
+    "wed": "wed",
+    "wednesday": "wed",
+    "thu": "thu",
+    "thur": "thu",
+    "thurs": "thu",
+    "thursday": "thu",
+    "fri": "fri",
+    "friday": "fri",
+    "sat": "sat",
+    "saturday": "sat",
+    "sun": "sun",
+    "sunday": "sun",
+}
+_TIME_RANGE_RE = re.compile(
+    r"(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\s*(?:-|–|—|\bto\b)\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)",
+    re.IGNORECASE,
+)
+
+
+def _parse_hhmm(raw: str) -> str | None:
+    """Convert '9:00', '09:00', '9 AM', or '5:30 pm' into 'HH:MM' (24-hour)."""
+    m = re.fullmatch(r"\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\s*", raw, re.IGNORECASE)
+    if not m:
+        return None
+    hour = int(m.group(1))
+    minute = int(m.group(2) or 0)
+    meridiem = (m.group(3) or "").lower()
+
+    if meridiem:
+        if hour < 1 or hour > 12:
+            return None
+        if meridiem == "am":
+            hour = 0 if hour == 12 else hour
+        elif meridiem == "pm":
+            hour = 12 if hour == 12 else hour + 12
+    elif hour == 24 and minute == 0:
+        return "23:59"
+
+    if not (0 <= hour <= 23 and 0 <= minute <= 59):
+        return None
+    return f"{hour:02d}:{minute:02d}"
+
+
+def _expand_days(day_expr: str) -> list[str]:
+    """Expand expressions like 'Mon-Sun', 'Mon-Fri', 'Mon, Wed' into canonical day keys."""
+    cleaned = re.sub(r"[^a-z,\-/\s]", " ", day_expr.lower()).strip()
+    cleaned = re.sub(r"\bto\b", "-", cleaned)
+    if not cleaned:
+        return list(_DAYS_ORDER)
+    if any(tok in cleaned for tok in ("daily", "everyday", "every day", "all days", "24/7")):
+        return list(_DAYS_ORDER)
+    if "weekday" in cleaned:
+        return list(_DAYS_ORDER[:5])
+    if "weekend" in cleaned:
+        return list(_DAYS_ORDER[5:])
+
+    days: list[str] = []
+    for part in re.split(r"[,/&]+", cleaned):
+        part = part.strip()
+        if not part:
+            continue
+        if "-" in part:
+            bounds = [b.strip() for b in part.split("-", 1)]
+            start_day = _DAY_ALIASES.get(bounds[0])
+            end_day = _DAY_ALIASES.get(bounds[1]) if len(bounds) == 2 else None
+            if start_day and end_day:
+                i1, i2 = _DAYS_ORDER.index(start_day), _DAYS_ORDER.index(end_day)
+                idx = i1
+                while True:
+                    if _DAYS_ORDER[idx] not in days:
+                        days.append(_DAYS_ORDER[idx])
+                    if idx == i2:
+                        break
+                    idx = (idx + 1) % 7
+                continue
+        for word in part.split():
+            d = _DAY_ALIASES.get(word)
+            if d and d not in days:
+                days.append(d)
+    return days
+
+
+def _parse_windows_str(raw: str) -> list[list[str]]:
+    """Extract all [start_hhmm, end_hhmm] windows from a time string."""
+    windows: list[list[str]] = []
+    for m in _TIME_RANGE_RE.finditer(raw):
+        start_t = _parse_hhmm(m.group(1))
+        end_t = _parse_hhmm(m.group(2))
+        if start_t and end_t:
+            windows.append([start_t, end_t])
+    return windows
+
+
+def normalize_opening_hours(value: Any) -> dict[str, list[list[str]]] | None:
+    """Coerce LLM-extracted string or partial dict opening_hours into canonical dict format."""
+    if value is None:
+        return None
+
+    if isinstance(value, str):
+        text = value.strip()
+        if not text or text.lower() in {"unknown", "n/a", "na", "none", "null", "varies"}:
+            return None
+        if text.startswith("{"):
+            try:
+                parsed = json.loads(text)
+                if isinstance(parsed, dict):
+                    value = parsed
+            except json.JSONDecodeError:
+                pass
+
+    if isinstance(value, str):
+        text = value.strip()
+        lower = text.lower()
+        if "24 hour" in lower or "24/7" in lower or "always open" in lower:
+            return {d: [["00:00", "23:59"]] for d in _DAYS_ORDER}
+
+        # Split segments on ';' or '\n', or commas followed by a day name
+        segments = re.split(
+            r"[;\n]+|,\s*(?=(?:mon|tue|wed|thu|fri|sat|sun)\b)",
+            text,
+            flags=re.IGNORECASE,
+        )
+        result: dict[str, list[list[str]]] = {}
+        for seg in segments:
+            seg = seg.strip()
+            if not seg:
+                continue
+            windows = _parse_windows_str(seg)
+            first_match = _TIME_RANGE_RE.search(seg)
+            if first_match:
+                day_prefix = seg[: first_match.start()].strip(" :")
+                target_days = _expand_days(day_prefix) if day_prefix else list(_DAYS_ORDER)
+                if not target_days:
+                    target_days = list(_DAYS_ORDER)
+                for d in target_days:
+                    result.setdefault(d, []).extend(windows)
+            elif "closed" in seg.lower():
+                day_prefix = re.sub(r"\bclosed\b", "", seg, flags=re.IGNORECASE).strip(" :")
+                for d in _expand_days(day_prefix):
+                    result.setdefault(d, [])
+        return result or None
+
+    if isinstance(value, dict):
+        result: dict[str, list[list[str]]] = {}
+        for raw_key, raw_val in value.items():
+            key_str = str(raw_key).strip().lower()
+            if key_str in {"daily", "everyday", "all", "all_days"}:
+                target_days = list(_DAYS_ORDER)
+            elif key_str in _DAY_ALIASES:
+                target_days = [_DAY_ALIASES[key_str]]
+            elif "-" in key_str or "," in key_str:
+                target_days = _expand_days(key_str)
+            else:
+                continue
+
+            day_windows: list[list[str]] = []
+            if raw_val is None:
+                day_windows = []
+            elif isinstance(raw_val, str):
+                if "24" in raw_val and "hour" in raw_val.lower():
+                    day_windows = [["00:00", "23:59"]]
+                elif "closed" not in raw_val.lower():
+                    day_windows = _parse_windows_str(raw_val)
+            elif isinstance(raw_val, list):
+                if (
+                    len(raw_val) == 2
+                    and all(isinstance(x, str) for x in raw_val)
+                ):
+                    s_t, e_t = _parse_hhmm(raw_val[0]), _parse_hhmm(raw_val[1])
+                    if s_t and e_t:
+                        day_windows = [[s_t, e_t]]
+                else:
+                    for item in raw_val:
+                        if isinstance(item, (list, tuple)) and len(item) >= 2:
+                            s_t = _parse_hhmm(str(item[0]))
+                            e_t = _parse_hhmm(str(item[1]))
+                            if s_t and e_t:
+                                day_windows.append([s_t, e_t])
+                        elif isinstance(item, str):
+                            day_windows.extend(_parse_windows_str(item))
+
+            for d in target_days:
+                result[d] = day_windows
+        return result or None
+
+    return None
+
+
 class PlaceCandidate(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     external_id: str | None = None
@@ -150,6 +347,11 @@ class PlaceCandidate(BaseModel):
     tags: list[str] = Field(default_factory=list)
     description: str | None = None
     raw: dict[str, Any] = Field(default_factory=dict)
+
+    @field_validator("opening_hours", mode="before")
+    @classmethod
+    def _coerce_opening_hours(cls, v: Any) -> dict[str, list[list[str]]] | None:
+        return normalize_opening_hours(v)
 
 
 class Signals(BaseModel):
